@@ -20,7 +20,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api'], function () use ($router) {
 
     /**
-     * CRUD type teleconsultations
+     * CRUDS type teleconsultations
      */
     $router->group(['prefix' => 'type-teleconsultations'], function () use ($router) {
         $router->get('/', ['uses' => 'TypeTeleconsultationController@index']);
@@ -31,7 +31,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     /**
-     * CRUD teleconsultations
+     * CRUDS teleconsultations
      */
     $router->group(['prefix' => 'teleconsultations'], function () use ($router) {
         $router->get('/', ['uses' => 'TeleconsultationController@index']);
@@ -42,7 +42,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     });
 
     /**
-     * CRUD allergies
+     * CRUDS allergies
      */
     $router->group(['prefix' => 'allergies'], function () use ($router) {
         $router->get('/', ['uses' => 'AllergieController@index']);
@@ -51,5 +51,101 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->patch('/{allergie}', ['uses' => 'AllergieController@update']);
         $router->delete('/{allergie}', ['uses' => 'AllergieController@destroy']);
     });
+
+    /**
+     * CRUDS anamneses
+     */
+    $router->group(['prefix' => 'anamneses'], function () use ($router) {
+        $router->get('/', ['uses' => 'AnamneseController@index']);
+        $router->post('/', ['uses' => 'AnamneseController@store']);
+        $router->get('/{anamnese}', ['uses' => 'AnamneseController@show']);
+        $router->patch('/{anamnese}', ['uses' => 'AnamneseController@update']);
+        $router->delete('/{anamnese}', ['uses' => 'AnamneseController@destroy']);
+    });
+
+    /**
+     * CRUDS antecedents
+     */
+    $router->group(['prefix' => 'antecedents'], function () use ($router) {
+        $router->get('/', ['uses' => 'AntecedentController@index']);
+        $router->post('/', ['uses' => 'AntecedentController@store']);
+        $router->get('/{antecedent}', ['uses' => 'AntecedentController@show']);
+        $router->patch('/{antecedent}', ['uses' => 'AntecedentController@update']);
+        $router->delete('/{antecedent}', ['uses' => 'AntecedentController@destroy']);
+    });
+
+    /**
+     * CRUDS etablissements
+     */
+    $router->group(['prefix' => 'etablissements'], function () use ($router) {
+        $router->get('/', ['uses' => 'EtablissementController@index']);
+        $router->post('/', ['uses' => 'EtablissementController@store']);
+        $router->get('/{etablissement}', ['uses' => 'EtablissementController@show']);
+        $router->patch('/{etablissement}', ['uses' => 'EtablissementController@update']);
+        $router->delete('/{etablissement}', ['uses' => 'EtablissementController@destroy']);
+    });
+
+
+    /**
+     * CRUDS examen_cliniques
+     */
+    $router->group(['prefix' => 'examen_cliniques'], function () use ($router) {
+        $router->get('/', ['uses' => 'ExamenCliniqueController@index']);
+        $router->post('/', ['uses' => 'ExamenCliniqueController@store']);
+        $router->get('/{examen_clinique}', ['uses' => 'ExamenCliniqueController@show']);
+        $router->patch('/{examen_clinique}', ['uses' => 'ExamenCliniqueController@update']);
+        $router->delete('/{examen_clinique}', ['uses' => 'ExamenCliniqueController@destroy']);
+    });
+
+    /**
+     * CRUDS examen_complementaires
+     */
+    $router->group(['prefix' => 'examen_complementaires'], function () use ($router) {
+        $router->get('/', ['uses' => 'ExamenComplementaireController@index']);
+        $router->post('/', ['uses' => 'ExamenComplementaireController@store']);
+        $router->get('/{examen_complementaire}', ['uses' => 'ExamenComplementaireController@show']);
+        $router->patch('/{examen_complementaire}', ['uses' => 'ExamenComplementaireController@update']);
+        $router->delete('/{examen_complementaire}', ['uses' => 'ExamenComplementaireController@destroy']);
+    });
+
+    /**
+     * CRUDS motifs
+     */
+    $router->group(['prefix' => 'motifs'], function () use ($router) {
+        $router->get('/', ['uses' => 'MotifController@index']);
+        $router->post('/', ['uses' => 'MotifController@store']);
+        $router->get('/{motif}', ['uses' => 'MotifController@show']);
+        $router->patch('/{motif}', ['uses' => 'MotifController@update']);
+        $router->delete('/{motif}', ['uses' => 'MotifController@destroy']);
+    });
+
+    /**
+     * CRUDS niveau urgences
+     */
+    $router->group(['prefix' => 'niveau_urgences'], function () use ($router) {
+        $router->get('/', ['uses' => 'NiveauUrgenceController@index']);
+        $router->post('/', ['uses' => 'NiveauUrgenceController@store']);
+        $router->get('/{niveau_urgence}', ['uses' => 'NiveauUrgenceController@show']);
+        $router->patch('/{niveau_urgence}', ['uses' => 'NiveauUrgenceController@update']);
+        $router->delete('/{niveau_urgence}', ['uses' => 'NiveauUrgenceController@destroy']);
+    });
+
+     /**
+     * CRUDS rendez-vous
+     */
+    $router->group(['prefix' => 'rendez_vous'], function () use ($router) {
+        $router->get('/', ['uses' => 'RendezVousController@index']);
+        $router->post('/', ['uses' => 'RendezVousController@store']);
+        $router->get('/{rendez_vous}', ['uses' => 'RendezVousController@show']);
+        $router->patch('/{rendez_vous}', ['uses' => 'RendezVousController@update']);
+        $router->delete('/{rendez_vous}', ['uses' => 'RendezVousController@destroy']);
+    });
+
+
+    
+
+    
+
+    
 
 });

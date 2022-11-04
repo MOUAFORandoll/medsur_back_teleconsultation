@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('types', function (Blueprint $table) {
+        Schema::create('niveau_urgences', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('libelle');
+            $table->integer('valeur');
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
-        });
-
-        Schema::create('typeables', function (Blueprint $table) {
-            $table->uuid('type_id');
-            $table->uuidMorphs('typeable');
         });
     }
 
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(['types', 'typeables']);
+        Schema::dropIfExists('niveau_urgences');
     }
 };

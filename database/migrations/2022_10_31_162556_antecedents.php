@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('antecedents', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('dossier_medical_id');
-            $table->string('description');
+            $table->text('description');
             $table->date('date');
             $table->string('slug');
             $table->timestamps();

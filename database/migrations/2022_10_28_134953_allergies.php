@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('allergies', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('description');
-            $table->date('date')->default(date('Y-m-d'));
+            $table->date('date')->nullable();
             $table->string('slug');
             $table->timestamps();
             $table->softDeletes();

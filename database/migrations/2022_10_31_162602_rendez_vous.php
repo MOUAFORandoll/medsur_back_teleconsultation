@@ -24,12 +24,12 @@ return new class extends Migration
             $table->uuid('patient_id');
             $table->uuid('praticien_id')->nullable();
             $table->uuid('sourceable_id')->nullable();
+            $table->uuid('statut_id');
             $table->string('sourceable_type')->nullable();
             $table->string('initiateur')->nullable();
             $table->string('nom_medecin')->nullable();
-            $table->string('motifs')->nullable();
+            $table->text('motifs')->nullable();
             $table->dateTime('date')->nullable();
-            $table->string('statut')->default(Statut::PROGRAMMER);
             $table->string('slug');
             $table->timestamps();
             $table->softDeletes();

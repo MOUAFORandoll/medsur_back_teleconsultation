@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Scopes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,10 +19,27 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Motif withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Motif withoutTrashed()
  * @mixin \Eloquent
+ * @property string $id
+ * @property string $description
+ * @property string $slug
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Teleconsultation[] $teleconsultations
+ * @property-read int|null $teleconsultations_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Type[] $types
+ * @property-read int|null $types_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif like($field, $value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Motif whereUpdatedAt($value)
  */
 class Motif extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes, Scopes;
 
     /**
      * The table associated with the model.
@@ -45,6 +63,10 @@ class Motif extends Model
      */
     public function types(){
         return $this->morphToMany(Type::class, 'typeable');
+    }
+
+    public function teleconsultations(){
+        return $this->morphToMany(Teleconsultation::class, 'teleconsables');
     }
 
 }

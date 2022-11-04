@@ -2885,7 +2885,7 @@ DDR','date' => '2019-02-15','type' => 'Gynéco-obstétrique','created_at' => '20
   array('id' => '1624','dossier_medical_id' => '24','description' => 'DT2 insulino-dépendant connue depuis 2005 sous METFORMINE 1000 HUMALOC et LANTUS','date' => NULL,'type' => 'Médical','created_at' => '2022-07-18 08:19:23','updated_at' => '2022-07-18 08:19:23','deleted_at' => NULL,'slug' => 'medical-1658135963'),
   array('id' => '1625','dossier_medical_id' => '1191','description' => 'HTA sous AMLOR 10mg 1cp/jour','date' => NULL,'type' => 'Médical','created_at' => '2022-07-18 10:11:36','updated_at' => '2022-07-18 10:11:36','deleted_at' => NULL,'slug' => 'medical-1658142696'),
   array('id' => '1626','dossier_medical_id' => '1191','description' => 'BAV de 3e degrée probablement intr nodal ( indiquant la pose d\'un pace maker)','date' => NULL,'type' => 'Médical','created_at' => '2022-07-18 10:12:37','updated_at' => '2022-07-18 10:12:37','deleted_at' => NULL,'slug' => 'medical-1658142757'),
-  array('id' => '1627','dossier_medical_id' => '1191','description' => 'Troubles neuro psychiatrique sous artane tanakan theralene tiapridal et stimol ( si asthenie)','date' => NULL,'type' => 'Médical','created_at' => '2022-07-18 10:13:59','updated_at' => '2022-07-18 10:13:59','deleted_at' => NULL,'slug' => 'medical-1658142839'),
+  array('id' => '16phpphp27','dossier_medical_id' => '1191','description' => 'Troubles neuro psychiatrique sous artane tanakan theralene tiapridal et stimol ( si asthenie)','date' => NULL,'type' => 'Médical','created_at' => '2022-07-18 10:13:59','updated_at' => '2022-07-18 10:13:59','deleted_at' => NULL,'slug' => 'medical-1658142839'),
   array('id' => '1628','dossier_medical_id' => '450','description' => 'Néoplasie mammaire droite pour laquelle, elle a eu une chirurgie il y\'a 4 mois ( CRO et résultats ANAPATH non disponibles)','date' => NULL,'type' => 'Gynéco-obstétrique','created_at' => '2022-07-18 12:22:52','updated_at' => '2022-07-18 12:22:52','deleted_at' => NULL,'slug' => 'gyneco-obstetrique-1658150572'),
   array('id' => '1629','dossier_medical_id' => '450','description' => 'Poly arthralgies récidivantes et invalidantes pour les quelles elle a été hospitalisé à KM il y\'a 3 semaines et traité de façon symptomatique à la demande de la souscriptrice','date' => NULL,'type' => 'Médical','created_at' => '2022-07-18 12:25:20','updated_at' => '2022-07-18 12:25:20','deleted_at' => NULL,'slug' => 'medical-1658150720'),
   array('id' => '1630','dossier_medical_id' => '1455','description' => 'HTA de découverte fortuite sous Captopril+HCT 50/25mg: 1cp/jour ( compliant au traitement mais observance approximative) dernier rdv chez le cardiologue en Mai 2022 sans particularité avec maintien du meme traitement','date' => NULL,'type' => 'Médical','created_at' => '2022-07-19 11:00:45','updated_at' => '2022-07-19 11:00:45','deleted_at' => NULL,'slug' => 'medical-1658232045'),
@@ -2904,11 +2904,9 @@ notion de cancer de la prostate chez le parent','date' => NULL,'type' => 'Famili
   array('id' => '1642','dossier_medical_id' => '1452','description' => 'Modification d\'un antededent','date' => '2022-08-09','type' => 'Chirugical','created_at' => '2022-08-19 14:31:30','updated_at' => '2022-08-19 15:08:32','deleted_at' => '2022-08-19 15:08:32','slug' => 'chirugical-1660919490')
 );
 
-foreach($antecedents as $antecent){
-    \Log::alert("antecedent ".$antecent['type']);
-    $new_antecedent = Antecedent::insert(['id' => $antecent['id'], 'dossier_medical_id' => $antecent['dossier_medical_id'], 'description' => $antecent['description'], 'date' => $antecent['date'] ?? date('Y-m-d'), 'slug' => $antecent['slug'], 'created_at' => $antecent['created_at'], 'updated_at' => $antecent['updated_at'], 'deleted_at' => $antecent['deleted_at']]);
-    $type = Type::where('libelle', $antecent['type'])->first();
-    \Log::alert("type ".$type);
+foreach($antecedents as $antecedent){
+    $new_antecedent = Antecedent::create(['id' => $antecedent['id'], 'dossier_medical_id' => $antecedent['dossier_medical_id'], 'description' => $antecedent['description'], 'date' => $antecedent['date'] ?? date('Y-m-d'), 'slug' => $antecedent['slug'], 'created_at' => $antecedent['created_at'], 'updated_at' => $antecedent['updated_at'], 'deleted_at' => $antecedent['deleted_at']]);
+    $type = Type::where('libelle', $antecedent['type'])->first();
     $new_antecedent->types()->sync($type);
 }
 

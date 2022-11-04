@@ -37,13 +37,13 @@ php artisan make:migration antecedents --create=antecedents
 php artisan make:migration etablissements --create=etablissements
 php artisan make:migration examen_clinics --create=examen_clinics
 php artisan make:migration examen_complementaires --create=examen_complementaires
+php artisan make:migration statuts --create=statuts
 php artisan make:migration rendez_vous --create=rendez_vous
+php artisan make:migration niveau_urgences --create=niveau_urgences
 
 
 docker exec back-teleconsultation_lumen_1 php artisan migrate
 
 ## 
  php artisan ide-helper:models
-
-
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Scopes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,10 +36,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|Allergie withTrashed()
  * @method static \Illuminate\Database\Query\Builder|Allergie withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Teleconsultation[] $teleconsultations
+ * @property-read int|null $teleconsultations_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Allergie like($field, $value)
  */
 class Allergie extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes, Scopes;
     
 
     /**
@@ -60,6 +64,10 @@ class Allergie extends Model
 
     public function dossier_allergie(){
         return $this->hasMany(DossierAllergie::class);
+    }
+
+    public function teleconsultations(){
+        return $this->morphToMany(Teleconsultation::class, 'teleconsables');
     }
 
 }

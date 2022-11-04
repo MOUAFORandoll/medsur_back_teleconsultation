@@ -17,10 +17,14 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->bigInteger('patient_id');
             $table->bigInteger('creator');
-            //$table->uuid('type_teleconsultation_id');
             $table->dateTime('date_heure');
             $table->timestamps();
             $table->softDeletes();
+        });
+
+        Schema::create('teleconsables', function (Blueprint $table) {
+            $table->uuid('telecons_id');
+            $table->uuidMorphs('teleconsable');
         });
     }
 

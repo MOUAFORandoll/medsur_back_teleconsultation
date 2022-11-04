@@ -13,16 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('types', function (Blueprint $table) {
+        Schema::create('etablissement_examen_complementaire', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('libelle');
+            $table->uuid('etablissement_id');
+            $table->uuid('examen_complementaire_id');
+            $table->double('prix');
             $table->timestamps();
             $table->softDeletes();
-        });
-
-        Schema::create('typeables', function (Blueprint $table) {
-            $table->uuid('type_id');
-            $table->uuidMorphs('typeable');
         });
     }
 
@@ -33,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(['types', 'typeables']);
+        Schema::dropIfExists('etablissement_examen_complementaire');
     }
 };
