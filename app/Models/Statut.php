@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Statut extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory,  SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -51,7 +51,7 @@ class Statut extends Model
      * @var string[]
      */
     protected $fillable = [
-        'valeur', 'description'
+        'uuid', 'valeur', 'description'
     ];
 
     public function rendez_vous(){

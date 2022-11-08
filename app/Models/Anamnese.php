@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Anamnese extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory,  SoftDeletes, Scopes;
     
 
     /**
@@ -59,7 +59,7 @@ class Anamnese extends Model
      * @var string[]
      */
     protected $fillable = [
-        'fr_description', 'en_description', 'slug'
+        'uuid', 'fr_description', 'en_description', 'slug'
     ];
 
 

@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Antecedent extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory,  SoftDeletes, Scopes;
 
     /**
      * The table associated with the model.
@@ -59,7 +59,7 @@ class Antecedent extends Model
      * @var string[]
      */
     protected $fillable = [
-        'dossier_medical_id', 'description', 'date', 'slug'
+        'uuid', 'dossier_medical_id', 'description', 'date', 'slug'
     ];
 
     /**

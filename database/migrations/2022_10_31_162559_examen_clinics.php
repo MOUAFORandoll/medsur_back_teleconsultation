@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('examen_clinics', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->string('fr_description');
             $table->string('en_description')->nullable();
             $table->string('slug');

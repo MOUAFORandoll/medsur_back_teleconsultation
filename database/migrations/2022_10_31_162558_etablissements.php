@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('etablissements', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('adresse')->nullable();

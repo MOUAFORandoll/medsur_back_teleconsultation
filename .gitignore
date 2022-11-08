@@ -1,4 +1,5 @@
 /vendor
+/docker
 /.idea
 Homestead.json
 Homestead.yaml

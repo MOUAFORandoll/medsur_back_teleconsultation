@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('statuts', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->string('valeur');
             $table->text('description')->nullable();
             $table->timestamps();
@@ -22,8 +23,8 @@ return new class extends Migration
         });
 
         Schema::create('statutables', function (Blueprint $table) {
-            $table->uuid('statut_id');
-            $table->uuidMorphs('statutable');
+            $table->bigInteger('statut_id');
+            $table->morphs('statutable');
         });
 
         

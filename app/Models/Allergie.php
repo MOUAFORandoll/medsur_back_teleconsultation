@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Allergie extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory,  SoftDeletes, Scopes;
     
 
     /**
@@ -59,7 +59,7 @@ class Allergie extends Model
      * @var string[]
      */
     protected $fillable = [
-        'description', 'date', 'slug'
+        'uuid', 'description', 'date', 'slug'
     ];
 
     public function dossier_allergie(){

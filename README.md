@@ -24,8 +24,7 @@ If you discover a security vulnerability within Lumen, please send an e-mail to 
 The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## run lumen microservice of teleconsultation
-docker-compose build
-docker-compose up
+docker-compose up --remove-orphans
 ## create the migration
 php artisan make:migration dossier_allergie --create=dossier_allergie
 
@@ -42,8 +41,13 @@ php artisan make:migration rendez_vous --create=rendez_vous
 php artisan make:migration niveau_urgences --create=niveau_urgences
 
 
-docker exec back-teleconsultation_lumen_1 php artisan migrate
-
 ## 
- php artisan ide-helper:models
+php artisan ide-helper:models
 
+## open projects (run the following command)
+`docker-compose exec teleconsultation composer install`
+`docker-compose exec teleconsultation php artisan migrate:fresh --seed`
+`http://localhost:8002/`
+
+## access on postgresql
+`docker-compose exec postgresql psql -U postgres`

@@ -40,7 +40,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Type extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory, SoftDeletes, Scopes;
 
     /**
      * The table associated with the model.
@@ -56,7 +56,7 @@ class Type extends Model
      * @var string[]
      */
     protected $fillable = [
-        'libelle'
+        'uuid', 'libelle'
     ];
 
     public function teleconsultations(){

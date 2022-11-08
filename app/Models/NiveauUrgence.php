@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class NiveauUrgence extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory,  SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -49,6 +49,6 @@ class NiveauUrgence extends Model
      * @var string[]
      */
     protected $fillable = [
-        'valeur', 'description'
+        'uuid', 'valeur', 'description'
     ];
 }

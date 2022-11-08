@@ -1,12 +1,69 @@
-version: '3.5'
-
+version: '3'
 services:
-  lumen:
-    ports:
-      - "8002:8002"
+
+  #PHP Service
+  teleconsultation:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: digitalocean.com/php
+    container_name: teleconsultation
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: teleconsultation
+      SERVICE_TAGS: dev
+    working_dir: /var/www
     volumes:
-      - .:/var/www/html
-      - /var/www/html/vendor/
-    build: .
-    command: php -S lumen:8002 -t public
-    restart: always
+      - ./:/var/www
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - backend
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8002:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - backend
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgresql
+      - DB_PORT=5432
+      - DB_DATABASE=DB_TELECONSULTATION
+      - DB_USERNAME=postgres
+
+  #Postgres Service
+  postgresql:
+    image: postgres
+    container_name: postgresql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    networks:
+      - backend
+
+#Docker Networks
+networks:
+  backend:
+    driver: bridge
+
+#Volumes
+volumes:
+  db-pgsql:
+    driver: local

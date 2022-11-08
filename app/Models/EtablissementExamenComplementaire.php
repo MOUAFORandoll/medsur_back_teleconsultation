@@ -38,7 +38,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class EtablissementExamenComplementaire extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory,  SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -54,7 +54,7 @@ class EtablissementExamenComplementaire extends Model
      * @var string[]
      */
     protected $fillable = [
-        'etablissement_id', 'examen_complementaire_id', 'prix'
+        'uuid', 'etablissement_id', 'examen_complementaire_id', 'prix'
     ];
 
     public function etablissement(){

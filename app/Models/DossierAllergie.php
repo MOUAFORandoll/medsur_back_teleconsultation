@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class DossierAllergie extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes;
+    use HasFactory,  SoftDeletes;
 
     /**
      * The table associated with the model.
@@ -51,7 +51,7 @@ class DossierAllergie extends Model
      * @var string[]
      */
     protected $fillable = [
-        'dossier_medical_id', 'allergie_id'
+        'uuid', 'dossier_medical_id', 'allergie_id'
     ];
 
     public function allergie(){

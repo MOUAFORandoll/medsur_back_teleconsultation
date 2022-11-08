@@ -14,15 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->string('libelle');
             $table->timestamps();
             $table->softDeletes();
         });
 
         Schema::create('typeables', function (Blueprint $table) {
-            $table->uuid('type_id');
-            $table->uuidMorphs('typeable');
+            $table->bigInteger('type_id');
+            $table->morphs('typeable');
         });
     }
 

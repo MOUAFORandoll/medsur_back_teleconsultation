@@ -39,7 +39,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Motif extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory,  SoftDeletes, Scopes;
 
     /**
      * The table associated with the model.
@@ -55,7 +55,7 @@ class Motif extends Model
      * @var string[]
      */
     protected $fillable = [
-        'description', 'slug'
+        'uuid', 'description', 'slug'
     ];
 
     /**

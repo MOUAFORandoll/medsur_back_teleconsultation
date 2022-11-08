@@ -64,7 +64,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class RendezVous extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory,  SoftDeletes, Scopes;
 
     /**
      * The table associated with the model.
@@ -80,7 +80,7 @@ class RendezVous extends Model
      * @var string[]
      */
     protected $fillable = [
-        'creator', 'consultation_id', 'etablissement_id', 'ligne_temps_id', 'parent_id', 'statut_id', 'sourceable_type', 'sourceable_id', 'patient_id', 'praticien_id', 'initiateur', 'nom_medecin', 'motifs', 'date', 'slug'
+        'uuid', 'creator', 'consultation_id', 'etablissement_id', 'ligne_temps_id', 'parent_id', 'statut_id', 'sourceable_type', 'sourceable_id', 'patient_id', 'praticien_id', 'initiateur', 'nom_medecin', 'motifs', 'date', 'slug'
     ];
 
     public function teleconsultations(){

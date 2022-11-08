@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ExamenComplementaire extends Model
 {
-    use HasFactory, HasUuids, SoftDeletes, Scopes;
+    use HasFactory,  SoftDeletes, Scopes;
 
     /**
      * The table associated with the model.
@@ -59,7 +59,7 @@ class ExamenComplementaire extends Model
      * @var string[]
      */
     protected $fillable = [
-        'fr_description', 'prix', 'slug'
+        'uuid', 'fr_description', 'prix', 'slug'
     ];
 
     /**

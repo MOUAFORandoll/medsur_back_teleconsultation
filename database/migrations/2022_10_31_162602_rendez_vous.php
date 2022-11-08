@@ -15,16 +15,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('rendez_vous', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->uuid('creator')->nullable();
-            $table->uuid('consultation_id')->nullable();
-            $table->uuid('etablissement_id')->nullable();
-            $table->uuid('ligne_temps_id')->nullable();
-            $table->uuid('parent_id')->nullable();
-            $table->uuid('patient_id');
-            $table->uuid('praticien_id')->nullable();
-            $table->uuid('sourceable_id')->nullable();
-            $table->uuid('statut_id');
+            $table->id();
+            $table->uuid('uuid')->nullable();
+            $table->bigInteger('creator')->nullable();
+            $table->bigInteger('consultation_id')->nullable();
+            $table->bigInteger('etablissement_id')->nullable();
+            $table->bigInteger('ligne_temps_id')->nullable();
+            $table->bigInteger('parent_id')->nullable();
+            $table->bigInteger('patient_id');
+            $table->bigInteger('praticien_id')->nullable();
+            $table->bigInteger('sourceable_id')->nullable();
+            $table->bigInteger('statut_id');
             $table->string('sourceable_type')->nullable();
             $table->string('initiateur')->nullable();
             $table->string('nom_medecin')->nullable();

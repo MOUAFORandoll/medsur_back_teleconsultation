@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('motifs', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->string('description');
             $table->string('slug');
             $table->timestamps();

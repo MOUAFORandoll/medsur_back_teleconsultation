@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('niveau_urgences', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->integer('valeur');
             $table->text('description')->nullable();
             $table->timestamps();

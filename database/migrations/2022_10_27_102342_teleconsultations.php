@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('teleconsultations', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
+            $table->uuid('uuid')->nullable();
             $table->bigInteger('patient_id');
             $table->bigInteger('creator');
             $table->dateTime('date_heure');
@@ -23,8 +24,8 @@ return new class extends Migration
         });
 
         Schema::create('teleconsables', function (Blueprint $table) {
-            $table->uuid('telecons_id');
-            $table->uuidMorphs('teleconsable');
+            $table->bigInteger('telecons_id');
+            $table->morphs('teleconsable');
         });
     }
 
