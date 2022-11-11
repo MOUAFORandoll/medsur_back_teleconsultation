@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('etablissement_examen_complementaire', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(3344);
             $table->uuid('uuid')->nullable();
             $table->bigInteger('etablissement_id');
             $table->bigInteger('examen_complementaire_id');

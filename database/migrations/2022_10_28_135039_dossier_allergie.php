@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('dossier_allergie', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(321);
             $table->uuid('uuid')->nullable();
             $table->bigInteger('dossier_medical_id');
             $table->bigInteger('allergie_id');

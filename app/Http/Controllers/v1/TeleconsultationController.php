@@ -12,7 +12,7 @@ class TeleconsultationController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 25;
-        $teleconsultations = Teleconsultation::with('type_teleconsultation:id,libelle')->latest()->paginate($page_size);
+        $teleconsultations = Teleconsultation::with('types:id,libelle')->select('id', 'uuid', 'patient_id', 'creator', 'date_heure')->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }

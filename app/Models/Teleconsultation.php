@@ -76,6 +76,14 @@ class Teleconsultation extends Model
         'uuid', 'patient_id', 'creator', 'date_heure'
     ];
 
+    protected $appends = ['type'];
+
+    public function getTypeAttribute()
+    {   
+        $type = $this->makeHidden('types');
+        return $this->types->first()->makeHidden('pivot');
+    } 
+
     /**
      * type teleconsultations
      */

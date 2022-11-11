@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('anamneses', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(75);
             $table->uuid('uuid')->nullable();
             $table->string('fr_description');
             $table->string('en_description')->nullable();

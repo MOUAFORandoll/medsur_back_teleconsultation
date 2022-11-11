@@ -20,14 +20,11 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($router) {
 
     /**
-     * CRUDS type teleconsultations
+     * CRUDS types
      */
-    $router->group(['prefix' => 'type-teleconsultations'], function () use ($router) {
-        $router->get('/', ['uses' => 'TypeTeleconsultationController@index']);
-        $router->post('/', ['uses' => 'TypeTeleconsultationController@store']);
-        $router->get('/{type_teleconsultation}', ['uses' => 'TypeTeleconsultationController@show']);
-        $router->patch('/{type_teleconsultation}', ['uses' => 'TypeTeleconsultationController@update']);
-        $router->delete('/{type_teleconsultation}', ['uses' => 'TypeTeleconsultationController@destroy']);
+    $router->group(['prefix' => 'types'], function () use ($router) {
+        $router->get('/', ['uses' => 'TypeController@index']);
+        $router->get('/{type}', ['uses' => 'TypeController@show']);
     });
 
     /**
@@ -140,12 +137,5 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->patch('/{rendez_vous}', ['uses' => 'RendezVousController@update']);
         $router->delete('/{rendez_vous}', ['uses' => 'RendezVousController@destroy']);
     });
-
-
-    
-
-    
-
-    
 
 });

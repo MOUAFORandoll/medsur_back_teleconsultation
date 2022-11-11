@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('rendez_vous', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(815);
             $table->uuid('uuid')->nullable();
             $table->bigInteger('creator')->nullable();
             $table->bigInteger('consultation_id')->nullable();

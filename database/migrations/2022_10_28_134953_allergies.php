@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('allergies', function (Blueprint $table) {
-            $table->id();
+            $table->id()->startingValue(322);
             $table->uuid('uuid')->nullable();
             $table->text('description');
             $table->date('date')->nullable();
