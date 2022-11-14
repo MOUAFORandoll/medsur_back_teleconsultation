@@ -23,9 +23,9 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('teleconsables', function (Blueprint $table) {
-            $table->bigInteger('telecons_id');
-            $table->morphs('teleconsable');
+        Schema::create('teleconsultationables', function (Blueprint $table) {
+            $table->bigInteger('teleconsultation_id');
+            $table->morphs('teleconsultationable');
         });
     }
 

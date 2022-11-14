@@ -81,7 +81,8 @@ class Teleconsultation extends Model
     public function getTypeAttribute()
     {   
         $type = $this->makeHidden('types');
-        return $this->types->first()->makeHidden('pivot');
+        $type = $this->types->first()->makeHidden('pivot');
+        return ['id' => $type->id, 'libelle' => $type->libelle];
     } 
 
     /**
@@ -92,36 +93,34 @@ class Teleconsultation extends Model
     }
 
     public function allergies(){
-        return $this->morphedByMany(Allergie::class, 'teleconsables');
+        return $this->morphedByMany(Allergie::class, 'teleconsultationable');
     }
 
     public function anamneses(){
-        return $this->morphedByMany(Anamnese::class, 'teleconsables');
+        return $this->morphedByMany(Anamnese::class, 'teleconsultationable');
     }
 
     public function antededents(){
-        return $this->morphedByMany(Antecedent::class, 'teleconsables');
+        return $this->morphedByMany(Antecedent::class, 'teleconsultationable');
     }
 
     public function motifs(){
-        return $this->morphedByMany(Motif::class, 'teleconsables');
+        return $this->morphedByMany(Motif::class, 'teleconsultationable');
     }
 
     public function rendezVous(){
-        return $this->morphedByMany(RendezVous::class, 'teleconsables');
+        return $this->morphedByMany(RendezVous::class, 'teleconsultationable');
     }
 
     public function examenCliniques(){
-        return $this->morphedByMany(ExamenClinique::class, 'teleconsables');
+        return $this->morphedByMany(ExamenClinique::class, 'teleconsultationable');
     }
 
     public function examenComplementaires(){
-        return $this->morphedByMany(ExamenComplementaire::class, 'teleconsables');
+        return $this->morphedByMany(ExamenComplementaire::class, 'teleconsultationable');
     }
 
     public function etablissements(){
-        return $this->morphedByMany(Etablissement::class, 'teleconsables');
+        return $this->morphedByMany(Etablissement::class, 'teleconsultationable');
     }
-
-
 }

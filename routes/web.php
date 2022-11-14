@@ -138,4 +138,15 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{rendez_vous}', ['uses' => 'RendezVousController@destroy']);
     });
 
+    /**
+    * CRUDS patients
+    */
+    $router->group(['prefix' => 'patients'], function () use ($router) {
+        $router->get('/', 'PatientController@index');
+       /*  $router->post('/', 'PatientController@store'); */
+        $router->get('/{patient_id}', 'PatientController@show');
+        /* $router->patch('/{rendez_vous}', 'PatientController@update');
+        $router->delete('/{rendez_vous}', 'PatientController@destroy'); */
+    });
+
 });
