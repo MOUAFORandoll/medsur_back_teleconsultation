@@ -34,6 +34,7 @@ class RendezVousController extends Controller
 
         $this->validate($request, $this->validation());
         $rendez_vous = RendezVous::create([
+            'uuid' => Str::uuid()->toString(),
             'creator' => $request->creator, 
             'consultation_id' => $request->consultation_id, 
             'etablissement_id' => $request->etablissement_id, 

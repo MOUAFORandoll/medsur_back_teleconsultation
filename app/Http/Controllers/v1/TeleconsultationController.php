@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 
 class TeleconsultationController extends Controller
 {
@@ -29,8 +30,8 @@ class TeleconsultationController extends Controller
         $this->validate($request, $this->validation());
         $teleconsultation = Teleconsultation::create([
             'patient_id' => $request->patient_id,
+            'uuid' => Str::uuid()->toString(),
             'creator' => $request->creator,
-            'type_teleconsultation_id' => $request->type_teleconsultation_id,
             'date_heure' => $request->date_heure
         ]);
         
@@ -47,7 +48,6 @@ class TeleconsultationController extends Controller
         $teleconsultation = $teleconsultation->fill([
             'patient_id' => $request->patient_id,
             'creator' => $request->creator,
-            'type_teleconsultation_id' => $request->type_teleconsultation_id,
             'date_heure' => $request->date_heure
         ]);
 

@@ -13,7 +13,6 @@ class AllergieController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 25;
-        \Log::alert($request->all());
         if($request->search != ""){
             $allergies = Allergie::like('description', $request->search)->paginate($page_size);
         }else{
