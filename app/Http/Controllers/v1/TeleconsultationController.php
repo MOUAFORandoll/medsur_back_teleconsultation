@@ -13,7 +13,7 @@ class TeleconsultationController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 25;
-        $teleconsultations = Teleconsultation::with('types:id,libelle')->select('id', 'uuid', 'patient_id', 'creator', 'date_heure')->latest()->paginate($page_size);
+        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs:id,description'])->select('id', 'uuid', 'patient_id', 'creator', 'date_heure')->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }
@@ -34,7 +34,7 @@ class TeleconsultationController extends Controller
             'creator' => $request->creator,
             'date_heure' => $request->date_heure
         ]);
-        
+
         $teleconsultation = $this->associations($teleconsultation, $request);
 
         return $this->successResponse($teleconsultation);
@@ -64,7 +64,7 @@ class TeleconsultationController extends Controller
     }
 
     public function destroy($teleconsultation){
-        
+
         $teleconsultation = Teleconsultation::findOrFail($teleconsultation);
         $teleconsultation->delete();
         return $this->successResponse($teleconsultation);

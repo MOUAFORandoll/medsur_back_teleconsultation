@@ -124,3 +124,4 @@ class Teleconsultation extends Model
         return $this->morphedByMany(Etablissement::class, 'teleconsultationable');
     }
 }
+
