@@ -7,7 +7,9 @@ use App\Models\Anamnese;
 use App\Models\Antecedent;
 use App\Models\Etablissement;
 use App\Models\ExamenClinique;
+use App\Models\ExamenComplementaire;
 use App\Models\Motif;
+use App\Models\RendezVous;
 use App\Models\Teleconsultation;
 use App\Models\Type;
 use App\Models\TypeTeleconsultation;
@@ -46,6 +48,8 @@ class TeleconsultationSeeder extends Seeder
                     $teleconsultation->antededents()->sync(Antecedent::inRandomOrder()->limit(3)->get());
                     $teleconsultation->examenCliniques()->sync(ExamenClinique::inRandomOrder()->limit(3)->get());
                     $teleconsultation->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
+                    $teleconsultation->examenComplementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(7)->get());
+                    $teleconsultation->rendezVous()->sync(RendezVous::inRandomOrder()->limit(5)->get());
                 }
             }else{
                 $type->teleconsultations()->sync(Teleconsultation::factory()->count(10)->create());
@@ -56,6 +60,8 @@ class TeleconsultationSeeder extends Seeder
                     $teleconsultation->antededents()->sync(Antecedent::inRandomOrder()->limit(3)->get());
                     $teleconsultation->examenCliniques()->sync(ExamenClinique::inRandomOrder()->limit(3)->get());
                     $teleconsultation->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
+                    $teleconsultation->examenComplementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(7)->get());
+                    $teleconsultation->rendezVous()->sync(RendezVous::inRandomOrder()->limit(5)->get());
                 }
             }
         }
