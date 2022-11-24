@@ -32,7 +32,8 @@ class TeleconsultationController extends Controller
             'patient_id' => $request->patient_id,
             'uuid' => Str::uuid()->toString(),
             'creator' => $request->creator,
-            'date_heure' => $request->date_heure
+            'date_heure' => $request->date_heure,
+            'cat' => $request->cat
         ]);
 
         $teleconsultation = $this->associations($teleconsultation, $request);
@@ -48,7 +49,8 @@ class TeleconsultationController extends Controller
         $teleconsultation = $teleconsultation->fill([
             'patient_id' => $request->patient_id,
             'creator' => $request->creator,
-            'date_heure' => $request->date_heure
+            'date_heure' => $request->date_heure,
+            'cat' => $request->cat
         ]);
 
         if ($teleconsultation->isClean()) {

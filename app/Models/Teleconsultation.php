@@ -73,7 +73,7 @@ class Teleconsultation extends Model
      * @var string[]
      */
     protected $fillable = [
-        'uuid', 'patient_id', 'creator', 'date_heure'
+        'uuid', 'patient_id', 'creator', 'date_heure', 'cat'
     ];
 
     protected $appends = ['type'];
