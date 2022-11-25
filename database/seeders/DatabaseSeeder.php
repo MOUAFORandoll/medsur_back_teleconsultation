@@ -16,10 +16,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            StatutSeeder::class,
             AntecedentSeeder::class,
             AnamneseSeeder::class,
             AllergieSeeder::class,
-            MotifSeeder::class, 
+            MotifSeeder::class,
             ExamenCliniqueSeeder::class,
             RendezVousSeeder::class,
             EtablissementSeeder::class,
