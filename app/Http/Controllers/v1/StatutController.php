@@ -15,7 +15,7 @@ class StatutController extends Controller
         if($request->search != ""){
             $statuts = Statut::like('valeur', $request->search)->get(['id', 'valeur', 'description']);
         }else{
-            $statuts = Statut::orderBy('valeur', 'asc')->get(['id', 'valeur', 'description']);
+            $statuts = Statut::orderBy('id', 'asc')->get(['id', 'valeur', 'description']);
         }
 
         return $this->successResponse($statuts);
