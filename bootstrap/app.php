@@ -74,13 +74,12 @@ $app->configure('services');
 */
 
 $app->middleware([
-    //App\Http\Middleware\AuthenticateAccess::class
+    App\Http\Middleware\AuthenticateAccess::class
 ]);
 
 // $app->routeMiddleware([
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
-
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +93,6 @@ $app->middleware([
 */
 
 $app->register(App\Providers\AppServiceProvider::class);
-//$app->register(\GuzzleHttp\Guzzle\Client::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
