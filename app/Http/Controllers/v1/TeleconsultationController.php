@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Models\RendezVous;
 use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class TeleconsultationController extends Controller
 {
@@ -27,7 +29,7 @@ class TeleconsultationController extends Controller
 
     public function store(Request $request){
 
-        $this->validate($request, $this->validation());
+        $this->validate($request, $this->validation($request));
         $teleconsultation = Teleconsultation::create([
             'patient_id' => $request->patient_id,
             'uuid' => Str::uuid()->toString(),
@@ -44,7 +46,7 @@ class TeleconsultationController extends Controller
 
     public function update(Request $request, $teleconsultation){
 
-        $this->validate($request, $this->validation());
+        $this->validate($request, $this->validation($request));
         $teleconsultation = Teleconsultation::findOrFail($teleconsultation);
         $teleconsultation = $teleconsultation->fill([
             'patient_id' => $request->patient_id,
@@ -76,13 +78,15 @@ class TeleconsultationController extends Controller
     /**
      * fonction de validation des formulaires
      */
-    public function validation($is_update = null){
+    public function validation(Request $request, $is_update = null){
         $rules = [
             'patient_id' => 'required',
             'creator' => 'required',
             'type_teleconsultation_id' => 'required',
             'date_heure' => 'required',
             'motif_id' => 'array|required',
+            'date' => Rule::requiredIf(fn () => $request->rendezVous == true),
+            'motifs' => Rule::requiredIf(fn () => $request->rendezVous == true),
             'etablissement_id' => 'required'
         ];
         return $rules;
@@ -106,6 +110,24 @@ class TeleconsultationController extends Controller
         }
         if(!is_null($request->rendezVous)){
         // rendezVous
+            $rendez_vous = RendezVous::create([
+                'uuid' => Str::uuid()->toString(),
+                'creator' => $request->creator, 
+                'consultation_id' => $request->type_teleconsultation_id, 
+                'etablissement_id' => $request->etablissement_id, 
+                'ligne_temps_id' => $request->ligne_temps_id, 
+                'parent_id' => $request->parent_id, 
+                'statut_id' => $request->statut_id, 
+                'sourceable_type' => $request->sourceable_type, 
+                'sourceable_id' => $request->sourceable_id, 
+                'patient_id' => $request->patient_id, 
+                'praticien_id' => $request->praticien_id, 
+                'initiateur' => $request->initiateur, 
+                'nom_medecin' => $request->nom_medecin, 
+                'motifs' => $request->motifs, 
+                'date' => $request->date,
+                'slug' => Str::slug($request->motifs, '-').'-'.time()
+            ]);
         }
         if(!is_null($request->examen_clinique_id)){
             $teleconsultation->examenCliniques()->sync($request->examen_clinique_id);
