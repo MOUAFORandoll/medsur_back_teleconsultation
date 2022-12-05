@@ -57,6 +57,15 @@ class EtablissementExamenComplementaire extends Model
         'uuid', 'etablissement_id', 'examen_complementaire_id', 'prix'
     ];
 
+    protected $appends = ['type'];
+
+    public function getTypeAttribute()
+    {   
+        $type = $this->makeHidden('types');
+        $type = $this->types->first()->makeHidden('pivot');
+        return ['id' => $type->id, 'libelle' => $type->libelle];
+    } 
+
     public function etablissement(){
         return $this->belongsTo(Etablissement::class, 'etablissement_id');
     }
