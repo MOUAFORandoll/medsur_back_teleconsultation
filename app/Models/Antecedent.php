@@ -64,6 +64,13 @@ class Antecedent extends Model
 
     protected $appends = ['type'];
 
+    public function getTypeAttribute()
+    {   
+        $type = $this->makeHidden('types');
+        $type = $this->types->first()->makeHidden('pivot');
+        return ['id' => $type->id, 'libelle' => $type->libelle];
+    } 
+
     /**
      * type antecedent
      */
@@ -75,12 +82,7 @@ class Antecedent extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsables');
     }
 
-    public function getTypeAttribute()
-    {   
-        $type = $this->makeHidden('types');
-        $type = $this->types->first()->makeHidden('pivot');
-        return ['id' => $type->id, 'libelle' => $type->libelle];
-    } 
+
     
 
 }

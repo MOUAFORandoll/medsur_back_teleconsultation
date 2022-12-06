@@ -82,7 +82,8 @@ class AntecedentController extends Controller
         $rules = [
             'dossier_medical_id' => 'required',
             'description' => 'required',
-            'date' => 'required|date'
+            'date' => 'required|date',
+            'type_id' => 'required'
         ];
         return $rules;
     }
