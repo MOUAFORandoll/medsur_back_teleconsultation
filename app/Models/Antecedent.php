@@ -66,7 +66,7 @@ class Antecedent extends Model
 
     public function getTypeAttribute()
     {   
-        $type = $this->makeHidden('types');
+        //$type = $this->makeHidden('types');
         $type = $this->types->first()->makeHidden('pivot');
         return ['id' => $type->id, 'libelle' => $type->libelle];
     } 
