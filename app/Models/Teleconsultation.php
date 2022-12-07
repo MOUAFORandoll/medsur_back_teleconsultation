@@ -79,11 +79,11 @@ class Teleconsultation extends Model
     protected $appends = ['type'];
 
     public function getTypeAttribute()
-    {   
+    {
         $type = $this->makeHidden('types');
         $type = $this->types->first()->makeHidden('pivot');
         return ['id' => $type->id, 'libelle' => $type->libelle];
-    } 
+    }
 
     /**
      * type teleconsultations
