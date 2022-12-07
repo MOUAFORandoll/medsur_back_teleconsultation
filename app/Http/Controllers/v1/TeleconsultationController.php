@@ -15,7 +15,7 @@ class TeleconsultationController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 25;
-        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs:id,description', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies'])->select('id', 'uuid', 'patient_id', 'creator', 'date_heure')->latest()->paginate($page_size);
+        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs:id,description', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies'])->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat')->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }
