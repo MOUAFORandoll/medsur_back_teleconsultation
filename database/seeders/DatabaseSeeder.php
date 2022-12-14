@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             NiveauUrgenceSeeder::class,
             ExamenComplementaireSeeder::class,
             EtablissementExamenComplementaireSeeder::class,
-            TeleconsultationSeeder::class,
+            //TeleconsultationSeeder::class,
         ]);
     }
 }
