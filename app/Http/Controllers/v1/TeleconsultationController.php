@@ -124,9 +124,9 @@ class TeleconsultationController extends Controller
                 'praticien_id' => $request->praticien_id, 
                 'initiateur' => $request->initiateur, 
                 'nom_medecin' => $request->nom_medecin, 
-                'motifs' => $request->motifs, 
-                'date' => $request->date,
-                'slug' => Str::slug($request->motifs, '-').'-'.time()
+                'motifs' => $request->motif_rdv, 
+                'date' => $request->date_rdv,
+                'slug' => Str::slug($request->motif_rdv, '-').'-'.time()
             ]);
         }
         if(!is_null($request->examen_clinique_id)){
