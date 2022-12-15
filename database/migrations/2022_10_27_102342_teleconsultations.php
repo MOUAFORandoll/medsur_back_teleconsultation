@@ -27,6 +27,7 @@ return new class extends Migration
         Schema::create('teleconsultationables', function (Blueprint $table) {
             $table->bigInteger('teleconsultation_id');
             $table->morphs('teleconsultationable');
+            $table->json('data')->nullable();
         });
     }
 

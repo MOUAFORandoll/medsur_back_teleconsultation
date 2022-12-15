@@ -84,6 +84,7 @@ class TeleconsultationController extends Controller
             'creator' => 'required',
             'type_teleconsultation_id' => 'required',
             'date_heure' => 'required',
+            'anamnese' => 'required',
             'motif_id' => 'array|required',
             'date' => Rule::requiredIf(fn () => $request->rendezVous == true),
             'motifs' => Rule::requiredIf(fn () => $request->rendezVous == true),
@@ -100,7 +101,7 @@ class TeleconsultationController extends Controller
             $teleconsultation->allergies()->sync($request->allergie_id);
         }
         if(!is_null($request->anamnese_id)){
-            $teleconsultation->anamneses()->sync($request->anamnese_id);
+            $teleconsultation->anamneses()->sync($request->anamnese_id, ['data' => ['anamnese' => $request->anamnese]]);
         }
         if(!is_null($request->antededent_id)){
             $teleconsultation->antededents()->sync($request->antededent_id);

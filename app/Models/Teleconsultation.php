@@ -97,7 +97,7 @@ class Teleconsultation extends Model
     }
 
     public function anamneses(){
-        return $this->morphedByMany(Anamnese::class, 'teleconsultationable');
+        return $this->morphedByMany(Anamnese::class, 'teleconsultationable')->withPivot('data');
     }
 
     public function antededents(){
