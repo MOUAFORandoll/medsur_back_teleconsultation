@@ -101,7 +101,7 @@ class TeleconsultationController extends Controller
             $teleconsultation->allergies()->sync($request->allergie_id);
         }
         if(!is_null($request->anamnese_id)){
-            $teleconsultation->anamneses()->sync($request->anamnese_id, ['data' => ['anamnese' => $request->anamnese]]);
+            $teleconsultation->anamneses()->sync($request->anamnese_id, json_encode(['data' => ['anamnese' => $request->anamnese]]));
         }
         if(!is_null($request->antededent_id)){
             $teleconsultation->antededents()->sync($request->antededent_id);
@@ -109,7 +109,7 @@ class TeleconsultationController extends Controller
         if(!is_null($request->motif_id)){
             $teleconsultation->motifs()->sync($request->motif_id);
         }
-        if(!is_null($request->rendezVous)){
+        if($request->rendezVous){
         // rendezVous
             $rendez_vous = RendezVous::create([
                 'uuid' => Str::uuid()->toString(),
