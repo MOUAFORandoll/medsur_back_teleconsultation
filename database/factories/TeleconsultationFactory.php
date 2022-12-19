@@ -6,6 +6,7 @@ use App\Models\Teleconsultation;
 use App\Models\TypeTeleconsultation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class TeleconsultationFactory extends Factory
 {
@@ -28,6 +29,7 @@ class TeleconsultationFactory extends Factory
         $medecin_controles = array(59, 69, 129, 314, 370, 372, 375, 538, 615, 766, 1044, 1045, 1332, 1736, 1791, 1792, 1994, 1996, 2029, 2117, 2421, 2427, 2428, 2429, 2461, 2463, 2503, 2585, 2592, 2608);
         $medecin_controle_id = array_rand($medecin_controles,1);
         return [
+            'uuid' => Str::uuid()->toString(),
             'patient_id' => $patients[$patient_id],
             'creator' => $medecin_controles[$medecin_controle_id],
             'date_heure' => Carbon::today()->subDays(rand(0, 365)),
