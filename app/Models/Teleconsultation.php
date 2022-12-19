@@ -89,39 +89,39 @@ class Teleconsultation extends Model
      * type teleconsultations
      */
     public function types(){
-        return $this->morphToMany(Type::class, 'typeable');
+        return $this->morphToMany(Type::class, 'typeable')->latest();
     }
 
     public function allergies(){
-        return $this->morphedByMany(Allergie::class, 'teleconsultationable');
+        return $this->morphedByMany(Allergie::class, 'teleconsultationable')->latest();
     }
 
     public function anamneses(){
-        return $this->morphedByMany(Anamnese::class, 'teleconsultationable')->withPivot('data');
+        return $this->morphedByMany(Anamnese::class, 'teleconsultationable')->withPivot('data')->latest();
     }
 
     public function antededents(){
-        return $this->morphedByMany(Antecedent::class, 'teleconsultationable');
+        return $this->morphedByMany(Antecedent::class, 'teleconsultationable')->latest();
     }
 
     public function motifs(){
-        return $this->morphedByMany(Motif::class, 'teleconsultationable');
+        return $this->morphedByMany(Motif::class, 'teleconsultationable')->latest();
     }
 
     public function rendezVous(){
-        return $this->morphedByMany(RendezVous::class, 'teleconsultationable');
+        return $this->morphedByMany(RendezVous::class, 'teleconsultationable')->latest();
     }
 
     public function examenCliniques(){
-        return $this->morphedByMany(ExamenClinique::class, 'teleconsultationable');
+        return $this->morphedByMany(ExamenClinique::class, 'teleconsultationable')->latest();
     }
 
     public function examenComplementaires(){
-        return $this->morphedByMany(ExamenComplementaire::class, 'teleconsultationable');
+        return $this->morphedByMany(ExamenComplementaire::class, 'teleconsultationable')->latest();
     }
 
     public function etablissements(){
-        return $this->morphedByMany(Etablissement::class, 'teleconsultationable');
+        return $this->morphedByMany(Etablissement::class, 'teleconsultationable')->latest();
     }
 }
 
