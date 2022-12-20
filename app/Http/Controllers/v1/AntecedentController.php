@@ -19,7 +19,7 @@ class AntecedentController extends Controller
         }else{
             $antecedents = Antecedent::with('types:id,libelle')->latest()->paginate($size);
         }
-        
+
         return $this->successResponse($antecedents);
 
     }
@@ -41,6 +41,7 @@ class AntecedentController extends Controller
             'slug' => Str::slug($request->description, '-').'-'.time()
         ]);
         $antecedent->types()->sync($request->type_id);
+        $antecedent->teleconsultations()->sync($request->teleconsultation_id);
 
         return $this->successResponse($antecedent);
 
@@ -62,6 +63,7 @@ class AntecedentController extends Controller
 
         $antecedent->save();
         $antecedent->types()->sync($request->type_id);
+        $antecedent->teleconsultations()->sync($request->teleconsultation_id);
         
         return $this->successResponse($antecedent);
 
@@ -81,6 +83,7 @@ class AntecedentController extends Controller
     public function validation($is_update = null){
         $rules = [
             'dossier_medical_id' => 'required',
+            'teleconsultation_id' => 'required',
             'description' => 'required',
             'date' => 'required|date',
             'type_id' => 'required'

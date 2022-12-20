@@ -69,7 +69,7 @@ class Etablissement extends Model
     }
 
     public function teleconsultations(){
-        return $this->morphToMany(Teleconsultation::class, 'teleconsables');
+        return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
 }
