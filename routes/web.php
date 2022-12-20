@@ -36,6 +36,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/{teleconsultation}', ['uses' => 'TeleconsultationController@show']);
         $router->patch('/{teleconsultation}', ['uses' => 'TeleconsultationController@update']);
         $router->delete('/{teleconsultation}', ['uses' => 'TeleconsultationController@destroy']);
+        $router->get('/{patient_id}/{creator}/{created_at}', ['uses' => 'TeleconsultationController@searchTeleconsultation']);
     });
 
     /**

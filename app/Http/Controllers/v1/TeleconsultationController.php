@@ -93,6 +93,11 @@ class TeleconsultationController extends Controller
         return $rules;
     }
 
+    public function searchTeleconsultation($patient_id, $creator, $created_at){
+        $teleconsultation = Teleconsultation::where(['patient_id' => $patient_id, 'creator' => $creator])->whereDate('created_at', '>', $created_at)->first();
+        return $teleconsultation;
+    }
+
     public function associations(Teleconsultation $teleconsultation, Request $request): Teleconsultation {
         if(!is_null($request->type_teleconsultation_id)){
             $teleconsultation->types()->sync($request->type_teleconsultation_id);

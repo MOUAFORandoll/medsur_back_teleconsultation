@@ -74,5 +74,7 @@ class EtablissementExamenComplementaire extends Model
         return $this->belongsTo(ExamenComplementaire::class, 'examen_complementaire_id');
     }
 
+    
+
 
 }
