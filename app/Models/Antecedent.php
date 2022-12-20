@@ -62,6 +62,15 @@ class Antecedent extends Model
         'uuid', 'dossier_medical_id', 'description', 'date', 'slug'
     ];
 
+    protected $appends = ['type'];
+
+    public function getTypeAttribute()
+    {
+        $type = $this->makeHidden('types');
+        $type = $this->types->first()->makeHidden('pivot');
+        return ['id' => $type->id, 'libelle' => $type->libelle];
+    }
+
     /**
      * type antecedent
      */
@@ -70,8 +79,10 @@ class Antecedent extends Model
     }
 
     public function teleconsultations(){
-        return $this->morphToMany(Teleconsultation::class, 'teleconsables');
+        return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
-    
+
+
+
 
 }

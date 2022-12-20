@@ -70,6 +70,6 @@ class Type extends Model
     public function antecedents(){
         return $this->morphedByMany(Antecedent::class, 'typeable');
     }
-    
+
 
 }

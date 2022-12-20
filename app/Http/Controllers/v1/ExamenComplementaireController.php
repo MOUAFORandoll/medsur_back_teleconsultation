@@ -79,8 +79,7 @@ class ExamenComplementaireController extends Controller
     public function validation($is_update = null){
         $rules = [
             'fr_description' => 'required', 
-            'prix' => 'required', 
-            'slug' => 'required'
+            'prix' => 'required',
         ];
         return $rules;
     }

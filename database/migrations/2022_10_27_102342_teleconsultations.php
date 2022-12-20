@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('patient_id');
             $table->bigInteger('creator');
             $table->dateTime('date_heure');
+            $table->longText('cat')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +27,7 @@ return new class extends Migration
         Schema::create('teleconsultationables', function (Blueprint $table) {
             $table->bigInteger('teleconsultation_id');
             $table->morphs('teleconsultationable');
+            $table->json('data')->nullable();
         });
     }
 

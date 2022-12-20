@@ -36,6 +36,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/{teleconsultation}', ['uses' => 'TeleconsultationController@show']);
         $router->patch('/{teleconsultation}', ['uses' => 'TeleconsultationController@update']);
         $router->delete('/{teleconsultation}', ['uses' => 'TeleconsultationController@destroy']);
+        $router->get('/{patient_id}/{creator}/{created_at}', ['uses' => 'TeleconsultationController@searchTeleconsultation']);
     });
 
     /**
@@ -139,14 +140,14 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
     });
 
     /**
-    * CRUDS patients
+    * CRUDS statuts
     */
-    $router->group(['prefix' => 'patients'], function () use ($router) {
-        $router->get('/', 'PatientController@index');
-       /*  $router->post('/', 'PatientController@store'); */
-        $router->get('/{patient_id}', 'PatientController@show');
-        /* $router->patch('/{rendez_vous}', 'PatientController@update');
-        $router->delete('/{rendez_vous}', 'PatientController@destroy'); */
+    $router->group(['prefix' => 'statuts'], function () use ($router) {
+        $router->get('/', 'StatutController@index');
+        $router->post('/', 'StatutController@store');
+        $router->get('/{statut}', 'StatutController@show');
+        $router->patch('/{statut}', 'StatutController@update');
+        $router->delete('/{statut}', 'StatutController@destroy');
     });
 
 });

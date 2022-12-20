@@ -12,22 +12,20 @@ class NiveauUrgenceController extends Controller
 
     public function index(Request $request){
 
-
-        $size = $request->size ?? 25;
         if($request->search != ""){
-            $niveau_urgencess = NiveauUrgence::like('valeur', $request->search)->paginate($size);
+            $niveau_urgencess = NiveauUrgence::like('valeur', $request->search)->get(['id', 'valeur', 'description']);
         }else{
-            $niveau_urgencess = NiveauUrgence::latest()->paginate($size);
+            $niveau_urgencess = NiveauUrgence::orderBy('valeur', 'asc')->get(['id', 'valeur', 'description']);
         }
-        
+
         return $this->successResponse($niveau_urgencess);
 
     }
 
-    public function show($niveau_urgences){
+    public function show($niveau_urgence){
 
-        $niveau_urgences = NiveauUrgence::findOrFail($niveau_urgences);
-        return $this->successResponse($niveau_urgences);
+        $niveau_urgence = NiveauUrgence::findOrFail($niveau_urgence)->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+        return $this->successResponse($niveau_urgence);
 
     }
 

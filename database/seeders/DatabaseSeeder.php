@@ -16,17 +16,18 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            TeleconsultationSeeder::class, 
+            StatutSeeder::class,
             AntecedentSeeder::class,
             AnamneseSeeder::class,
             AllergieSeeder::class,
-            MotifSeeder::class, 
+            MotifSeeder::class,
             ExamenCliniqueSeeder::class,
             RendezVousSeeder::class,
             EtablissementSeeder::class,
             NiveauUrgenceSeeder::class,
             ExamenComplementaireSeeder::class,
-            EtablissementExamenComplementaireSeeder::class
+            EtablissementExamenComplementaireSeeder::class,
+            TeleconsultationSeeder::class,
         ]);
     }
 }
