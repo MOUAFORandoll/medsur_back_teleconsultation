@@ -86,8 +86,8 @@ class TeleconsultationController extends Controller
             'date_heure' => 'required',
             'anamnese' => 'required',
             'motif_id' => 'array|required',
-            'date' => Rule::requiredIf(fn () => $request->rendezVous == true),
-            'motifs' => Rule::requiredIf(fn () => $request->rendezVous == true),
+            'date_rdv' => Rule::requiredIf(fn () => $request->rendezVous == true),
+            'motif_rdv' => Rule::requiredIf(fn () => $request->rendezVous == true),
             'etablissement_id' => 'required'
         ];
         return $rules;
@@ -123,7 +123,7 @@ class TeleconsultationController extends Controller
                 'etablissement_id' => $request->etablissement_id, 
                 'ligne_temps_id' => $request->ligne_temps_id, 
                 'parent_id' => $request->parent_id, 
-                'statut_id' => $request->statut_id, 
+                'statut_id' => $request->statut_id ?? 6, 
                 'sourceable_type' => $request->sourceable_type, 
                 'sourceable_id' => $request->sourceable_id, 
                 'patient_id' => $request->patient_id, 
@@ -134,6 +134,8 @@ class TeleconsultationController extends Controller
                 'date' => $request->date_rdv,
                 'slug' => Str::slug($request->motif_rdv, '-').'-'.time()
             ]);
+
+            $teleconsultation->rendezVous()->sync($rendez_vous->id);
         }
         if(!is_null($request->examen_clinique_id)){
             $teleconsultation->examenCliniques()->sync($request->examen_clinique_id);
