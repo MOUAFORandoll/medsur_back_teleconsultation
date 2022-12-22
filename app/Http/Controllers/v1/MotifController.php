@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Motif;
+use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -34,12 +35,14 @@ class MotifController extends Controller
     public function store(Request $request){
 
         $this->validate($request, $this->validation());
-        $motif = Motif::create([
+        /* $motif = Motif::create([
+            'uuid' => Str::uuid(),
             'description' => $request->description,
             'slug' => Str::slug($request->description, '-').'-'.time()
-        ]);
+        ]); */
+        $motifs = $this->assignToTeleconsultation($request);
 
-        return $this->successResponse($motif);
+        return $this->successResponse($motifs);
 
     }
 
@@ -68,12 +71,40 @@ class MotifController extends Controller
         return $this->successResponse($motif);
     }
 
+    public function assignToTeleconsultation(Request $request){
+        $motifs = [];
+        foreach($request->motifs as $motif_item){
+            if(str_contains($motif_item, 'item__')){
+                /**
+                 * on créé une un s'il n'existe pas
+                 */
+                $motif = Motif::where("description", explode("__", $motif_item)[1])->first();
+                if(is_null($motif)){
+                    $motif = Motif::create([
+                        'uuid' => Str::uuid(),
+                        'description' => $request->description,
+                        'slug' => Str::slug($request->description, '-').'-'.time()
+                    ]);
+                }
+                $motifs[] = $motif->id;
+            }else{
+                $motifs[] = $motif_item;
+            }
+        }
+        if($request->teleconsultation_id){
+            $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
+            $teleconsultation->motifs()->attach($motifs);
+            $motifs = $teleconsultation->motifs;
+        }
+        return $motifs;
+    }
+
     /**
      * fonction de validation des formulaires
      */
     public function validation($is_update = null){
         $rules = [
-            'description' => 'required'
+            'motifs' => 'required|array',
         ];
         return $rules;
     }
