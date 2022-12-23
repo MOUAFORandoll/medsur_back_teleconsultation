@@ -94,7 +94,7 @@ class MotifController extends Controller
         if($request->teleconsultation_id){
             $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
             $teleconsultation->motifs()->attach($motifs);
-            $motifs = $teleconsultation->motifs;
+            return $teleconsultation->motifs;
         }
         return $motifs;
     }
