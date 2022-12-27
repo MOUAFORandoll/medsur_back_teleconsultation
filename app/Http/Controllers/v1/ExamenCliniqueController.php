@@ -41,6 +41,10 @@ class ExamenCliniqueController extends Controller
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
         $examen_clinique->types()->sync($request->type_id);
+        
+        if($request->teleconsultation_id){
+            $examen_clinique->teleconsultations()->sync($request->teleconsultation_id);
+        }
 
         return $this->successResponse($examen_clinique);
 

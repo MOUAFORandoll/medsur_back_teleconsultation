@@ -41,7 +41,9 @@ class AntecedentController extends Controller
             'slug' => Str::slug($request->description, '-').'-'.time()
         ]);
         $antecedent->types()->sync($request->type_id);
-        $antecedent->teleconsultations()->sync($request->teleconsultation_id);
+        if($request->teleconsultation_id){
+            $antecedent->teleconsultations()->sync($request->teleconsultation_id);
+        }
 
         return $this->successResponse($antecedent);
 

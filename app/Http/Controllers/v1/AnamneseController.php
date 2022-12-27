@@ -40,6 +40,10 @@ class AnamneseController extends Controller
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
         $anamnese->types()->sync($request->type_id);
+        if($request->teleconsultation_id){
+            $anamnese->teleconsultations()->sync($request->teleconsultation_id);
+        }
+
 
         return $this->successResponse($anamnese);
 
@@ -80,7 +84,6 @@ class AnamneseController extends Controller
         $rules = [
             'type_id' => 'required',
             'fr_description' => 'required', 
-            'en_description' => 'required' 
         ];
         return $rules;
     }

@@ -39,7 +39,12 @@ class ExamenComplementaireController extends Controller
             'prix' => $request->prix,
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
+
         $examen_complementaire->types()->sync($request->type_id);
+
+        if($request->teleconsultation_id){
+            $examen_complementaire->teleconsultations()->sync($request->teleconsultation_id);
+        }
 
         return $this->successResponse($examen_complementaire);
 

@@ -51,6 +51,11 @@ class RendezVousController extends Controller
             'date' => $request->date,
             'slug' => Str::slug($request->motifs, '-').'-'.time()
         ]);
+
+        if($request->teleconsultation_id){
+            $rendez_vous->teleconsultations()->sync($request->teleconsultation_id);
+        }
+
         return $this->successResponse($rendez_vous);
 
     }

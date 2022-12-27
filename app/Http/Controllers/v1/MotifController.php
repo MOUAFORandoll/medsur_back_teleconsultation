@@ -47,7 +47,7 @@ class MotifController extends Controller
     }
 
     public function update(Request $request, $motif){
-        
+
         $this->validate($request, $this->validation());
         $motif = Motif::findOrFail($motif);
         $motif = $motif->fill([
@@ -103,11 +103,19 @@ class MotifController extends Controller
      * fonction de validation des formulaires
      */
     public function validation($is_update = null){
-        $rules = [
-            'motifs' => 'required|array',
-        ];
+        if($is_update){
+            $rules = [
+                'motifs' => 'required',
+            ];
+        }else{
+            $rules = [
+                'motifs' => 'required|array',
+            ];
+        }
         return $rules;
     }
+
+
 
     //
 }

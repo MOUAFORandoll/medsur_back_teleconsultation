@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Allergie;
+use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -31,13 +32,23 @@ class AllergieController extends Controller
     }
 
     public function store(Request $request){
-
+        $allergies = [];
         $this->validate($request, $this->validation());
-        $allergie = Allergie::create([
-            'description' => $request->description, 
-            'date' => $request->date,
-            'slug' => Str::slug($request->description, '-').'-'.time()
-        ]);
+
+        foreach($request->description as $key => $description){
+            $allergie = Allergie::create([
+                'description' => $description,
+                'date' => $request->date[$key],
+                'slug' => Str::slug($description, '-').'-'.time()
+            ]);
+            $allergies[] = $allergie->id;
+        }
+
+        if($request->teleconsultation_id){
+            $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
+            $teleconsultation->motifs()->attach($allergies);
+            return $teleconsultation->motifs;
+        }
         return $this->successResponse($allergie);
 
     }
@@ -71,10 +82,17 @@ class AllergieController extends Controller
      * fonction de validation des formulaires
      */
     public function validation($is_update = null){
-        $rules = [
-            'description' => 'required',
-            'date' => 'required'
-        ];
+        if($is_update){
+            $rules = [
+                'description' => 'required',
+                'date' => 'required'
+            ];
+        }else{
+            $rules = [
+                'description' => 'required|array',
+                'date' => 'required|array'
+            ];
+        }
         return $rules;
     }
 
