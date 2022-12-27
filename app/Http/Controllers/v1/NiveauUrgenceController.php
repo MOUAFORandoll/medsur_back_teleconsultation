@@ -12,11 +12,12 @@ class NiveauUrgenceController extends Controller
 
     public function index(Request $request){
 
-        if($request->search != ""){
+        /* if($request->search != ""){
             $niveau_urgencess = NiveauUrgence::like('valeur', $request->search)->get(['id', 'valeur', 'description']);
         }else{
-            $niveau_urgencess = NiveauUrgence::orderBy('valeur', 'asc')->get(['id', 'valeur', 'description']);
-        }
+           
+        } */
+        $niveau_urgencess = NiveauUrgence::orderBy('valeur', 'asc')->get(['id', 'valeur', 'description']);
 
         return $this->successResponse($niveau_urgencess);
 

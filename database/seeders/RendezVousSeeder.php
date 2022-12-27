@@ -17,7 +17,7 @@ class RendezVousSeeder extends Seeder
     public function run()
     {
       $statuts = [
-        ['valeur' => "Annulé", 'description' => "Annulé"],
+        ['valeur' => "Annulé", 'description' => "annulé pour des raisons déjà envoyées par email"],
         ['valeur' => "Manqué", 'description' => "Manqué"],
         ['valeur' => "Programmé", 'description' => "Programmé"],
         ['valeur' => "Reprogrammé", 'description' => "Reprogrammé"],

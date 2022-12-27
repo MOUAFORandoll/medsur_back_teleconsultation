@@ -12,11 +12,12 @@ class StatutController extends Controller
 
     public function index(Request $request){
 
-        if($request->search != ""){
+       /*  if($request->search != ""){
             $statuts = Statut::like('valeur', $request->search)->get(['id', 'valeur', 'description']);
         }else{
-            $statuts = Statut::orderBy('id', 'asc')->get(['id', 'valeur', 'description']);
-        }
+            
+        } */
+        $statuts = Statut::orderBy('id', 'asc')->get(['id', 'valeur', 'description']);
 
         return $this->successResponse($statuts);
 
