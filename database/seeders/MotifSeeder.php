@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Motif;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -2141,7 +2142,7 @@ class MotifSeeder extends Seeder
 
         foreach($motifs as $motif){
             if($motif != ''){
-                Motif::insert(['id' => $motif['id'], 'description' => $motif['description'], 'slug' => $motif['slug'], 'created_at' => $motif['created_at'], 'updated_at' => $motif['updated_at'], 'deleted_at' => $motif['deleted_at']]);
+                Motif::insert(['id' => $motif['id'], 'description' => $motif['description'], 'slug' => $motif['slug'], 'created_at' => $motif['created_at'] ?? Carbon::now(), 'updated_at' => $motif['updated_at'], 'deleted_at' => $motif['deleted_at']]);
             }
         }
     }

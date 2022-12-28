@@ -59,13 +59,13 @@ class MotifController extends Controller
         }
 
         $motif->save();
-        
+
         return $this->successResponse($motif);
 
     }
 
     public function destroy($motif){
-        
+
         $motif = Motif::findOrFail($motif);
         $motif->delete();
         return $this->successResponse($motif);
@@ -82,8 +82,8 @@ class MotifController extends Controller
                 if(is_null($motif)){
                     $motif = Motif::create([
                         'uuid' => Str::uuid(),
-                        'description' => $request->description,
-                        'slug' => Str::slug($request->description, '-').'-'.time()
+                        'description' => explode("__", $motif_item)[1],
+                        'slug' => Str::slug(explode("__", $motif_item)[1], '-').'-'.time()
                     ]);
                 }
                 $motifs[] = $motif->id;
@@ -94,6 +94,7 @@ class MotifController extends Controller
         if($request->teleconsultation_id){
             $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
             $teleconsultation->motifs()->attach($motifs);
+            $teleconsultation = $teleconsultation->refresh();
             return $teleconsultation->motifs;
         }
         return $motifs;
