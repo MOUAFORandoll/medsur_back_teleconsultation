@@ -114,7 +114,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->post('/', ['uses' => 'MotifController@store']);
         $router->get('/{motif}', ['uses' => 'MotifController@show']);
         $router->patch('/{motif}', ['uses' => 'MotifController@update']);
-        $router->delete('/{motif}', ['uses' => 'MotifController@destroy']);
+        $router->delete('/{relation_id}/{motif}/{relation}', ['uses' => 'MotifController@destroy']);
     });
 
     /**

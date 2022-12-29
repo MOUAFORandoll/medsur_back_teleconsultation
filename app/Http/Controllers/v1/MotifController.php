@@ -64,10 +64,18 @@ class MotifController extends Controller
 
     }
 
-    public function destroy($motif){
+    /**
+     * Summary of destroy
+     * @param mixed $relation_id 
+     * @param mixed $motif
+     * @param mixed $relation 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy($relation_id, $motif, $relation){
 
         $motif = Motif::findOrFail($motif);
-        $motif->delete();
+        $motif->{$relation}()->detach($relation_id);
+        //$motif->delete();
         return $this->successResponse($motif);
     }
 
@@ -93,7 +101,10 @@ class MotifController extends Controller
         }
         if($request->teleconsultation_id){
             $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
-            $teleconsultation->motifs()->attach($motifs);
+            $new_ids = [...$motifs, ...$teleconsultation->motifs()->pluck('id')];
+            $new_ids = array_unique($new_ids);
+            $teleconsultation->motifs()->detach();
+            $teleconsultation->motifs()->sync($new_ids);
             $teleconsultation = $teleconsultation->refresh();
             return $teleconsultation->motifs;
         }
