@@ -70,13 +70,14 @@ class AllergieController extends Controller
         return $this->successResponse($allergie); 
     }
 
-    public function destroy($allergie){
-        
+    public function destroy($relation_id, $allergie, $relation){
         $allergie = Allergie::findOrFail($allergie);
-        $allergie->delete();
+        $allergie->{$relation}()->detach($relation_id);
+        //$allergie->delete();
         return $this->successResponse($allergie);
 
     }
+
 
     /**
      * fonction de validation des formulaires

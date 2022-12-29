@@ -40,7 +40,7 @@ class ExamenComplementaireController extends Controller
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
 
-        $examen_complementaire->types()->sync($request->type_id);
+        //$examen_complementaire->types()->sync($request->type_id);
 
         if($request->teleconsultation_id){
             $examen_complementaire->teleconsultations()->sync($request->teleconsultation_id);
@@ -70,13 +70,23 @@ class ExamenComplementaireController extends Controller
 
     }
 
-    public function destroy($examen_complementaire){
-        
+    public function destroy($relation_id, $examen_complementaire, $relation){
         $examen_complementaire = ExamenComplementaire::findOrFail($examen_complementaire);
-        $examen_complementaire->delete();
+        $examen_complementaire->{$relation}()->detach($relation_id);
+        //$examen_complementaire->delete();
         return $this->successResponse($examen_complementaire);
 
     }
+
+/*     public function destroy($relation_id, $examen_clinique, $relation){
+        
+        $examen_clinique = ExamenClinique::findOrFail($examen_clinique);
+        $examen_clinique->{$relation}()->detach($relation_id);
+        //$examen_clinique->delete();
+        return $this->successResponse($examen_clinique);
+    } */
+
+    
 
     /**
      * fonction de validation des formulaires

@@ -47,7 +47,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->post('/', ['uses' => 'AllergieController@store']);
         $router->get('/{allergie}', ['uses' => 'AllergieController@show']);
         $router->patch('/{allergie}', ['uses' => 'AllergieController@update']);
-        $router->delete('/{allergie}', ['uses' => 'AllergieController@destroy']);
+        $router->delete('/{relation_id}/{allergie}/{relation}', ['uses' => 'AllergieController@destroy']);
     });
 
     /**
@@ -92,7 +92,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->post('/', ['uses' => 'ExamenCliniqueController@store']);
         $router->get('/{examen_clinique}', ['uses' => 'ExamenCliniqueController@show']);
         $router->patch('/{examen_clinique}', ['uses' => 'ExamenCliniqueController@update']);
-        $router->delete('/{examen_clinique}', ['uses' => 'ExamenCliniqueController@destroy']);
+        $router->delete('/{relation_id}/{examen_clinique}/{relation}', ['uses' => 'ExamenCliniqueController@destroy']);
     });
 
     /**
@@ -103,7 +103,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->post('/', ['uses' => 'ExamenComplementaireController@store']);
         $router->get('/{examen_complementaire}', ['uses' => 'ExamenComplementaireController@show']);
         $router->patch('/{examen_complementaire}', ['uses' => 'ExamenComplementaireController@update']);
-        $router->delete('/{examen_complementaire}', ['uses' => 'ExamenComplementaireController@destroy']);
+        $router->delete('/{relation_id}/{examen_complementaire}/{relation}', ['uses' => 'ExamenComplementaireController@destroy']);
     });
 
     /**

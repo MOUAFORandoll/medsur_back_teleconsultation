@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Allergie extends Model
 {
     use HasFactory,  SoftDeletes, Scopes;
-    
+
 
     /**
      * The table associated with the model.

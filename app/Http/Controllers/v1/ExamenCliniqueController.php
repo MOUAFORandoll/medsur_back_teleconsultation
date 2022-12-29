@@ -70,13 +70,14 @@ class ExamenCliniqueController extends Controller
 
     }
 
-    public function destroy($examen_clinique){
+    public function destroy($relation_id, $examen_clinique, $relation){
         
         $examen_clinique = ExamenClinique::findOrFail($examen_clinique);
-        $examen_clinique->delete();
+        $examen_clinique->{$relation}()->detach($relation_id);
+        //$examen_clinique->delete();
         return $this->successResponse($examen_clinique);
-
     }
+
 
     /**
      * fonction de validation des formulaires
