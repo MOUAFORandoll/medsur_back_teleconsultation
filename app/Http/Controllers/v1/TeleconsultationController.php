@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Models\Allergie;
 use App\Models\Motif;
 use App\Models\RendezVous;
 use App\Models\Teleconsultation;
@@ -104,7 +105,7 @@ class TeleconsultationController extends Controller
             $teleconsultation->types()->sync($request->type_teleconsultation_id);
         }
         if(!is_null($request->allergie_id)){
-            $teleconsultation->allergies()->sync($request->allergie_id);
+            $teleconsultation->allergies()->sync($this->assignAllergies($request));
         }
         if(!is_null($request->anamnese_id)){
             $teleconsultation->anamneses()->sync($request->anamnese_id, json_encode(['data' => ['anamnese' => $request->anamnese]]));
@@ -113,8 +114,7 @@ class TeleconsultationController extends Controller
             $teleconsultation->antededents()->sync($request->antededent_id);
         }
         if(!is_null($request->motif_id)){
-            $this->assignToTeleconsultation($request);
-            $teleconsultation->motifs()->sync($request->motif_id);
+            $teleconsultation->motifs()->sync($this->assignMotifs($request));
         }
         if($request->rendezVous){
         // rendezVous
@@ -151,7 +151,7 @@ class TeleconsultationController extends Controller
         return $teleconsultation;
     }
 
-    public function assignToTeleconsultation(Request $request){
+    public function assignMotifs(Request $request){
         $motifs = [];
         foreach($request->motif_id as $motif_item){
             if(str_contains($motif_item, 'item__')){
@@ -173,4 +173,28 @@ class TeleconsultationController extends Controller
         }
         return $motifs;
     }
+
+    public function assignAllergies(Request $request){
+        $allergies = [];
+        foreach($request->allergie_id as $allergie_item){
+            if(str_contains($allergie_item, 'item__')){
+                /**
+                 * on créé une un s'il n'existe pas
+                 */
+                $allergie = Allergie::where("description", explode("__", $allergie_item)[1])->first();
+                if(is_null($allergie)){
+                    $allergie = Allergie::create([
+                        'uuid' => Str::uuid(),
+                        'description' => explode("__", $allergie_item)[1],
+                        'slug' => Str::slug(explode("__", $allergie_item)[1], '-').'-'.time()
+                    ]);
+                }
+                $allergies[] = $allergie->id;
+            }else{
+                $allergies[] = $allergie_item;
+            }
+        }
+        return $allergies;
+    }
+
 }
