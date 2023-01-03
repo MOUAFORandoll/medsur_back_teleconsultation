@@ -19,7 +19,7 @@ class AnamneseController extends Controller
         }else{
             $anamneses = Anamnese::with('types:id,libelle')->latest()->paginate($size);
         }
-        
+
         return $this->successResponse($anamneses);
 
     }
@@ -36,7 +36,7 @@ class AnamneseController extends Controller
         $this->validate($request, $this->validation());
         $anamnese = Anamnese::create([
             'fr_description' => $request->fr_description,
-            'en_description' => $request->en_description,
+            'en_description' => $request->fr_description,
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
         $anamnese->types()->sync($request->type_id);
@@ -50,12 +50,12 @@ class AnamneseController extends Controller
     }
 
     public function update(Request $request, $anamnese){
-        
+
         $this->validate($request, $this->validation());
         $anamnese = Anamnese::findOrFail($anamnese);
         $anamnese = $anamnese->fill([
             'fr_description' => $request->fr_description,
-            'en_description' => $request->en_description
+            'en_description' => $request->fr_description
         ]);
 
         if ($anamnese->isClean()) {
@@ -64,13 +64,13 @@ class AnamneseController extends Controller
 
         $anamnese->save();
         $anamnese->types()->sync($request->type_id);
-        
+
         return $this->successResponse($anamnese);
 
     }
 
     public function destroy($anamnese){
-        
+
         $anamnese = Anamnese::findOrFail($anamnese);
         $anamnese->delete();
         return $this->successResponse($anamnese);
@@ -83,7 +83,7 @@ class AnamneseController extends Controller
     public function validation($is_update = null){
         $rules = [
             'type_id' => 'required',
-            'fr_description' => 'required', 
+            'fr_description' => 'required'
         ];
         return $rules;
     }

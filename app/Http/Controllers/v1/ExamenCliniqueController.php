@@ -14,13 +14,13 @@ class ExamenCliniqueController extends Controller
 
 
         $size = $request->size ?? 25;
-    
+
         if($request->search != ""){
             $examen_cliniques = ExamenClinique::with('types:id,libelle')->like('fr_description', $request->search)->paginate($size);
         }else{
             $examen_cliniques = ExamenClinique::with('types:id,libelle')->latest()->paginate($size);
         }
-        
+
         return $this->successResponse($examen_cliniques);
 
     }
@@ -41,7 +41,7 @@ class ExamenCliniqueController extends Controller
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
         $examen_clinique->types()->sync($request->type_id);
-        
+
         if($request->teleconsultation_id){
             $examen_clinique->teleconsultations()->sync($request->teleconsultation_id);
         }
@@ -51,7 +51,7 @@ class ExamenCliniqueController extends Controller
     }
 
     public function update(Request $request, $examen_clinique){
-        
+
         $this->validate($request, $this->validation());
         $examen_clinique = ExamenClinique::findOrFail($examen_clinique);
         $examen_clinique = $examen_clinique->fill([
@@ -65,13 +65,13 @@ class ExamenCliniqueController extends Controller
 
         $examen_clinique->save();
         $examen_clinique->types()->sync($request->type_id);
-        
+
         return $this->successResponse($examen_clinique);
 
     }
 
     public function destroy($relation_id, $examen_clinique, $relation){
-        
+
         $examen_clinique = ExamenClinique::findOrFail($examen_clinique);
         $examen_clinique->{$relation}()->detach($relation_id);
         //$examen_clinique->delete();
@@ -85,8 +85,8 @@ class ExamenCliniqueController extends Controller
     public function validation($is_update = null){
         $rules = [
             'type_id' => 'required',
-            'fr_description' => 'required', 
-            'en_description' => 'required' 
+            'fr_description' => 'required',
+            'en_description' => 'required'
         ];
         return $rules;
     }
