@@ -46,15 +46,15 @@ class AllergieController extends Controller
 
         if($request->teleconsultation_id){
             $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
-            $teleconsultation->motifs()->attach($allergies);
-            return $teleconsultation->motifs;
+            $teleconsultation->allergies()->attach($allergies);
+            return $teleconsultation->allergies;
         }
         return $this->successResponse($allergie);
 
     }
 
     public function update(Request $request, $allergie){
-        
+
         $this->validate($request, $this->validation());
         $allergie = Allergie::findOrFail($allergie);
         $allergie = $allergie->fill([
