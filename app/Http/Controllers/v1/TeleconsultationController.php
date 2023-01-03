@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Models\Motif;
 use App\Models\RendezVous;
 use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
@@ -112,6 +113,7 @@ class TeleconsultationController extends Controller
             $teleconsultation->antededents()->sync($request->antededent_id);
         }
         if(!is_null($request->motif_id)){
+            $this->assignToTeleconsultation($request);
             $teleconsultation->motifs()->sync($request->motif_id);
         }
         if($request->rendezVous){
@@ -147,5 +149,28 @@ class TeleconsultationController extends Controller
             $teleconsultation->etablissements()->sync($request->etablissement_id);
         }
         return $teleconsultation;
+    }
+
+    public function assignToTeleconsultation(Request $request){
+        $motifs = [];
+        foreach($request->motif_id as $motif_item){
+            if(str_contains($motif_item, 'item__')){
+                /**
+                 * on créé une un s'il n'existe pas
+                 */
+                $motif = Motif::where("description", explode("__", $motif_item)[1])->first();
+                if(is_null($motif)){
+                    $motif = Motif::create([
+                        'uuid' => Str::uuid(),
+                        'description' => explode("__", $motif_item)[1],
+                        'slug' => Str::slug(explode("__", $motif_item)[1], '-').'-'.time()
+                    ]);
+                }
+                $motifs[] = $motif->id;
+            }else{
+                $motifs[] = $motif_item;
+            }
+        }
+        return $motifs;
     }
 }

@@ -20,7 +20,7 @@ class ExamenComplementaireController extends Controller
         }else{
             $examen_complementaires = ExamenComplementaire::with('types:id,libelle')->latest()->paginate($size);
         }
-        
+
         return $this->successResponse($examen_complementaires);
 
     }
@@ -56,7 +56,7 @@ class ExamenComplementaireController extends Controller
 
         $examen_complementaire->save();
         $examen_complementaire->types()->sync($request->type_id);
-        
+
         return $this->successResponse($examen_complementaire);
 
     }
