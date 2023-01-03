@@ -71,5 +71,10 @@ class Type extends Model
         return $this->morphedByMany(Antecedent::class, 'typeable');
     }
 
+    public function examen_cliniques(){
+        return $this->morphedByMany(ExamenClinique::class, 'typeable');
+    }
+
+
 
 }

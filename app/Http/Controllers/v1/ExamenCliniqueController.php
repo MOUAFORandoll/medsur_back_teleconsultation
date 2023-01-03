@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\ExamenClinique;
+use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -35,16 +36,18 @@ class ExamenCliniqueController extends Controller
     public function store(Request $request){
 
         $this->validate($request, $this->validation());
-        $examen_clinique = ExamenClinique::create([
+        /* $examen_clinique = ExamenClinique::create([
             'fr_description' => $request->fr_description,
-            'en_description' => $request->en_description,
+            'en_description' => $request->fr_description,
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]);
         $examen_clinique->types()->sync($request->type_id);
 
         if($request->teleconsultation_id){
             $examen_clinique->teleconsultations()->sync($request->teleconsultation_id);
-        }
+        } */
+
+        $examen_clinique = $this->assignToTeleconsultation($request);
 
         return $this->successResponse($examen_clinique);
 
@@ -84,11 +87,42 @@ class ExamenCliniqueController extends Controller
      */
     public function validation($is_update = null){
         $rules = [
-            'type_id' => 'required',
             'fr_description' => 'required',
-            'en_description' => 'required'
         ];
         return $rules;
+    }
+
+    public function assignToTeleconsultation(Request $request){
+        $examenCliniques = [];
+        foreach($request->fr_description as $description_item){
+            if(str_contains($description_item, 'item__')){
+                /**
+                 * on créé un examen clinique s'il n'existe pas
+                 */
+                $examenClinique = ExamenClinique::where("fr_description", explode("__", $description_item)[1])->first();
+                if(is_null($examenClinique)){
+                    $examenClinique = ExamenClinique::create([
+                        'uuid' => Str::uuid(),
+                        'fr_description' => explode("__", $description_item)[1],
+                        'en_description' => explode("__", $description_item)[1],
+                        'slug' => Str::slug(explode("__", $description_item)[1], '-').'-'.time()
+                    ]);
+                }
+                $examenCliniques[] = $examenClinique->id;
+            }else{
+                $examenCliniques[] = $description_item;
+            }
+        }
+        if($request->teleconsultation_id){
+            $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
+            $new_ids = [...$examenCliniques, ...$teleconsultation->examenCliniques()->pluck('id')];
+            $new_ids = array_unique($new_ids);
+            $teleconsultation->examenCliniques()->detach();
+            $teleconsultation->examenCliniques()->sync($new_ids);
+            $teleconsultation = $teleconsultation->refresh();
+            return $teleconsultation->examenCliniques;
+        }
+        return $examenCliniques;
     }
 
     //
