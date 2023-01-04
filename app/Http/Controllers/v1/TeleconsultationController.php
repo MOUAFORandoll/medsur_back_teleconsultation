@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Allergie;
+use App\Models\ExamenComplementaire;
 use App\Models\Motif;
 use App\Models\RendezVous;
 use App\Models\Teleconsultation;
@@ -143,7 +144,7 @@ class TeleconsultationController extends Controller
             $teleconsultation->examenCliniques()->sync($request->examen_clinique_id);
         }
         if(!is_null($request->examen_complementaire_id)){
-            $teleconsultation->examenComplementaires()->sync($request->examen_complementaire_id);
+            $teleconsultation->examenComplementaires()->sync($this->assignExamenComplementaires($request));
         }
         if(!is_null($request->etablissement_id)){
             $teleconsultation->etablissements()->sync($request->etablissement_id);
@@ -195,6 +196,30 @@ class TeleconsultationController extends Controller
             }
         }
         return $allergies;
+    }
+
+    public function assignExamenComplementaires(Request $request){
+        $examen_complementaires = [];
+        foreach($request->examen_complementaire_id as $examen_item){
+            if(str_contains($examen_item, 'item__')){
+                /**
+                 * on créé une un s'il n'existe pas
+                 */
+                $examen_complementaire = ExamenComplementaire::where("fr_description", explode("__", $examen_item)[1])->first();
+                if(is_null($examen_complementaire)){
+                    $examen_complementaire = ExamenComplementaire::create([
+                        'uuid' => Str::uuid(),
+                        'fr_description' => explode("__", $examen_item)[1],
+                        'prix' => 0,
+                        'slug' => Str::slug(explode("__", $examen_item)[1], '-').'-'.time()
+                    ]);
+                }
+                $examen_complementaires[] = $examen_complementaire->id;
+            }else{
+                $examen_complementaires[] = $examen_item;
+            }
+        }
+        return $examen_complementaires;
     }
 
 }
