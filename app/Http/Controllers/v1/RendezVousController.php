@@ -40,7 +40,7 @@ class RendezVousController extends Controller
             'etablissement_id' => $request->etablissement_id, 
             'ligne_temps_id' => $request->ligne_temps_id, 
             'parent_id' => $request->parent_id, 
-            'statut_id' => $request->statut_id, 
+            'statut_id' => $request->statut_id ?? 6, 
             'sourceable_type' => $request->sourceable_type, 
             'sourceable_id' => $request->sourceable_id, 
             'patient_id' => $request->patient_id, 
