@@ -94,10 +94,11 @@ class ExamenComplementaireController extends Controller
             $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
             $new_ids = [...$examen_complementaires, ...$teleconsultation->examenComplementaires()->pluck('id')];
             $new_ids = array_unique($new_ids);
+
             $teleconsultation->examenComplementaires()->detach();
             $teleconsultation->examenComplementaires()->sync($new_ids);
             $teleconsultation = $teleconsultation->refresh();
-            return $teleconsultation->examen_complementaires;
+            return $teleconsultation->examenComplementaires;
         }
         return $examen_complementaires;
     }
