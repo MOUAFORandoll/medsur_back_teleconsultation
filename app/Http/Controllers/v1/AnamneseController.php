@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Anamnese;
+use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -34,15 +35,24 @@ class AnamneseController extends Controller
     public function store(Request $request){
 
         $this->validate($request, $this->validation());
-        $anamnese = Anamnese::create([
+        /* $anamnese = Anamnese::create([
             'fr_description' => $request->fr_description,
             'en_description' => $request->fr_description,
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
-        ]);
-        $anamnese->types()->sync($request->type_id);
-        if($request->teleconsultation_id){
-            $anamnese->teleconsultations()->sync($request->teleconsultation_id);
-        }
+        ]); */
+        //$anamnese->types()->sync($request->type_id);
+        $anamnese = Anamnese::findOrFail($request->anamnese_id);
+
+           /*  $teleconsultation->anamneses()->detach();
+            $teleconsultation->anamneses()->sync($new_ids);
+            $teleconsultation = $teleconsultation->refresh();
+            return $teleconsultation->anamneses; */
+
+        $anamnese->teleconsultations()->attach($request->teleconsultation_id, json_encode(['data' => ['anamnese' => $request->fr_description]]));
+        
+        /* if(!is_null($request->anamnese_id)){
+            $teleconsultation->anamneses()->sync($request->anamnese_id, json_encode(['data' => ['anamnese' => $request->fr_description]]));
+        } */
 
 
         return $this->successResponse($anamnese);
@@ -82,8 +92,9 @@ class AnamneseController extends Controller
      */
     public function validation($is_update = null){
         $rules = [
-            'type_id' => 'required',
-            'fr_description' => 'required'
+            'anamnese_id' => 'required',
+            'fr_description' => 'required',
+            'teleconsultation_id' => 'required'
         ];
         return $rules;
     }

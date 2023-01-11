@@ -72,7 +72,7 @@ class Anamnese extends Model
 
 
     public function teleconsultations(){
-        return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
+        return $this->morphToMany(Teleconsultation::class, 'teleconsultationable')->withPivot('data');
     }
 
 
