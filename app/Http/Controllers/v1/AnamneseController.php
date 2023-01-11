@@ -41,21 +41,22 @@ class AnamneseController extends Controller
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]); */
         //$anamnese->types()->sync($request->type_id);
-        $anamnese = Anamnese::findOrFail($request->anamnese_id);
+        $teleconsultation = Teleconsultation::findOrFail($request->teleconsultation_id);
+        
 
            /*  $teleconsultation->anamneses()->detach();
             $teleconsultation->anamneses()->sync($new_ids);
             $teleconsultation = $teleconsultation->refresh();
             return $teleconsultation->anamneses; */
 
-        $anamnese->teleconsultations()->attach($request->teleconsultation_id, json_encode(['data' => ['anamnese' => $request->fr_description]]));
+        $teleconsultation->anamneses()->attach($request->anamnese_id, ['data' => json_encode(['anamnese' => $request->fr_description])]);
         
         /* if(!is_null($request->anamnese_id)){
             $teleconsultation->anamneses()->sync($request->anamnese_id, json_encode(['data' => ['anamnese' => $request->fr_description]]));
         } */
 
 
-        return $this->successResponse($anamnese);
+        return $this->successResponse($teleconsultation->load('anamneses'));
 
     }
 

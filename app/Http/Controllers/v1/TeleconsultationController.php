@@ -109,7 +109,8 @@ class TeleconsultationController extends Controller
             $teleconsultation->allergies()->sync($this->assignAllergies($request));
         }
         if(!is_null($request->anamnese_id)){
-            $teleconsultation->anamneses()->sync($request->anamnese_id, json_encode(['data' => ['anamnese' => $request->anamnese]]));
+
+            $teleconsultation->anamneses()->attach($request->anamnese_id, ['data' => json_encode(['anamnese' => $request->anamnese])]);
         }
         if(!is_null($request->antededent_id)){
             $teleconsultation->antededents()->sync($request->antededent_id);
