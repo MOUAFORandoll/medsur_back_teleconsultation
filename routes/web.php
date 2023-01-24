@@ -67,7 +67,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
      */
     $router->group(['prefix' => 'antecedents'], function () use ($router) {
         $router->get('/', ['uses' => 'AntecedentController@index']);
-        $router->get('/patient/{patient_id}', ['uses' => 'AntecedentController@fetchPatientAllergie']);
+        $router->get('/patient/{patient_id}', ['uses' => 'AntecedentController@fetchPatientAntecedent']);
         $router->post('/', ['uses' => 'AntecedentController@store']);
         $router->get('/{antecedent}', ['uses' => 'AntecedentController@show']);
         $router->patch('/{antecedent}', ['uses' => 'AntecedentController@update']);
