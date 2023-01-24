@@ -44,6 +44,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
      */
     $router->group(['prefix' => 'allergies'], function () use ($router) {
         $router->get('/', ['uses' => 'AllergieController@index']);
+        $router->get('/patient/{patient_id}', ['uses' => 'AllergieController@fetchPatientAllergie']);
         $router->post('/', ['uses' => 'AllergieController@store']);
         $router->get('/{allergie}', ['uses' => 'AllergieController@show']);
         $router->patch('/{allergie}', ['uses' => 'AllergieController@update']);
@@ -66,6 +67,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
      */
     $router->group(['prefix' => 'antecedents'], function () use ($router) {
         $router->get('/', ['uses' => 'AntecedentController@index']);
+        $router->get('/patient/{patient_id}', ['uses' => 'AntecedentController@fetchPatientAllergie']);
         $router->post('/', ['uses' => 'AntecedentController@store']);
         $router->get('/{antecedent}', ['uses' => 'AntecedentController@show']);
         $router->patch('/{antecedent}', ['uses' => 'AntecedentController@update']);

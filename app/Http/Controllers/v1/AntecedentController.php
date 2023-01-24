@@ -49,6 +49,15 @@ class AntecedentController extends Controller
 
     }
 
+    public function fetchPatientAntecedent($patient_id) 
+    {
+        $allergies = Antecedent::whereHas('teleconsultations', function ($query) use ($patient_id) {
+            $query->where('patient_id', $patient_id);
+        })->get();
+
+        return $this->successResponse($allergies);
+    }
+
     public function update(Request $request, $antecedent){
         
         $this->validate($request, $this->validation());

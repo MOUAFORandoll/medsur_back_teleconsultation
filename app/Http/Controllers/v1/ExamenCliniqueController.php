@@ -17,7 +17,9 @@ class ExamenCliniqueController extends Controller
         $size = $request->size ?? 25;
 
         if($request->search != ""){
+            \Log::alert("jsdklds sdkld {$request->search}");
             $examen_cliniques = ExamenClinique::with('types:id,libelle')->like('fr_description', $request->search)->paginate($size);
+            \Log::alert($examen_cliniques);
         }else{
             $examen_cliniques = ExamenClinique::with('types:id,libelle')->latest()->paginate($size);
         }

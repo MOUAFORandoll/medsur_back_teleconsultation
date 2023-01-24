@@ -31,6 +31,14 @@ class AllergieController extends Controller
 
     }
 
+    public function fetchPatientAllergie($patient_id){
+        $allergies = Allergie::whereHas('teleconsultations', function ($query) use ($patient_id) {
+            $query->where('patient_id', $patient_id);
+        })->get();
+
+        return $this->successResponse($allergies);
+    }
+
     public function store(Request $request){
         $allergies = [];
         $this->validate($request, $this->validation());

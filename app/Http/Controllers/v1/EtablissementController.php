@@ -18,7 +18,7 @@ class EtablissementController extends Controller
         }else{
             $etablissements = Etablissement::latest()->paginate($size);
         }
-        
+
         return $this->successResponse($etablissements);
 
     }
