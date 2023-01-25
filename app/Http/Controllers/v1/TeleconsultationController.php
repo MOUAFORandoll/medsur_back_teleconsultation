@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Ramsey\Uuid\Uuid;
 
 class TeleconsultationController extends Controller
 {
@@ -24,10 +25,13 @@ class TeleconsultationController extends Controller
     }
 
     public function show($teleconsultation){
-
-        $teleconsultation = Teleconsultation::findOrFail($teleconsultation)->load('allergies', 'anamneses', 'antededents', 'motifs', 'rendezVous', 'examenCliniques', 'examenComplementaires', 'etablissements');
+        if(Uuid::isValid($teleconsultation)){
+            $teleconsultation = Teleconsultation::where('uuid', $teleconsultation)->first();
+        }else{
+            $teleconsultation = Teleconsultation::where('id', $teleconsultation)->first();
+        }
+        $teleconsultation = $teleconsultation->load('allergies', 'anamneses', 'antededents', 'motifs', 'rendezVous', 'examenCliniques', 'examenComplementaires', 'etablissements');
         return $this->successResponse($teleconsultation);
-
     }
 
     public function store(Request $request){
