@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('diagnostics', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
-            $table->integer('code_icd')->nullable();
-            $table->text('name');
+            $table->string('code_icd')->nullable();
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });
