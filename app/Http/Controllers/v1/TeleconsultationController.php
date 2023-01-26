@@ -101,10 +101,10 @@ class TeleconsultationController extends Controller
             'etablissement_id' => 'required',
             'code_icd' => 'required|array',
             'name' => 'required|array',
-            'description' => 'required|array',
+            /* 'description' => 'required|array',
             'type_id' => 'required|array',
             'date' => 'required|array',
-            'dossier_medical_id' => 'required',
+            'dossier_medical_id' => 'required', */
 
         ];
         return $rules;
@@ -191,7 +191,7 @@ class TeleconsultationController extends Controller
                 $antecedent->types()->sync($request->type_id[$key]);
                 $antecedents[] = $antecedent->id;
             }
-            $teleconsultation->antecedents()->sync($antecedents);
+            $teleconsultation->antededents()->sync($antecedents);
         }
         return $teleconsultation;
     }
