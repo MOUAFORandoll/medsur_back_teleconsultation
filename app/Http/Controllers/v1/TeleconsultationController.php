@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Allergie;
+use App\Models\Antecedent;
 use App\Models\Diagnostic;
 use App\Models\ExamenComplementaire;
 use App\Models\Motif;
@@ -99,7 +100,12 @@ class TeleconsultationController extends Controller
             'motif_rdv' => Rule::requiredIf(fn () => $request->rendezVous == true),
             'etablissement_id' => 'required',
             'code_icd' => 'required|array',
-            'name' => 'required|array'
+            'name' => 'required|array',
+            'description' => 'required|array',
+            'type_id' => 'required|array',
+            'date' => 'required|array',
+            'dossier_medical_id' => 'required',
+
         ];
         return $rules;
     }
@@ -170,6 +176,22 @@ class TeleconsultationController extends Controller
             }
             $teleconsultation->diagnostics()->sync($diagnostics);
 
+        }
+        if(!is_null($request->description)){
+            $antecedents = [];
+
+            foreach($request->description as $key => $description){
+                $antecedent = Antecedent::create([
+                    'uuid' => Str::uuid()->toString(),
+                    'dossier_medical_id' => $request->dossier_medical_id,
+                    'description' => $request->description[$key],
+                    'date'=> $request->date[$key],
+                    'slug' => Str::slug($request->description[$key], '-').'-'.time()
+                ]);
+                $antecedent->types()->sync($request->type_id[$key]);
+                $antecedents[] = $antecedent->id;
+            }
+            $teleconsultation->antecedents()->sync($antecedents);
         }
         return $teleconsultation;
     }
