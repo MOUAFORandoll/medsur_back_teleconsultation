@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\Allergie;
+use App\Models\Diagnostic;
 use App\Models\ExamenComplementaire;
 use App\Models\Motif;
 use App\Models\RendezVous;
@@ -95,7 +96,9 @@ class TeleconsultationController extends Controller
             'motif_id' => 'array|required',
             'date_rdv' => Rule::requiredIf(fn () => $request->rendezVous == true),
             'motif_rdv' => Rule::requiredIf(fn () => $request->rendezVous == true),
-            'etablissement_id' => 'required'
+            'etablissement_id' => 'required',
+            'code_icd' => 'required|array',
+            'name' => 'required|array'
         ];
         return $rules;
     }
@@ -153,6 +156,19 @@ class TeleconsultationController extends Controller
         }
         if(!is_null($request->etablissement_id)){
             $teleconsultation->etablissements()->sync($request->etablissement_id);
+        }
+        if(count($request->name) >0){
+            $diagnostics = [];
+            foreach($request->name as $key => $icd){
+                $diagnostic = Diagnostic::create([
+                    'uuid' => Str::uuid()->toString(),
+                    'code_icd' => $request->code_icd[$key],
+                    'name' => $request->name[$key]
+                ]);
+                $diagnostics[] = $diagnostic->id;
+            }
+            $teleconsultation->diagnostics()->sync($diagnostics);
+
         }
         return $teleconsultation;
     }
