@@ -202,7 +202,7 @@ class TeleconsultationController extends Controller
         if(!is_null($request->ordonnance_description)){
             $ordonannce = Ordonnance::create([
                 'description' => $request->ordonnance_description,
-                'date' => $request->ordonnance_date
+                'date' => $request->date_heure
             ]);
             $teleconsultation->ordonannces()->sync($ordonannce);
         }
