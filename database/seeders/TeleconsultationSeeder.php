@@ -51,7 +51,7 @@ class TeleconsultationSeeder extends Seeder
                     $teleconsultation->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
                     $teleconsultation->examenComplementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(7)->get());
                     $teleconsultation->rendezVous()->sync(RendezVous::inRandomOrder()->limit(5)->get());
-                    $teleconsultation->diagnostics(Diagnostic::factory()->count(1)->create());
+                    //$teleconsultation->diagnostics()->sync(Diagnostic::factory()->count(1)->create());
                 }
             }else{
                 $type->teleconsultations()->sync(Teleconsultation::factory()->count(1)->create());
@@ -64,7 +64,7 @@ class TeleconsultationSeeder extends Seeder
                     $teleconsultation->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
                     $teleconsultation->examenComplementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(7)->get());
                     $teleconsultation->rendezVous()->sync(RendezVous::inRandomOrder()->limit(5)->get());
-                    $teleconsultation->diagnostics(Diagnostic::factory()->count(1)->create());
+                    //$teleconsultation->diagnostics()->sync(Diagnostic::factory()->count(1)->create());
                 }
             }
         }
