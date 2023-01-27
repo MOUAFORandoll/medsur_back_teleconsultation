@@ -20,6 +20,7 @@ return new class extends Migration
             $table->bigInteger('creator');
             $table->dateTime('date_heure');
             $table->longText('cat')->nullable();
+            $table->longText('description_diagnostic');
             $table->timestamps();
             $table->softDeletes();
         });

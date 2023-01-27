@@ -33,7 +33,8 @@ class TeleconsultationFactory extends Factory
             'patient_id' => $patients[$patient_id],
             'creator' => $medecin_controles[$medecin_controle_id],
             'date_heure' => Carbon::today()->subDays(rand(0, 365)),
-            'cat' => $this->faker->text
+            'cat' => $this->faker->text,
+            'description_diagnostic' => $this->faker->text,
         ];
     }
 }

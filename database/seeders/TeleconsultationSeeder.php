@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Allergie;
 use App\Models\Anamnese;
 use App\Models\Antecedent;
+use App\Models\Diagnostic;
 use App\Models\Etablissement;
 use App\Models\ExamenClinique;
 use App\Models\ExamenComplementaire;
@@ -50,6 +51,7 @@ class TeleconsultationSeeder extends Seeder
                     $teleconsultation->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
                     $teleconsultation->examenComplementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(7)->get());
                     $teleconsultation->rendezVous()->sync(RendezVous::inRandomOrder()->limit(5)->get());
+                    $teleconsultation->diagnostics(Diagnostic::factory()->count(1)->create());
                 }
             }else{
                 $type->teleconsultations()->sync(Teleconsultation::factory()->count(1)->create());
@@ -62,6 +64,7 @@ class TeleconsultationSeeder extends Seeder
                     $teleconsultation->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
                     $teleconsultation->examenComplementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(7)->get());
                     $teleconsultation->rendezVous()->sync(RendezVous::inRandomOrder()->limit(5)->get());
+                    $teleconsultation->diagnostics(Diagnostic::factory()->count(1)->create());
                 }
             }
         }

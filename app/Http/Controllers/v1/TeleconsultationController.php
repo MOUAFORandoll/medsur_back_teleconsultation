@@ -46,7 +46,8 @@ class TeleconsultationController extends Controller
             'uuid' => Str::uuid()->toString(),
             'creator' => $request->creator,
             'date_heure' => $request->date_heure,
-            'cat' => $request->cat
+            'cat' => $request->cat,
+            'description_diagnostic' => $request->description_diagnostic
         ]);
 
         $teleconsultation = $this->associations($teleconsultation, $request);
@@ -63,7 +64,8 @@ class TeleconsultationController extends Controller
             'patient_id' => $request->patient_id,
             'creator' => $request->creator,
             'date_heure' => $request->date_heure,
-            'cat' => $request->cat
+            'cat' => $request->cat,
+            'description_diagnostic' => $request->description_diagnostic
         ]);
 
         if ($teleconsultation->isClean()) {
@@ -103,6 +105,8 @@ class TeleconsultationController extends Controller
             'etablissement_id' => 'required',
             'code_icd' => 'required|array',
             'name' => 'required|array',
+            'cat' => 'required',
+            'description_diagnostic' => 'required',
             /* 'description' => 'required|array',
             'type_id' => 'required|array',
             'date' => 'required|array',
