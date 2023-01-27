@@ -152,4 +152,25 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{statut}', 'StatutController@destroy');
     });
 
+    /**
+     * CRUD Diagnostic
+     */
+    $router->group(['prefix' => 'diagnostics'], function () use ($router) {
+        $router->get('/', 'DiagnosticController@index');
+        $router->post('/', 'DiagnosticController@store');
+        $router->get('/{diagnostic}', 'DiagnosticController@show');
+        $router->patch('/{diagnostic}', 'DiagnosticController@update');
+        $router->delete('/{diagnostic}', 'DiagnosticController@destroy');
+    });
+
+    /**
+     * CRUD Ordonnance
+     */
+    $router->group(['prefix' => 'ordonnances'], function () use ($router) {
+        $router->get('/', 'OrdonnanceController@index');
+        $router->post('/', 'OrdonnanceController@store');
+        $router->get('/{ordonnance}', 'OrdonnanceController@show');
+        $router->patch('/{ordonnance}', 'OrdonnanceController@update');
+        $router->delete('/{ordonnance}', 'OrdonnanceController@destroy');
+    });
 });

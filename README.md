@@ -40,6 +40,7 @@ php artisan make:migration statuts --create=statuts
 php artisan make:migration rendez_vous --create=rendez_vous
 php artisan make:migration niveau_urgences --create=niveau_urgences
 php artisan make:migration diagnostics --create=diagnostics
+php artisan make:migration ordonnances --create=ordonnances
 
 
 ## 

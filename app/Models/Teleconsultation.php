@@ -128,5 +128,10 @@ class Teleconsultation extends Model
         return $this->morphedByMany(Diagnostic::class, 'teleconsultationable')->latest();
     }
 
+    public function ordonannces(){
+        return $this->morphedByMany(Ordonnance::class, 'teleconsultationable')->latest();
+    }
+
+
 }
 

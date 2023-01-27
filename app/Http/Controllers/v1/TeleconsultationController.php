@@ -7,8 +7,10 @@ use App\Models\Antecedent;
 use App\Models\Diagnostic;
 use App\Models\ExamenComplementaire;
 use App\Models\Motif;
+use App\Models\Ordonnance;
 use App\Models\RendezVous;
 use App\Models\Teleconsultation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -21,7 +23,7 @@ class TeleconsultationController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonannces'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }
@@ -32,7 +34,7 @@ class TeleconsultationController extends Controller
         }else{
             $teleconsultation = Teleconsultation::where('id', $teleconsultation)->first();
         }
-        $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics');
+        $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonannces');
         return $this->successResponse($teleconsultation);
     }
 
@@ -193,6 +195,13 @@ class TeleconsultationController extends Controller
             }
             $teleconsultation->antededents()->sync($antecedents);
         }
+        if(!is_null($request->ordonnance_description)){
+            $ordonannce = Ordonnance::create([
+                'description' => $request->ordonnance_description,
+                'date' => $request->ordonnance_date
+            ]);
+            $teleconsultation->ordonannces()->sync($ordonannce);
+        }
         return $teleconsultation;
     }
 
@@ -231,6 +240,7 @@ class TeleconsultationController extends Controller
                     $allergie = Allergie::create([
                         'uuid' => Str::uuid(),
                         'description' => explode("__", $allergie_item)[1],
+                        'date' => Carbon::now()->format('Y-m-d'),
                         'slug' => Str::slug(explode("__", $allergie_item)[1], '-').'-'.time()
                     ]);
                 }
