@@ -47,7 +47,8 @@ class TeleconsultationController extends Controller
             'creator' => $request->creator,
             'date_heure' => $request->date_heure,
             'cat' => $request->cat,
-            'description_diagnostic' => $request->description_diagnostic
+            'description_diagnostic' => $request->description_diagnostic,
+            'description_examen_clinique' => $request->description_examen_clinique
         ]);
 
         $teleconsultation = $this->associations($teleconsultation, $request);
@@ -65,7 +66,8 @@ class TeleconsultationController extends Controller
             'creator' => $request->creator,
             'date_heure' => $request->date_heure,
             'cat' => $request->cat,
-            'description_diagnostic' => $request->description_diagnostic
+            'description_diagnostic' => $request->description_diagnostic,
+            'description_examen_clinique' => $request->description_examen_clinique
         ]);
 
         if ($teleconsultation->isClean()) {
