@@ -208,6 +208,7 @@ class TeleconsultationController extends Controller
             ]);
             $teleconsultation->ordonnances()->sync($ordonannce);
         }
+        $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances');
         return $teleconsultation;
     }
 
