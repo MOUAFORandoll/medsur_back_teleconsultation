@@ -23,7 +23,7 @@ class TeleconsultationController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonannces'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }
@@ -34,7 +34,7 @@ class TeleconsultationController extends Controller
         }else{
             $teleconsultation = Teleconsultation::where('id', $teleconsultation)->first();
         }
-        $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonannces');
+        $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances');
         return $this->successResponse($teleconsultation);
     }
 
@@ -47,7 +47,8 @@ class TeleconsultationController extends Controller
             'creator' => $request->creator,
             'date_heure' => $request->date_heure,
             'cat' => $request->cat,
-            'description_diagnostic' => $request->description_diagnostic
+            'description_diagnostic' => $request->description_diagnostic,
+            'description_examen_clinique' => $request->description_examen_clinique
         ]);
 
         $teleconsultation = $this->associations($teleconsultation, $request);
@@ -65,7 +66,8 @@ class TeleconsultationController extends Controller
             'creator' => $request->creator,
             'date_heure' => $request->date_heure,
             'cat' => $request->cat,
-            'description_diagnostic' => $request->description_diagnostic
+            'description_diagnostic' => $request->description_diagnostic,
+            'description_examen_clinique' => $request->description_examen_clinique
         ]);
 
         if ($teleconsultation->isClean()) {
@@ -204,8 +206,9 @@ class TeleconsultationController extends Controller
                 'description' => $request->ordonnance_description,
                 'date' => $request->date_heure
             ]);
-            $teleconsultation->ordonannces()->sync($ordonannce);
+            $teleconsultation->ordonnances()->sync($ordonannce);
         }
+        $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances');
         return $teleconsultation;
     }
 

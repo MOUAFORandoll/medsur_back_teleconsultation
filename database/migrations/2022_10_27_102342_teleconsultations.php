@@ -21,6 +21,7 @@ return new class extends Migration
             $table->dateTime('date_heure');
             $table->longText('cat')->nullable();
             $table->longText('description_diagnostic');
+            $table->longText('description_examen_clinique')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

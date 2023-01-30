@@ -35,6 +35,7 @@ class TeleconsultationFactory extends Factory
             'date_heure' => Carbon::today()->subDays(rand(0, 365)),
             'cat' => $this->faker->text,
             'description_diagnostic' => $this->faker->text,
+            'description_examen_clinique' => $this->faker->text
         ];
     }
 }
