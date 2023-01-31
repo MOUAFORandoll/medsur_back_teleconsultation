@@ -49,7 +49,7 @@ class OrdonnanceController extends Controller
         if($request->teleconsultation_id){
             $teleconsultation = Teleconsultation::findorFail($request->teleconsultation_id);
             $teleconsultation->ordonnances()->attach($ordonannce);
-            return $teleconsultation->ordonannce;
+            return $teleconsultation->ordonnances;
         }
         return $this->successResponse($ordonannce);
 
