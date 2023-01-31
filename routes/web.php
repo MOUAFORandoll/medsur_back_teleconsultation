@@ -171,6 +171,6 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->post('/', 'OrdonnanceController@store');
         $router->get('/{ordonnance}', 'OrdonnanceController@show');
         $router->patch('/{ordonnance}', 'OrdonnanceController@update');
-        $router->delete('/{ordonnance}', 'OrdonnanceController@destroy');
+        $router->delete('/{relation_id}/{ordonnance}/{relation}', 'OrdonnanceController@destroy');
     });
 });
