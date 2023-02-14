@@ -42,6 +42,8 @@ php artisan make:migration niveau_urgences --create=niveau_urgences
 php artisan make:migration diagnostics --create=diagnostics
 php artisan make:migration ordonnances --create=ordonnances
 
+php artisan make:migration prescriptions --create=prescriptions
+
 
 ## 
 php artisan ide-helper:models

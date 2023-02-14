@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             ExamenComplementaireSeeder::class,
             EtablissementExamenComplementaireSeeder::class,
             TeleconsultationSeeder::class,
+            OptionFinancementSeeder::class,
+            RaisonPrescriptionSeeder::class,
         ]);
     }
 }

@@ -173,4 +173,26 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->patch('/{ordonnance}', 'OrdonnanceController@update');
         $router->delete('/{relation_id}/{ordonnance}/{relation}', 'OrdonnanceController@destroy');
     });
+
+    /**
+     * CRUD Prescription
+     */
+    $router->group(['prefix' => 'prescriptions'], function () use ($router) {
+        $router->get('/', 'PrescriptionController@index');
+        $router->post('/', 'PrescriptionController@store');
+        $router->get('/{prescription}', 'PrescriptionController@show');
+        $router->patch('/{prescription}', 'PrescriptionController@update');
+        $router->delete('/{prescription}', 'PrescriptionController@destroy');
+    });
+
+    /**
+     * CRUD Examen Analyse
+     */
+    $router->group(['prefix' => 'examen_analyses'], function () use ($router) {
+        $router->get('/', 'ExamenAnalyseController@index');
+        $router->post('/', 'ExamenAnalyseController@store');
+        $router->get('/{examen_analyse}', 'ExamenAnalyseController@show');
+        $router->patch('/{examen_analyse}', 'ExamenAnalyseController@update');
+        $router->delete('/{examen_analyse}', 'ExamenAnalyseController@destroy');
+    });
 });
