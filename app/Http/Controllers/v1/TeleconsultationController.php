@@ -26,7 +26,8 @@ class TeleconsultationController extends Controller
          */
 
         $page_size = $request->page_size ?? 10;
-        $teleconsultations = Teleconsultation::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
+        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }
