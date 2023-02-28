@@ -43,6 +43,7 @@ php artisan make:migration diagnostics --create=diagnostics
 php artisan make:migration ordonnances --create=ordonnances
 
 php artisan make:migration prescriptions --create=prescriptions
+php artisan make:migration medicaments --create=medicaments
 
 
 ## 
@@ -55,3 +56,17 @@ php artisan ide-helper:models
 
 ## access on postgresql
 `docker-compose exec postgresql psql -U postgres`
+
+## seeder modules complémentaires
+
+docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=FormeMedicamenteuseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
+
+docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=RaisonPrescriptionSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=OptionFinancementSeeder
+
+docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder

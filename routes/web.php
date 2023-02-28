@@ -195,4 +195,28 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->patch('/{examen_analyse}', 'ExamenAnalyseController@update');
         $router->delete('/{examen_analyse}', 'ExamenAnalyseController@destroy');
     });
+
+    /**
+     * CRUD Prescription Imagerie
+     */
+    $router->group(['prefix' => 'prescription_imageries'], function () use ($router) {
+        $router->get('/', 'PrescriptionImagerieController@index');
+        $router->post('/', 'PrescriptionImagerieController@store');
+        $router->get('/{prescription_imagerie}', 'PrescriptionImagerieController@show');
+        $router->patch('/{prescription_imagerie}', 'PrescriptionImagerieController@update');
+        $router->delete('/{prescription_imagerie}', 'PrescriptionImagerieController@destroy');
+    });
+
+
+    /**
+     * CRUD Bon Prise En Charge
+     */
+    $router->group(['prefix' => 'bon_prises_en_charges'], function () use ($router) {
+        $router->get('/', 'BonPriseEnChargeController@index');
+        $router->post('/', 'BonPriseEnChargeController@store');
+        $router->get('/{bon_prise_en_charge}', 'BonPriseEnChargeController@show');
+        $router->patch('/{bon_prise_en_charge}', 'BonPriseEnChargeController@update');
+        $router->delete('/{bon_prise_en_charge}', 'BonPriseEnChargeController@destroy');
+    });
+
 });

@@ -16,6 +16,11 @@ return new class extends Migration
         Schema::create('bon_prises_en_charges', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
+            $table->bigInteger('patient_id');
+            $table->bigInteger('creator');
+            $table->bigInteger('ligne_temps_id')->nullable();
+            $table->bigInteger('medecin_id');
+            $table->bigInteger('etablissement_id')->nullable();
             $table->longText('plainte');
             $table->timestamps();
             $table->softDeletes();

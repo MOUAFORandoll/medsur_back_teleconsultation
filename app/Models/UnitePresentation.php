@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 
-class OptionFinancement extends Model
+class UnitePresentation extends Model
 {
     use HasFactory,  SoftDeletes, Scopes;
 
@@ -19,7 +19,7 @@ class OptionFinancement extends Model
      *
      * @var string
      */
-    protected $table = 'option_financements';
+    protected $table = 'unite_presentations';
 
 
     /**
@@ -28,10 +28,5 @@ class OptionFinancement extends Model
      * @var string[]
      */
     protected $fillable = ['uuid', 'libelle'];
-
-
-    public function bon_prise_charge(){
-        return $this->morphedByMany(BonPriseEnCharge::class, 'option_financementable')->latest();
-    }
 
 }

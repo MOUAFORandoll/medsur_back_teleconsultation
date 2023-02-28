@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('raison_financements', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->nullable();
+            $table->string('libelle');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

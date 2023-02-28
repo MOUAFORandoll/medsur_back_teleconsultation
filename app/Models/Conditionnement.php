@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use App\Traits\Scopes;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 
-class OptionFinancement extends Model
+class Conditionnement extends Model
 {
     use HasFactory,  SoftDeletes, Scopes;
 
@@ -19,7 +21,7 @@ class OptionFinancement extends Model
      *
      * @var string
      */
-    protected $table = 'option_financements';
+    protected $table = 'conditionnements';
 
 
     /**
@@ -29,9 +31,9 @@ class OptionFinancement extends Model
      */
     protected $fillable = ['uuid', 'libelle'];
 
-
-    public function bon_prise_charge(){
-        return $this->morphedByMany(BonPriseEnCharge::class, 'option_financementable')->latest();
+    public function medicament(){
+        return $this->hasMany(Medicament::class);
     }
+
 
 }

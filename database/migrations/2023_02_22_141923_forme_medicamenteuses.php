@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('option_financements', function (Blueprint $table) {
+        Schema::create('forme_medicamenteuses', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
+            $table->bigInteger('categorie_medicamenteuse_id');
             $table->string('libelle');
             $table->timestamps();
             $table->softDeletes();
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('option_financements');
+        Schema::dropIfExists('forme_medicamenteuses');
     }
 };

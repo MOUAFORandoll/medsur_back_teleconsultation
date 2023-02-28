@@ -27,26 +27,27 @@ class ExamenAnalyse extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['patient_id', 'ligne_temps_id', 'medecin_id', 'creator', 'etablissement_id', 'option_financement_id', 'raison_prescription_id', 'niveau_urgence_id', 'renseignement_clinique', 'date_heure'];
+    protected $fillable = ['patient_id', 'ligne_temps_id', 'medecin_id', 'creator', 'niveau_urgence_id', 'renseignement_clinique', 'date_heure'];
 
-    public function etablissement(){
-        return $this->belongsTo(Etablissement::class);
+
+    public function etablissements(){
+        return $this->morphedByMany(Etablissement::class, 'examen_analyseable');
     }
 
-    public function option_financement(){
-        return $this->belongsTo(OptionFinancement::class);
+    public function option_financements(){
+        return $this->morphedByMany(OptionFinancement::class, 'examen_analyseable');
     }
 
-    public function raison_prescription(){
-        return $this->belongsTo(OptionFinancement::class);
+    public function raison_prescriptions(){
+        return $this->morphedByMany(OptionFinancement::class, 'examen_analyseable');
+    }
+
+    public function examen_complementaires(){
+        return $this->morphedByMany(ExamenComplementaire::class, 'examen_analyseable');
     }
 
     public function niveau_urgence(){
         return $this->belongsTo(NiveauUrgence::class);
-    }
-
-    public function examen_complementaires(){
-        return $this->morphToMany(ExamenComplementaire::class, 'examen_analyseable');
     }
 
     public function teleconsultations(){

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('option_financements', function (Blueprint $table) {
+        Schema::create('intervalle_de_prises', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
             $table->string('libelle');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('option_financements');
+        Schema::dropIfExists('intervalle_de_prises');
     }
 };

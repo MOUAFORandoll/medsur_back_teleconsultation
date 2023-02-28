@@ -20,8 +20,8 @@ class StatutSeeder extends Seeder
             ['valeur' => "En cours", 'description' => "Nous avons déjà affecté le médecin responsable de cette prise en charge"],
             ['valeur' => "Terminé", 'description' => "La téléconsultation a été fait et le diagnostic posé"]
           ];
-          foreach($statuts as $statut){
-            Statut::create($statut);
-          }
+        foreach($statuts as $statut){
+          Statut::create($statut);
+        }
     }
 }

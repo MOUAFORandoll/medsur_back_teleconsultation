@@ -29,7 +29,7 @@ class BonPriseEnCharge extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['uuid', 'creator', 'medecin_id', 'patient_id', 'plainte'];
+    protected $fillable = ['uuid', 'patient_id', 'creator', 'ligne_temps_id', 'medecin_id', 'niveau_urgence_id', 'plainte'];
 
     public function teleconsultations(){
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
@@ -41,6 +41,22 @@ class BonPriseEnCharge extends Model
 
     public function examen_complementaires(){
         return $this->morphedByMany(ExamenComplementaire::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function etablissements(){
+        return $this->morphedByMany(Etablissement::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function option_financements(){
+        return $this->morphToMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function raison_prescriptions(){
+        return $this->morphToMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function niveau_urgence(){
+        return $this->belongsTo(NiveauUrgence::class);
     }
 
 }
