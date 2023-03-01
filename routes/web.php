@@ -220,4 +220,15 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{bon_prise_en_charge}', 'BonPriseEnChargeController@destroy');
     });
 
+     /**
+     * CRUD Option Financement
+     */
+    $router->group(['prefix' => 'options_financements'], function () use ($router) {
+        $router->get('/', 'OptionFinancementController@index');
+        $router->post('/', 'OptionFinancementController@store');
+        $router->get('/{options_financement}', 'OptionFinancementController@show');
+        $router->patch('/{options_financement}', 'OptionFinancementController@update');
+        $router->delete('/{options_financement}', 'OptionFinancementController@destroy');
+    });
+
 });
