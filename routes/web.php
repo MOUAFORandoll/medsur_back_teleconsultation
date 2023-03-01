@@ -231,4 +231,15 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{options_financement}', 'OptionFinancementController@destroy');
     });
 
+        /**
+     * CRUD RaisonPrescription
+     */
+    $router->group(['prefix' => 'raison_prescriptions'], function () use ($router) {
+        $router->get('/', 'RaisonPrescriptionController@index');
+        $router->post('/', 'RaisonPrescriptionController@store');
+        $router->get('/{raison_prescription}', 'RaisonPrescriptionController@show');
+        $router->patch('/{raison_prescription}', 'RaisonPrescriptionController@update');
+        $router->delete('/{raison_prescription}', 'RaisonPrescriptionController@destroy');
+    });
+
 });
