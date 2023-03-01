@@ -22,12 +22,36 @@ class TeleconsultationController extends Controller
 
     public function index(Request $request){
         /** @var mixed
-         * recuperation des téléconsultations du médécins connectés ou du patient connectés
+         * Recupération de toute les téléconsultations
          */
 
         $page_size = $request->page_size ?? 10;
         // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
         $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+        return $this->successResponse($teleconsultations);
+
+    }
+
+    public function getTeleconsultations(Request $request){
+        /** @var mixed
+         * recuperation des téléconsultations d'un patient spécifiques
+         */
+
+        $page_size = $request->page_size ?? 10;
+        \Log::alert("klsklklsd dsklds sdkl $request->user_id");
+        $teleconsultations = Teleconsultation::where('patient_id', $request->user_id)->with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+        return $this->successResponse($teleconsultations);
+
+    }
+
+    public function getMedecinTeleconsultations(Request $request){
+        /** @var mixed
+         * recuperation des téléconsultations d'un médecin spécifique
+         */
+
+        $page_size = $request->page_size ?? 10;
+        \Log::alert("klsklklsd dsklds sdkl $request->user_id");
+        $teleconsultations = Teleconsultation::where("creator", $request->user_id)->with(['types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
         return $this->successResponse($teleconsultations);
 
     }

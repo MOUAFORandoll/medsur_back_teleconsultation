@@ -16,7 +16,7 @@ class ExamenAnalyseController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $examen_analyses = ExamenAnalyse::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->with(["etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations"])->latest()->paginate($page_size);
+        $examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations"])->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
 

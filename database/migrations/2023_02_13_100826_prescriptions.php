@@ -20,7 +20,6 @@ return new class extends Migration
             $table->bigInteger('creator');
             $table->bigInteger('medecin_id');
             $table->bigInteger('ligne_temps_id')->nullable();
-            $table->bigInteger('medecin_id');
             $table->bigInteger('niveau_urgence_id');
             $table->dateTime('date_heure');
             $table->longText('motif');

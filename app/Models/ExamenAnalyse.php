@@ -27,7 +27,7 @@ class ExamenAnalyse extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['patient_id', 'ligne_temps_id', 'medecin_id', 'creator', 'niveau_urgence_id', 'renseignement_clinique', 'date_heure'];
+    protected $fillable = ['uuid', 'patient_id', 'ligne_temps_id', 'medecin_id', 'creator', 'niveau_urgence_id', 'renseignement_clinique', 'date_heure'];
 
 
     public function etablissements(){
