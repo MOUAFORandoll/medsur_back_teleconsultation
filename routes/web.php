@@ -35,6 +35,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->post('/', ['uses' => 'TeleconsultationController@store']);
         $router->get('/{teleconsultation}', ['uses' => 'TeleconsultationController@show']);
         $router->patch('/{teleconsultation}', ['uses' => 'TeleconsultationController@update']);
+        $router->get('/patient/{teleconsultation}', ['uses' => 'TeleconsultationController@getTeleconsultations']);
         $router->delete('/{teleconsultation}', ['uses' => 'TeleconsultationController@destroy']);
         $router->get('/{patient_id}/{creator}/{created_at}', ['uses' => 'TeleconsultationController@searchTeleconsultation']);
     });
@@ -173,4 +174,72 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->patch('/{ordonnance}', 'OrdonnanceController@update');
         $router->delete('/{relation_id}/{ordonnance}/{relation}', 'OrdonnanceController@destroy');
     });
+
+    /**
+     * CRUD Prescription
+     */
+    $router->group(['prefix' => 'prescriptions'], function () use ($router) {
+        $router->get('/', 'PrescriptionController@index');
+        $router->post('/', 'PrescriptionController@store');
+        $router->get('/{prescription}', 'PrescriptionController@show');
+        $router->patch('/{prescription}', 'PrescriptionController@update');
+        $router->delete('/{prescription}', 'PrescriptionController@destroy');
+    });
+
+    /**
+     * CRUD Examen Analyse
+     */
+    $router->group(['prefix' => 'examen_analyses'], function () use ($router) {
+        $router->get('/', 'ExamenAnalyseController@index');
+        $router->post('/', 'ExamenAnalyseController@store');
+        $router->get('/{examen_analyse}', 'ExamenAnalyseController@show');
+        $router->patch('/{examen_analyse}', 'ExamenAnalyseController@update');
+        $router->delete('/{examen_analyse}', 'ExamenAnalyseController@destroy');
+    });
+
+    /**
+     * CRUD Prescription Imagerie
+     */
+    $router->group(['prefix' => 'prescription_imageries'], function () use ($router) {
+        $router->get('/', 'PrescriptionImagerieController@index');
+        $router->post('/', 'PrescriptionImagerieController@store');
+        $router->get('/{prescription_imagerie}', 'PrescriptionImagerieController@show');
+        $router->patch('/{prescription_imagerie}', 'PrescriptionImagerieController@update');
+        $router->delete('/{prescription_imagerie}', 'PrescriptionImagerieController@destroy');
+    });
+
+
+    /**
+     * CRUD Bon Prise En Charge
+     */
+    $router->group(['prefix' => 'bon_prises_en_charges'], function () use ($router) {
+        $router->get('/', 'BonPriseEnChargeController@index');
+        $router->post('/', 'BonPriseEnChargeController@store');
+        $router->get('/{bon_prise_en_charge}', 'BonPriseEnChargeController@show');
+        $router->patch('/{bon_prise_en_charge}', 'BonPriseEnChargeController@update');
+        $router->delete('/{bon_prise_en_charge}', 'BonPriseEnChargeController@destroy');
+    });
+
+     /**
+     * CRUD Option Financement
+     */
+    $router->group(['prefix' => 'options_financements'], function () use ($router) {
+        $router->get('/', 'OptionFinancementController@index');
+        $router->post('/', 'OptionFinancementController@store');
+        $router->get('/{options_financement}', 'OptionFinancementController@show');
+        $router->patch('/{options_financement}', 'OptionFinancementController@update');
+        $router->delete('/{options_financement}', 'OptionFinancementController@destroy');
+    });
+
+        /**
+     * CRUD RaisonPrescription
+     */
+    $router->group(['prefix' => 'raison_prescriptions'], function () use ($router) {
+        $router->get('/', 'RaisonPrescriptionController@index');
+        $router->post('/', 'RaisonPrescriptionController@store');
+        $router->get('/{raison_prescription}', 'RaisonPrescriptionController@show');
+        $router->patch('/{raison_prescription}', 'RaisonPrescriptionController@update');
+        $router->delete('/{raison_prescription}', 'RaisonPrescriptionController@destroy');
+    });
+
 });
