@@ -13,7 +13,8 @@ class BonPriseEnChargeController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $bon_prise_en_charges = BonPriseEnCharge::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->with(["option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs"])->latest()->paginate($page_size);
+        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
+        $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs"])->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
 

@@ -30,7 +30,8 @@ class DatabaseSeeder extends Seeder
             TeleconsultationSeeder::class,
             OptionFinancementSeeder::class,
             RaisonPrescriptionSeeder::class,
-            ExamenAnalyseSeeder::class
+            ExamenAnalyseSeeder::class,
+            BonPriseEnChargeSeeder::class
         ]);
     }
 }

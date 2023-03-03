@@ -48,11 +48,11 @@ class BonPriseEnCharge extends Model
     }
 
     public function option_financements(){
-        return $this->morphToMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
+        return $this->morphedByMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
     }
 
     public function raison_prescriptions(){
-        return $this->morphToMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
+        return $this->morphedByMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
     }
 
     public function niveau_urgence(){
