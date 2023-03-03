@@ -25,6 +25,8 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
     $router->group(['prefix' => 'types'], function () use ($router) {
         $router->get('/', ['uses' => 'TypeController@index']);
         $router->get('/{type}', ['uses' => 'TypeController@show']);
+        $router->get('/examens/{type}', ['uses' => 'TypeController@getExamens']);
+
     });
 
     /**
