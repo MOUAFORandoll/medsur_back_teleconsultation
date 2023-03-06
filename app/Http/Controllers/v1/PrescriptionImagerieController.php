@@ -13,7 +13,8 @@ class PrescriptionImagerieController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $prescription_imageries = PrescriptionImagerie::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->latest()->paginate($page_size);
+        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
+        $prescription_imageries = PrescriptionImagerie::with(['teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires'])->latest()->paginate($page_size);
         return $this->successResponse($prescription_imageries);
     }
 
@@ -126,6 +127,7 @@ class PrescriptionImagerieController extends Controller
         $rules = [
             'patient_id' => 'required',
             'medecin_id' => 'required',
+            'etablissement_id' => 'required',
             'option_financement_id' => 'required',
             'raison_prescription_id' => 'required',
             'niveau_urgence_id' => 'required',

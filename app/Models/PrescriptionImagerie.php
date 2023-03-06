@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use function PHPUnit\Framework\returnSelf;
 
 class PrescriptionImagerie extends Model
 {
@@ -37,19 +36,19 @@ class PrescriptionImagerie extends Model
     }
 
     public function etablissements(){
-        return $this->morphToMany(Etablissement::class, 'prescription_imagerieable')->latest();
+        return $this->morphedByMany(Etablissement::class, 'prescription_imagerieable')->latest();
     }
 
     public function option_financements(){
-        return $this->morphToMany(OptionFinancement::class, 'prescription_imagerieable')->latest();
+        return $this->morphedByMany(OptionFinancement::class, 'prescription_imagerieable')->latest();
     }
 
     public function raison_prescriptions(){
-        return $this->morphToMany(OptionFinancement::class, 'prescription_imagerieable')->latest();
+        return $this->morphedByMany(OptionFinancement::class, 'prescription_imagerieable')->latest();
     }
 
     public function examen_complementaires(){
-        return $this->morphToMany(ExamenComplementaire::class, 'prescription_imagerieable')->latest();
+        return $this->morphedByMany(ExamenComplementaire::class, 'prescription_imagerieable')->latest();
     }
 
     public function niveau_urgence(){
@@ -59,7 +58,6 @@ class PrescriptionImagerie extends Model
     public function information_supplementaires(){
         return $this->morphedByMany(InformationSupplementaire::class, 'prescription_imagerieable')->latest();
     }
-
 
 
 }
