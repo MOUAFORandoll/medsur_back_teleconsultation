@@ -37,7 +37,6 @@ enum Statut : int {
     }
 
     public static function getStatut(string $label): int {
-        
         switch ($label) {
             case "Annulé":
                 return  Statut::ANNULER->value;

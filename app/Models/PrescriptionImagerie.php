@@ -44,7 +44,7 @@ class PrescriptionImagerie extends Model
     }
 
     public function raison_prescriptions(){
-        return $this->morphedByMany(OptionFinancement::class, 'prescription_imagerieable')->latest();
+        return $this->morphedByMany(RaisonPrescription::class, 'prescription_imagerieable')->latest();
     }
 
     public function examen_complementaires(){
