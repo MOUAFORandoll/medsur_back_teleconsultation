@@ -29,13 +29,13 @@ class ExamenAnalyseFactory extends Factory
         $medecin_controle_id = array_rand($medecin_controles,1);
         return [
             'uuid' => Str::uuid()->toString(),
-            'patient_id' => $patient_id,
+            'patient_id' => $patients[$patient_id],
             //'ligne_temps_id' => '',
-            'medecin_id' => $medecin_controle_id,
-            'creator' => $medecin_controle_id,
+            'medecin_id' => $medecin_controles[$medecin_controle_id],
+            'creator' => $medecin_controles[$medecin_controle_id],
             'niveau_urgence_id' => random_int(1, 4),
             'renseignement_clinique' => $this->faker->text,
-            'date_heure' =>  Carbon::today()->subDays(rand(0, 365))
+            'date_heure' =>  Carbon::today()->subDays(rand(0, 365)),
         ];
 
     }

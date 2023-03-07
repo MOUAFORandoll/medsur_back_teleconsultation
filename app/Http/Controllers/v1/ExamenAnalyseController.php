@@ -122,7 +122,7 @@ class ExamenAnalyseController extends Controller
             'date_heure' => 'required',
             'option_financement_id' => 'required',
             'raison_prescription_id' => 'required',
-            'etablissement_id' => 'required',
+            //'etablissement_id' => 'required',
             'niveau_urgence_id' => 'required',
             'renseignement_clinique' => 'required',
             'examens' => 'required'

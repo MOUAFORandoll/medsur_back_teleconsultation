@@ -6,6 +6,7 @@ use App\Models\BonPriseEnCharge;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class BonPriseEnChargeController extends Controller
 {
@@ -14,14 +15,17 @@ class BonPriseEnChargeController extends Controller
 
         $page_size = $request->page_size ?? 10;
         // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
-        $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs"])->latest()->paginate($page_size);
+        $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations"])->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
 
     public function show($bon_prise_en_charge){
-
-        $bon_prise_en_charge = BonPriseEnCharge::findOrFail($bon_prise_en_charge)->makeHidden(['created_at', 'updated_at', 'deleted_at']);
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs");
+        if(Uuid::isValid($bon_prise_en_charge)){
+            $bon_prise_en_charge = BonPriseEnCharge::where('uuid', $bon_prise_en_charge)->first();
+        }else{
+            $bon_prise_en_charge = BonPriseEnCharge::where('id', $bon_prise_en_charge)->first();
+        }
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations");
         return $this->successResponse($bon_prise_en_charge);
 
     }
