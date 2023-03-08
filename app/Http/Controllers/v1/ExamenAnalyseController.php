@@ -6,6 +6,7 @@ use App\Models\ExamenAnalyse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class ExamenAnalyseController extends Controller
 {
@@ -21,8 +22,11 @@ class ExamenAnalyseController extends Controller
     }
 
     public function show($examen_analyse){
-
-        $examen_analyse = ExamenAnalyse::findOrFail($examen_analyse)->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+        if(Uuid::isValid($examen_analyse)){
+            $examen_analyse = ExamenAnalyse::where('uuid', $examen_analyse)->first();
+        }else{
+            $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
+        }
 
         $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
         return $this->successResponse($examen_analyse);
@@ -122,7 +126,7 @@ class ExamenAnalyseController extends Controller
             'date_heure' => 'required',
             'option_financement_id' => 'required',
             'raison_prescription_id' => 'required',
-            //'etablissement_id' => 'required',
+            'etablissement_id' => 'required',
             'niveau_urgence_id' => 'required',
             'renseignement_clinique' => 'required',
             'examens' => 'required'

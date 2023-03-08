@@ -55,6 +55,10 @@ class BonPriseEnCharge extends Model
         return $this->morphedByMany(RaisonPrescription::class, 'bon_prises_en_chargeable')->latest();
     }
 
+    public function rendezVous(){
+        return $this->morphedByMany(RendezVous::class, 'bon_prises_en_chargeable')->latest();
+    }
+
     public function niveau_urgence(){
         return $this->belongsTo(NiveauUrgence::class);
     }
