@@ -41,7 +41,7 @@ class TeleconsultationSeeder extends Seeder
             $type = Type::where('libelle', $type['libelle'])->first();
             if(is_null($type)){
                 $type = Type::create($type);
-                $type->teleconsultations()->sync(Teleconsultation::factory()->count(10)->create());
+                $type->teleconsultations()->sync(Teleconsultation::factory()->count(1)->create());
                 foreach($type->teleconsultations as $teleconsultation){
                     $teleconsultation->motifs()->sync(Motif::inRandomOrder()->limit(3)->get());
                     $teleconsultation->allergies()->sync(Allergie::inRandomOrder()->limit(3)->get());
@@ -54,7 +54,7 @@ class TeleconsultationSeeder extends Seeder
                     //$teleconsultation->diagnostics()->sync(Diagnostic::factory()->count(1)->create());
                 }
             }else{
-                $type->teleconsultations()->sync(Teleconsultation::factory()->count(10)->create());
+                $type->teleconsultations()->sync(Teleconsultation::factory()->count(1)->create());
                 foreach($type->teleconsultations as $teleconsultation){
                     $teleconsultation->motifs()->sync(Motif::inRandomOrder()->limit(3)->get());
                     $teleconsultation->allergies()->sync(Allergie::inRandomOrder()->limit(3)->get());

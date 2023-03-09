@@ -60,23 +60,23 @@ class Type extends Model
     ];
 
     public function teleconsultations(){
-        return $this->morphedByMany(Teleconsultation::class, 'typeable');
+        return $this->morphedByMany(Teleconsultation::class, 'typeable')->withTrashed();
     }
 
     public function anamneses(){
-        return $this->morphedByMany(Anamnese::class, 'typeable');
+        return $this->morphedByMany(Anamnese::class, 'typeable')->withTrashed();
     }
 
     public function antecedents(){
-        return $this->morphedByMany(Antecedent::class, 'typeable');
+        return $this->morphedByMany(Antecedent::class, 'typeable')->withTrashed();
     }
 
     public function examen_cliniques(){
-        return $this->morphedByMany(ExamenClinique::class, 'typeable');
+        return $this->morphedByMany(ExamenClinique::class, 'typeable')->withTrashed();
     }
 
     public function examen_complementaires(){
-        return $this->morphedByMany(ExamenComplementaire::class, 'typeable');
+        return $this->morphedByMany(ExamenComplementaire::class, 'typeable')->withTrashed();
     }
 
 
