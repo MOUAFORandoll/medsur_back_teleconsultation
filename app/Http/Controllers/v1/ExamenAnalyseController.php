@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\ExamenAnalyse;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -17,7 +18,8 @@ class ExamenAnalyseController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations"])->latest()->paginate($page_size);
+        // "etablissements" , "examen_complementaires", "niveau_urgence", "teleconsultations"
+        $examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
 
@@ -27,6 +29,7 @@ class ExamenAnalyseController extends Controller
         }else{
             $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
         }
+        //$examens = Type::whereHas('')
 
         $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
         return $this->successResponse($examen_analyse);
