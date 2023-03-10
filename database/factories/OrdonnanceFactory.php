@@ -2,18 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\Diagnostic;
+use App\Models\Ordonnance;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class DiagnosticFactory extends Factory
+class OrdonnanceFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Diagnostic::class;
+    protected $model = Ordonnance::class;
 
     /**
      * Define the model's default state.
@@ -24,8 +25,8 @@ class DiagnosticFactory extends Factory
     {
         return [
             'uuid' => Str::uuid()->toString(),
-            'code_icd'=> rand(12, 100000),
-            'name' => $this->faker->text,
+            'date' =>  Carbon::today()->subDays(rand(0, 365)),
+            'description' => $this->faker->text
         ];
     }
 }

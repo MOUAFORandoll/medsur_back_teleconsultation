@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\ExamenAnalyse;
+use App\Models\Ordonnance;
+use App\Models\PrescriptionImagerie;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -29,11 +31,20 @@ class ExamenAnalyseController extends Controller
         }else{
             $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
         }
-        //$examens = Type::whereHas('')
 
         $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
         return $this->successResponse($examen_analyse);
 
+    }
+
+    public function getPatientBulletins($patient_id){
+        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
+        $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
+        $ordonnances = Ordonnance::whereHas('teleconsultations', function($query) use ($patient_id){
+            $query->where('patient_id', $patient_id);
+        })->latest()->get();
+
+        return $this->successResponse(['examen_analyses' => $examen_analyses, 'examen_imageries' => $examen_imageries, 'ordonnances' => $ordonnances]);
     }
 
     public function store(Request $request){

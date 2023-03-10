@@ -15,8 +15,8 @@ class BonPriseEnChargeController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
-        $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous"])->latest()->paginate($page_size);
+        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> , "niveau_urgence",  "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous"
+        $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
 
@@ -26,7 +26,7 @@ class BonPriseEnChargeController extends Controller
         }else{
             $bon_prise_en_charge = BonPriseEnCharge::where('id', $bon_prise_en_charge)->first();
         }
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous", "type_teleconsultations");
         return $this->successResponse($bon_prise_en_charge);
 
     }
@@ -64,6 +64,11 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->motifs()->sync($request->motifs);
         }
 
+        if(!is_null($request->type_teleconsultation_id)){
+            $bon_prise_en_charge->type_teleconsultations()->sync($request->type_teleconsultation_id);
+        }
+
+
         $rendez_vous = RendezVous::create([
             'uuid' => Str::uuid()->toString(),
             'creator' => $request->creator, 
@@ -85,7 +90,7 @@ class BonPriseEnChargeController extends Controller
 
         $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "rendezVous");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "rendezVous", "type_teleconsultations");
 
         return $this->successResponse($bon_prise_en_charge);
 
@@ -125,7 +130,11 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->motifs()->sync($request->motifs);
         }
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs");
+        if(!is_null($request->type_teleconsultation_id)){
+            $bon_prise_en_charge->type_teleconsultations()->sync($request->type_teleconsultation_id);
+        }
+
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "type_teleconsultations");
 
 
         if ($bon_prise_en_charge->isClean()) {
@@ -156,7 +165,8 @@ class BonPriseEnChargeController extends Controller
             'raison_prescription_id' => 'required',
             'niveau_urgence_id' => 'required',
             'plainte' => 'required',
-            'date' => 'required'
+            'date' => 'required',
+            'type_teleconsultation_id' => 'required'
         ];
         return $rules;
     }

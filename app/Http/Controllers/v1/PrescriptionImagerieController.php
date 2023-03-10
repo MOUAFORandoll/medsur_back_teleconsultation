@@ -6,6 +6,7 @@ use App\Models\PrescriptionImagerie;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class PrescriptionImagerieController extends Controller
 {
@@ -14,13 +15,17 @@ class PrescriptionImagerieController extends Controller
 
         $page_size = $request->page_size ?? 10;
         // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
-        $prescription_imageries = PrescriptionImagerie::with(['teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires'])->latest()->paginate($page_size);
+        $prescription_imageries = PrescriptionImagerie::with(['option_financements', 'raison_prescriptions'])->latest()->paginate($page_size);
         return $this->successResponse($prescription_imageries);
     }
 
     public function show($prescription_imagerie){
-
-        $prescription_imagerie = PrescriptionImagerie::findOrFail($prescription_imagerie)->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+        if(Uuid::isValid($prescription_imagerie)){
+            $prescription_imagerie = PrescriptionImagerie::where('uuid', $prescription_imagerie)->first();
+        }else{
+            $prescription_imagerie = PrescriptionImagerie::where('id', $prescription_imagerie)->first();
+        }
+        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires');
         return $this->successResponse($prescription_imagerie);
 
     }
@@ -61,7 +66,7 @@ class PrescriptionImagerieController extends Controller
         if(!is_null($request->information_supplementaires)){
             $prescription_imagerie->information_supplementaires()->sync($request->information_supplementaires);
         }
-
+        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires');
         return $this->successResponse($prescription_imagerie);
 
     }
@@ -108,6 +113,8 @@ class PrescriptionImagerieController extends Controller
         }
 
         $prescription_imagerie->save();
+
+        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires');
 
         return $this->successResponse($prescription_imagerie);
 

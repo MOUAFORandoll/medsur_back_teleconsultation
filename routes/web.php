@@ -197,6 +197,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/{examen_analyse}', 'ExamenAnalyseController@show');
         $router->patch('/{examen_analyse}', 'ExamenAnalyseController@update');
         $router->delete('/{examen_analyse}', 'ExamenAnalyseController@destroy');
+        $router->get('patient/{patient_id}/informations', 'ExamenAnalyseController@getPatientBulletins');
     });
 
     /**

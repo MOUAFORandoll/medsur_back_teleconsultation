@@ -35,6 +35,10 @@ class BonPriseEnCharge extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
+    public function type_teleconsultations(){
+        return $this->morphedByMany(Type::class, 'bon_prises_en_chargeable')->latest();
+    }
+
     public function motifs(){
         return $this->morphedByMany(Motif::class, 'bon_prises_en_chargeable')->latest();
     }
