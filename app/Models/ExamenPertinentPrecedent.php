@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 
-class InformationSupplementaire extends Model
+class ExamenPertinentPrecedent extends Model
 {
     use HasFactory,  SoftDeletes, Scopes;
 
@@ -21,7 +21,7 @@ class InformationSupplementaire extends Model
      *
      * @var string
      */
-    protected $table = 'information_supplementaires';
+    protected $table = 'examen_pertinants';
 
 
     /**
@@ -34,5 +34,6 @@ class InformationSupplementaire extends Model
     public function prescription_imageries(){
         return $this->morphedByMany(PrescriptionImagerie::class, 'prescription_imagerieable');
     }
+
 
 }

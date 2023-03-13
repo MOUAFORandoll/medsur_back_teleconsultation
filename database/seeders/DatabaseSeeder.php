@@ -32,7 +32,9 @@ class DatabaseSeeder extends Seeder
             RaisonPrescriptionSeeder::class,
             ExamenAnalyseSeeder::class,
             BonPriseEnChargeSeeder::class,
-            PrescriptionImagerieSeeder::class
+            PrescriptionImagerieSeeder::class,
+            ExamenPertinentPrecedentSeeder::class,
+            InformationSupplementaireSeeder::class
         ]);
     }
 }

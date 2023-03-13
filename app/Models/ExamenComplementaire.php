@@ -77,4 +77,8 @@ class ExamenComplementaire extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
+    public function examen_analyses(){
+        return $this->morphToMany(ExamenAnalyse::class, 'examen_analyseable')->latest();
+    }
+
 }

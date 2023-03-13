@@ -31,10 +31,21 @@ class ExamenAnalyseController extends Controller
         }else{
             $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
         }
+        $types = Type::whereHas("examen_complementaires.examen_analyses", function($query) use ($examen_analyse){
+            $query->where('id', $examen_analyse->id);
+        })->get();
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("examen_analyses", function($query) use ($examen_analyse){
+                $query->where('id', $examen_analyse->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
 
         $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
+        $examen_analyse->type_examens = $examen_complementaires;
         return $this->successResponse($examen_analyse);
-
     }
 
     public function getPatientBulletins($patient_id){

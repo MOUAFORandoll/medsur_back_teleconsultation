@@ -44,6 +44,7 @@ php artisan make:migration ordonnances --create=ordonnances
 
 php artisan make:migration prescriptions --create=prescriptions
 php artisan make:migration medicaments --create=medicaments
+php artisan make:migration examen_pertinants --create=examen_pertinants
 
 
 ## 
