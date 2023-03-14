@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Etablissement;
 use App\Models\ExamenComplementaire;
+use App\Models\ExamenPertinentPrecedent;
 use App\Models\InformationSupplementaire;
 use App\Models\OptionFinancement;
 use App\Models\PrescriptionImagerie;
@@ -28,6 +29,7 @@ class PrescriptionImagerieSeeder extends Seeder
             $examen->examen_complementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(10)->get());
             $examen->teleconsultations()->sync(Teleconsultation::inRandomOrder()->limit(1)->get());
             $examen->information_supplementaires()->sync(InformationSupplementaire::inRandomOrder()->limit(1)->get());
+            $examen->examens_pertinents()->sync(ExamenPertinentPrecedent::inRandomOrder()->limit(2)->get());
         }
     }
 }
