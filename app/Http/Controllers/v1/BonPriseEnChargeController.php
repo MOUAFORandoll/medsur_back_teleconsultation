@@ -26,7 +26,7 @@ class BonPriseEnChargeController extends Controller
         }else{
             $bon_prise_en_charge = BonPriseEnCharge::where('id', $bon_prise_en_charge)->first();
         }
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous", "type_teleconsultations");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
         return $this->successResponse($bon_prise_en_charge);
 
     }
@@ -68,6 +68,18 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->type_teleconsultations()->sync($request->type_teleconsultation_id);
         }
 
+        if(!is_null($request->examens_analyses)){
+            $bon_prise_en_charge->examens_analyses()->sync($request->examens_analyses);
+        }
+
+        if(!is_null($request->ordonnances)){
+            $bon_prise_en_charge->ordonnances()->sync($request->ordonnances);
+        }
+
+        if(!is_null($request->examens_imageries)){
+            $bon_prise_en_charge->examens_imageries()->sync($request->examens_imageries);
+        }
+
 
         $rendez_vous = RendezVous::create([
             'uuid' => Str::uuid()->toString(),
@@ -90,7 +102,7 @@ class BonPriseEnChargeController extends Controller
 
         $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "rendezVous", "type_teleconsultations");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
 
         return $this->successResponse($bon_prise_en_charge);
 
@@ -134,7 +146,19 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->type_teleconsultations()->sync($request->type_teleconsultation_id);
         }
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "type_teleconsultations");
+        if(!is_null($request->examens_analyses)){
+            $bon_prise_en_charge->examens_analyses()->sync($request->examens_analyses);
+        }
+
+        if(!is_null($request->ordonnances)){
+            $bon_prise_en_charge->ordonnances()->sync($request->ordonnances);
+        }
+
+        if(!is_null($request->examens_imageries)){
+            $bon_prise_en_charge->examens_imageries()->sync($request->examens_imageries);
+        }
+
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
 
 
         if ($bon_prise_en_charge->isClean()) {

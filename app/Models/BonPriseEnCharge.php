@@ -59,6 +59,18 @@ class BonPriseEnCharge extends Model
         return $this->morphedByMany(RaisonPrescription::class, 'bon_prises_en_chargeable')->latest();
     }
 
+    public function examens_analyses(){
+        return $this->morphedByMany(ExamenAnalyse::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function ordonnances(){
+        return $this->morphedByMany(Ordonnance::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function examens_imageries(){
+        return $this->morphedByMany(PrescriptionImagerie::class, 'bon_prises_en_chargeable')->latest();
+    }
+
     public function rendezVous(){
         return $this->morphedByMany(RendezVous::class, 'bon_prises_en_chargeable')->latest();
     }
