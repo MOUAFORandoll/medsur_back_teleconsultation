@@ -81,4 +81,9 @@ class ExamenComplementaire extends Model
         return $this->morphToMany(ExamenAnalyse::class, 'examen_analyseable')->latest();
     }
 
+    public function prescription_imageries(){
+        return $this->morphToMany(PrescriptionImagerie::class, 'prescription_imagerieable')->latest();
+    }
+
+
 }

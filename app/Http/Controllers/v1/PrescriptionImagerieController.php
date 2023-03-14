@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\PrescriptionImagerie;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -25,7 +26,21 @@ class PrescriptionImagerieController extends Controller
         }else{
             $prescription_imagerie = PrescriptionImagerie::where('id', $prescription_imagerie)->first();
         }
+
+        $types = Type::whereHas("examen_complementaires.prescription_imageries", function($query) use ($prescription_imagerie){
+            $query->where('id', $prescription_imagerie->id);
+        })->get();
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("prescription_imageries", function($query) use ($prescription_imagerie){
+                $query->where('id', $prescription_imagerie->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
+
         $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires', 'examens_pertinents');
+        $prescription_imagerie->type_examens = $examen_complementaires;
         return $this->successResponse($prescription_imagerie);
 
     }
