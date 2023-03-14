@@ -25,7 +25,7 @@ class PrescriptionImagerieController extends Controller
         }else{
             $prescription_imagerie = PrescriptionImagerie::where('id', $prescription_imagerie)->first();
         }
-        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires');
+        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires', 'examens_pertinents');
         return $this->successResponse($prescription_imagerie);
 
     }
@@ -66,7 +66,12 @@ class PrescriptionImagerieController extends Controller
         if(!is_null($request->information_supplementaires)){
             $prescription_imagerie->information_supplementaires()->sync($request->information_supplementaires);
         }
-        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires');
+
+        if(!is_null($request->examens_pertinents)){
+            $prescription_imagerie->examens_pertinents()->sync($request->examens_pertinents);
+        }
+
+        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires', 'examens_pertinents');
         return $this->successResponse($prescription_imagerie);
 
     }
@@ -107,6 +112,9 @@ class PrescriptionImagerieController extends Controller
         if(!is_null($request->information_supplementaires)){
             $prescription_imagerie->information_supplementaires()->sync($request->information_supplementaires);
         }
+        if(!is_null($request->examens_pertinents)){
+            $prescription_imagerie->examens_pertinents()->sync($request->examens_pertinents);
+        }
 
         if ($prescription_imagerie->isClean()) {
             return $this->errorResponse("aucune valeur n'a été mise à jour", Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -114,7 +122,7 @@ class PrescriptionImagerieController extends Controller
 
         $prescription_imagerie->save();
 
-        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires');
+        $prescription_imagerie = $prescription_imagerie->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'examen_complementaires', 'information_supplementaires', 'examens_pertinents');
 
         return $this->successResponse($prescription_imagerie);
 
@@ -141,7 +149,9 @@ class PrescriptionImagerieController extends Controller
             'renseignement_clinique' => 'required',
             'information_clinique' => 'required',
             'explication_demande_diagnostic' => 'required',
-            'date_heure' => 'required'
+            'date_heure' => 'required',
+            'examens_pertinents' => 'required',
+            'information_supplementaires' => 'required'
         ];
         return $rules;
     }

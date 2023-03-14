@@ -266,7 +266,4 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->patch('/{examen_pertinent}', 'InformationSupplementaireController@update');
         $router->delete('/{examen_pertinent}', 'InformationSupplementaireController@destroy');
     });
-
-
-
 });

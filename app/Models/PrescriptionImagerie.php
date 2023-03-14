@@ -59,5 +59,9 @@ class PrescriptionImagerie extends Model
         return $this->morphedByMany(InformationSupplementaire::class, 'prescription_imagerieable')->latest();
     }
 
+    public function examens_pertinents(){
+        return $this->morphedByMany(ExamenPertinentPrecedent::class, 'prescription_imagerieable')->latest();
+    }
+
 
 }
