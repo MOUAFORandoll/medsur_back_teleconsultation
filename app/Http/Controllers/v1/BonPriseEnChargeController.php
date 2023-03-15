@@ -112,9 +112,9 @@ class BonPriseEnChargeController extends Controller
             'praticien_id' => $request->praticien_id, 
             'initiateur' => $request->initiateur, 
             'nom_medecin' => $request->nom_medecin, 
-            'motifs' => $request->plainte, 
+            'motifs' => $request->motifRdv, 
             'date' => $request->date,
-            'slug' => Str::slug($request->plainte, '-').'-'.time()
+            'slug' => Str::slug($request->motifRdv, '-').'-'.time()
         ]);
 
         $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
@@ -177,6 +177,10 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->type_teleconsultations()->sync($request->type_teleconsultation_id);
         }
 
+        if(!is_null($request->teleconsultation_id)){
+            $bon_prise_en_charge->teleconsultations()->sync($request->teleconsultation_id);
+        }
+
         if(!is_null($request->examens_analyses)){
             $bon_prise_en_charge->examens_analyses()->sync($request->examens_analyses);
         }
@@ -234,7 +238,7 @@ class BonPriseEnChargeController extends Controller
             'raison_prescription_id' => 'required',
             'niveau_urgence_id' => 'required',
             'plainte' => 'required',
-            'date' => 'required',
+            //'date' => 'required',
             'type_teleconsultation_id' => 'required'
         ];
         return $rules;
