@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\BonPriseEnCharge;
 use App\Models\RendezVous;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -15,7 +16,7 @@ class BonPriseEnChargeController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> , "niveau_urgence",  "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous"
+        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> , "niveau_urgence",  "etablissements", "motifs", "teleconsultations", "rendezVous"
         $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
@@ -26,7 +27,23 @@ class BonPriseEnChargeController extends Controller
         }else{
             $bon_prise_en_charge = BonPriseEnCharge::where('id', $bon_prise_en_charge)->first();
         }
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "teleconsultations", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
+
+
+        $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+            $query->where('id', $bon_prise_en_charge->id);
+        })->get();
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+                $query->where('id', $bon_prise_en_charge->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
+
+        $bon_prise_en_charge->type_examens = $examen_complementaires;
+
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "motifs", "teleconsultations", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
         return $this->successResponse($bon_prise_en_charge);
 
     }
@@ -102,7 +119,21 @@ class BonPriseEnChargeController extends Controller
 
         $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
+        $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+            $query->where('id', $bon_prise_en_charge->id);
+        })->get();
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+                $query->where('id', $bon_prise_en_charge->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
+
+        $bon_prise_en_charge->type_examens = $examen_complementaires;
+
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
 
         return $this->successResponse($bon_prise_en_charge);
 
@@ -158,7 +189,21 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->examens_imageries()->sync($request->examens_imageries);
         }
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "examen_complementaires", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
+        $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+            $query->where('id', $bon_prise_en_charge->id);
+        })->get();
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+                $query->where('id', $bon_prise_en_charge->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
+
+        $bon_prise_en_charge->type_examens = $examen_complementaires;
+
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
 
 
         if ($bon_prise_en_charge->isClean()) {
