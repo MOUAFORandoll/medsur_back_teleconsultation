@@ -130,6 +130,8 @@ class ExamenAnalyseController extends Controller
 
         $examen_analyse->save();
 
+        $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
+
         return $this->successResponse($examen_analyse);
 
     }
