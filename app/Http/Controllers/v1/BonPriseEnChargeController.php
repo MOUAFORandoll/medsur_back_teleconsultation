@@ -85,6 +85,10 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->type_teleconsultations()->sync($request->type_teleconsultation_id);
         }
 
+        if(!is_null($request->teleconsultation_id)){
+            $bon_prise_en_charge->teleconsultations()->sync($request->teleconsultation_id);
+        }
+
         if(!is_null($request->examens_analyses)){
             $bon_prise_en_charge->examens_analyses()->sync($request->examens_analyses);
         }
@@ -133,7 +137,7 @@ class BonPriseEnChargeController extends Controller
 
         $bon_prise_en_charge->type_examens = $examen_complementaires;
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries", "teleconsultations");
 
         return $this->successResponse($bon_prise_en_charge);
 
@@ -211,7 +215,7 @@ class BonPriseEnChargeController extends Controller
 
         $bon_prise_en_charge->type_examens = $examen_complementaires;
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries", "teleconsultations");
 
 
         if ($bon_prise_en_charge->isClean()) {
@@ -243,7 +247,8 @@ class BonPriseEnChargeController extends Controller
             'niveau_urgence_id' => 'required',
             'plainte' => 'required',
             //'date' => 'required',
-            'type_teleconsultation_id' => 'required'
+            'type_teleconsultation_id' => 'required',
+            'teleconsultation_id' => 'required'
         ];
         return $rules;
     }
