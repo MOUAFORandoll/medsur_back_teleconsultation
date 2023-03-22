@@ -96,7 +96,11 @@ class ExamenAnalyseController extends Controller
     public function update(Request $request, $examen_analyse){
 
         $this->validate($request, $this->validation());
-        $examen_analyse = ExamenAnalyse::findOrFail($examen_analyse);
+        if(Uuid::isValid($examen_analyse)){
+            $examen_analyse = ExamenAnalyse::where('uuid', $examen_analyse)->first();
+        }else{
+            $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
+        }
         $examen_analyse = $examen_analyse->fill([
             'creator' => $request->creator,
             'medecin_id' => $request->medecin_id,

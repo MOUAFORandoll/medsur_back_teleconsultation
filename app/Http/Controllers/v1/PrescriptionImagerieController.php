@@ -94,7 +94,11 @@ class PrescriptionImagerieController extends Controller
     public function update(Request $request, $prescription_imagerie){
 
         $this->validate($request, $this->validation());
-        $prescription_imagerie = PrescriptionImagerie::findOrFail($prescription_imagerie);
+        if(Uuid::isValid($prescription_imagerie)){
+            $prescription_imagerie = PrescriptionImagerie::where('uuid', $prescription_imagerie)->first();
+        }else{
+            $prescription_imagerie = PrescriptionImagerie::where('id', $prescription_imagerie)->first();
+        }
         $prescription_imagerie = $prescription_imagerie->fill([
             'patient_id' => $request->patient_id,
             'creator' => $request->creator,

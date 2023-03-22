@@ -142,7 +142,11 @@ class BonPriseEnChargeController extends Controller
     public function update(Request $request, $bon_prise_en_charge){
 
         $this->validate($request, $this->validation());
-        $bon_prise_en_charge = BonPriseEnCharge::findOrFail($bon_prise_en_charge);
+        if(Uuid::isValid($bon_prise_en_charge)){
+            $bon_prise_en_charge = BonPriseEnCharge::where('uuid', $bon_prise_en_charge)->first();
+        }else{
+            $bon_prise_en_charge = BonPriseEnCharge::where('id', $bon_prise_en_charge)->first();
+        }
         $bon_prise_en_charge = $bon_prise_en_charge->fill([
             'uuid' => Str::uuid()->toString(),
             'creator' => $request->creator,
