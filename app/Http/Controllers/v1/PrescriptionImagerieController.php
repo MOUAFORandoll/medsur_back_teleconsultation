@@ -105,7 +105,7 @@ class PrescriptionImagerieController extends Controller
             'ligne_temps_id' => $request->ligne_temps_id,
             'medecin_id' => $request->medecin_id,
             'niveau_urgence_id' => $request->niveau_urgence_id,
-            'renseignement_clinique' => $request->renseignement_clinique,
+            'renseignement_clinique' => $request->renseignement_clinique ?? "merci",
             'information_clinique' => $request->information_clinique,
             'explication_demande_diagnostic' => $request->explication_demande_diagnostic,
             'autre' => $request->autre,
