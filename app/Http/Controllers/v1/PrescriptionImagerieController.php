@@ -135,9 +135,9 @@ class PrescriptionImagerieController extends Controller
             $prescription_imagerie->examens_pertinents()->sync($request->examens_pertinents);
         }
 
-        if ($prescription_imagerie->isClean()) {
+        /* if ($prescription_imagerie->isClean()) {
             return $this->errorResponse("aucune valeur n'a été mise à jour", Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
+        } */
 
         $prescription_imagerie->save();
 
