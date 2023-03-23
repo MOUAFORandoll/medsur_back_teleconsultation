@@ -201,7 +201,7 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->examens_imageries()->sync($request->examens_imageries);
         }
 
-        $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
+        /* $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
             $query->where('id', $bon_prise_en_charge->id);
         })->get();
         $examen_complementaires = collect();
@@ -213,7 +213,7 @@ class BonPriseEnChargeController extends Controller
             $examen_complementaires->push($item);
         }
 
-        $bon_prise_en_charge->type_examens = $examen_complementaires;
+        $bon_prise_en_charge->type_examens = $examen_complementaires; */
 
         $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries", "teleconsultations");
 
