@@ -43,7 +43,7 @@ class BonPriseEnChargeController extends Controller
 
         $bon_prise_en_charge->type_examens = $examen_complementaires;
 
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "motifs", "teleconsultations", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
+        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "niveau_urgence", "raison_prescriptions", "etablissements", "motifs", "teleconsultations.motifs:id,description", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries");
         return $this->successResponse($bon_prise_en_charge);
 
     }
@@ -101,43 +101,28 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->examens_imageries()->sync($request->examens_imageries);
         }
 
-
-        $rendez_vous = RendezVous::create([
-            'uuid' => Str::uuid()->toString(),
-            'creator' => $request->creator, 
-            'consultation_id' => $request->type_teleconsultation_id, 
-            'etablissement_id' => $request->etablissement_id, 
-            'ligne_temps_id' => $request->ligne_temps_id, 
-            'parent_id' => $request->parent_id, 
-            'statut_id' => $request->statut_id ?? 6, 
-            'sourceable_type' => $request->sourceable_type, 
-            'sourceable_id' => $request->sourceable_id, 
-            'patient_id' => $request->patient_id, 
-            'praticien_id' => $request->praticien_id, 
-            'initiateur' => $request->initiateur, 
-            'nom_medecin' => $request->nom_medecin, 
-            'motifs' => $request->motifRdv, 
-            'date' => $request->date,
-            'slug' => Str::slug($request->motifRdv, '-').'-'.time()
-        ]);
-
-        $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
-
-        /* $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
-            $query->where('id', $bon_prise_en_charge->id);
-        })->get();
-        $examen_complementaires = collect();
-        foreach($types as $type){
-            $item = $type;
-            $item->examen_complementaires = $type->examen_complementaires()->whereHas("bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
-                $query->where('id', $bon_prise_en_charge->id);
-            })->get(['id', "fr_description", "prix"]);
-            $examen_complementaires->push($item);
+        if(!is_null($request->motifRdv)){
+            $rendez_vous = RendezVous::create([
+                'uuid' => Str::uuid()->toString(),
+                'creator' => $request->creator, 
+                'consultation_id' => $request->type_teleconsultation_id, 
+                'etablissement_id' => $request->etablissement_id, 
+                'ligne_temps_id' => $request->ligne_temps_id, 
+                'parent_id' => $request->parent_id, 
+                'statut_id' => $request->statut_id ?? 6, 
+                'sourceable_type' => $request->sourceable_type, 
+                'sourceable_id' => $request->sourceable_id, 
+                'patient_id' => $request->patient_id, 
+                'praticien_id' => $request->praticien_id ?? $request->creator, 
+                'initiateur' => $request->initiateur, 
+                'nom_medecin' => $request->nom_medecin, 
+                'motifs' => $request->motifRdv, 
+                'date' => $request->date,
+                'slug' => Str::slug($request->motifRdv, '-').'-'.time()
+            ]);
+            $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
         }
 
-        $bon_prise_en_charge->type_examens = $examen_complementaires; */
-
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "rendezVous", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries", "teleconsultations");
 
         return $this->successResponse($bon_prise_en_charge);
 
@@ -201,26 +186,54 @@ class BonPriseEnChargeController extends Controller
             $bon_prise_en_charge->examens_imageries()->sync($request->examens_imageries);
         }
 
-        /* $types = Type::whereHas("examen_complementaires.bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
-            $query->where('id', $bon_prise_en_charge->id);
-        })->get();
-        $examen_complementaires = collect();
-        foreach($types as $type){
-            $item = $type;
-            $item->examen_complementaires = $type->examen_complementaires()->whereHas("bon_prise_en_charges", function($query) use ($bon_prise_en_charge){
-                $query->where('id', $bon_prise_en_charge->id);
-            })->get(['id', "fr_description", "prix"]);
-            $examen_complementaires->push($item);
-        }
-
-        $bon_prise_en_charge->type_examens = $examen_complementaires; */
-
-        $bon_prise_en_charge = $bon_prise_en_charge->load("option_financements", "raison_prescriptions", "etablissements", "motifs", "type_teleconsultations", "examens_analyses", "ordonnances", "examens_imageries", "teleconsultations");
-
-
-        if ($bon_prise_en_charge->isClean()) {
+        /* if ($bon_prise_en_charge->isClean()) {
             return $this->errorResponse("aucune valeur n'a été mise à jour", Response::HTTP_UNPROCESSABLE_ENTITY);
+        } */
+
+        if(!is_null($request->motifRdv)){
+            if($bon_prise_en_charge->rendezVous->count() > 0){
+                $rendez_vous = $bon_prise_en_charge->rendezVous->first();
+                $rendez_vous->update([
+                    'creator' => $request->creator, 
+                    'consultation_id' => $request->type_teleconsultation_id, 
+                    'etablissement_id' => $request->etablissement_id, 
+                    'ligne_temps_id' => $request->ligne_temps_id, 
+                    'parent_id' => $request->parent_id, 
+                    'statut_id' => $request->statut_id ?? 6, 
+                    'sourceable_type' => $request->sourceable_type, 
+                    'sourceable_id' => $request->sourceable_id, 
+                    'patient_id' => $request->patient_id, 
+                    'praticien_id' => $request->praticien_id ?? $request->creator, 
+                    'initiateur' => $request->initiateur, 
+                    'nom_medecin' => $request->nom_medecin, 
+                    'motifs' => $request->motifRdv, 
+                    'date' => $request->date,
+                    'slug' => Str::slug($request->motifRdv, '-').'-'.time()
+                ]);
+            }else{
+                $rendez_vous = RendezVous::create([
+                    'uuid' => Str::uuid()->toString(),
+                    'creator' => $request->creator, 
+                    'consultation_id' => $request->type_teleconsultation_id, 
+                    'etablissement_id' => $request->etablissement_id, 
+                    'ligne_temps_id' => $request->ligne_temps_id, 
+                    'parent_id' => $request->parent_id, 
+                    'statut_id' => $request->statut_id ?? 6, 
+                    'sourceable_type' => $request->sourceable_type, 
+                    'sourceable_id' => $request->sourceable_id, 
+                    'patient_id' => $request->patient_id, 
+                    'praticien_id' => $request->praticien_id ?? $request->creator, 
+                    'initiateur' => $request->initiateur, 
+                    'nom_medecin' => $request->nom_medecin, 
+                    'motifs' => $request->motifRdv, 
+                    'date' => $request->date,
+                    'slug' => Str::slug($request->motifRdv, '-').'-'.time()
+                ]);
+                $bon_prise_en_charge->rendezVous()->sync($rendez_vous->id);
+            }
         }
+
+
 
         $bon_prise_en_charge->save();
 
