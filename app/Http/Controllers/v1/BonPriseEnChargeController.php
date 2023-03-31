@@ -16,8 +16,15 @@ class BonPriseEnChargeController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
+
+        $search = $request->search;
+        $bon_prise_en_charges = BonPriseEnCharge::query();
+        if($search != ""){
+            $bon_prise_en_charges = $bon_prise_en_charges->where('id', 'LIKE', "%$search%");
+        }
+
         // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> , "niveau_urgence",  "etablissements", "motifs", "teleconsultations", "rendezVous"
-        $bon_prise_en_charges = BonPriseEnCharge::with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
+        $bon_prise_en_charges = $bon_prise_en_charges->with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
 

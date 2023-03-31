@@ -15,8 +15,14 @@ class PrescriptionImagerieController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
-        $prescription_imageries = PrescriptionImagerie::with(['option_financements', 'raison_prescriptions'])->latest()->paginate($page_size);
+
+        $search = $request->search;
+        $prescription_imageries = PrescriptionImagerie::query();
+        if($search != ""){
+            $prescription_imageries = $prescription_imageries->where('id', 'LIKE', "%$search%");
+        }
+
+        $prescription_imageries = $prescription_imageries->with(['option_financements', 'raison_prescriptions'])->latest()->paginate($page_size);
         return $this->successResponse($prescription_imageries);
     }
 
