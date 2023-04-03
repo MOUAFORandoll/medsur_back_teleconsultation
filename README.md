@@ -72,5 +72,11 @@ docker-compose exec teleconsultation php artisan db:seed --class=OptionFinanceme
 docker-compose exec teleconsultation php artisan db:seed --class=BonPriseEnChargeSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionImagerieSeeder
 
+
+
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_04_03_094503_add_description_to_types_table.php
+
+
+docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder
