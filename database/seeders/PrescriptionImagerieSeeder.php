@@ -3,15 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\Etablissement;
-use App\Models\ExamenAnalyse;
 use App\Models\ExamenComplementaire;
+use App\Models\ExamenPertinentPrecedent;
+use App\Models\InformationSupplementaire;
 use App\Models\OptionFinancement;
+use App\Models\PrescriptionImagerie;
 use App\Models\RaisonPrescription;
 use App\Models\Teleconsultation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ExamenAnalyseSeeder extends Seeder
+class PrescriptionImagerieSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,12 +22,14 @@ class ExamenAnalyseSeeder extends Seeder
      */
     public function run()
     {
-        foreach(ExamenAnalyse::factory()->count(30)->create() as $examen){
+        foreach(PrescriptionImagerie::factory()->count(30)->create() as $examen){
             $examen->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
             $examen->option_financements()->sync(OptionFinancement::inRandomOrder()->limit(3)->get());
             $examen->raison_prescriptions()->sync(RaisonPrescription::inRandomOrder()->limit(3)->get());
             $examen->examen_complementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(10)->get());
             $examen->teleconsultations()->sync(Teleconsultation::inRandomOrder()->limit(1)->get());
+            $examen->information_supplementaires()->sync(InformationSupplementaire::inRandomOrder()->limit(1)->get());
+            $examen->examens_pertinents()->sync(ExamenPertinentPrecedent::inRandomOrder()->limit(2)->get());
         }
     }
 }

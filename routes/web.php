@@ -25,6 +25,8 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
     $router->group(['prefix' => 'types'], function () use ($router) {
         $router->get('/', ['uses' => 'TypeController@index']);
         $router->get('/{type}', ['uses' => 'TypeController@show']);
+        $router->get('/examens/{type}', ['uses' => 'TypeController@getExamens']);
+
     });
 
     /**
@@ -195,6 +197,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/{examen_analyse}', 'ExamenAnalyseController@show');
         $router->patch('/{examen_analyse}', 'ExamenAnalyseController@update');
         $router->delete('/{examen_analyse}', 'ExamenAnalyseController@destroy');
+        $router->get('patient/{patient_id}/informations', 'ExamenAnalyseController@getPatientBulletins');
     });
 
     /**
@@ -231,7 +234,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{options_financement}', 'OptionFinancementController@destroy');
     });
 
-        /**
+    /**
      * CRUD RaisonPrescription
      */
     $router->group(['prefix' => 'raison_prescriptions'], function () use ($router) {
@@ -242,4 +245,25 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{raison_prescription}', 'RaisonPrescriptionController@destroy');
     });
 
+    /**
+     * CRUD Examens Pertinents
+     */
+    $router->group(['prefix' => 'examens_pertinents'], function () use ($router) {
+        $router->get('/', 'ExamenPertinentPrecedentController@index');
+        $router->post('/', 'ExamenPertinentPrecedentController@store');
+        $router->get('/{examen_pertinent}', 'ExamenPertinentPrecedentController@show');
+        $router->patch('/{examen_pertinent}', 'ExamenPertinentPrecedentController@update');
+        $router->delete('/{examen_pertinent}', 'ExamenPertinentPrecedentController@destroy');
+    });
+
+    /**
+     * CRUD Information supplementaires
+     */
+    $router->group(['prefix' => 'informations_supplementaires'], function () use ($router) {
+        $router->get('/', 'InformationSupplementaireController@index');
+        $router->post('/', 'InformationSupplementaireController@store');
+        $router->get('/{examen_pertinent}', 'InformationSupplementaireController@show');
+        $router->patch('/{examen_pertinent}', 'InformationSupplementaireController@update');
+        $router->delete('/{examen_pertinent}', 'InformationSupplementaireController@destroy');
+    });
 });

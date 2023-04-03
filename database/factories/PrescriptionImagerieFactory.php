@@ -2,19 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\ExamenAnalyse;
+use App\Models\PrescriptionImagerie;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class ExamenAnalyseFactory extends Factory
+class PrescriptionImagerieFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ExamenAnalyse::class;
+    protected $model = PrescriptionImagerie::class;
 
     /**
      * Define the model's default state.
@@ -35,8 +35,10 @@ class ExamenAnalyseFactory extends Factory
             'creator' => $medecin_controles[$medecin_controle_id],
             'niveau_urgence_id' => random_int(1, 4),
             'renseignement_clinique' => $this->faker->text,
-            'date_heure' =>  Carbon::today()->subDays(rand(0, 365)),
+            'information_clinique' => $this->faker->text,
+            'explication_demande_diagnostic' => $this->faker->text,
+            'autre' => $this->faker->text,
+            'date_heure' =>  Carbon::today()->subDays(rand(0, 365))
         ];
-
     }
 }

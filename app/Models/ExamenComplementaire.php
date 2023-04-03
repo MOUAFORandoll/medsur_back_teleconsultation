@@ -77,4 +77,17 @@ class ExamenComplementaire extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
+    public function examen_analyses(){
+        return $this->morphToMany(ExamenAnalyse::class, 'examen_analyseable')->latest();
+    }
+
+    public function prescription_imageries(){
+        return $this->morphToMany(PrescriptionImagerie::class, 'prescription_imagerieable')->latest();
+    }
+
+    public function bon_prise_en_charges(){
+        return $this->morphToMany(BonPriseEnCharge::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+
 }

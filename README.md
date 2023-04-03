@@ -44,6 +44,7 @@ php artisan make:migration ordonnances --create=ordonnances
 
 php artisan make:migration prescriptions --create=prescriptions
 php artisan make:migration medicaments --create=medicaments
+php artisan make:migration examen_pertinants --create=examen_pertinants
 
 
 ## 
@@ -68,5 +69,14 @@ docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrat
 docker-compose exec teleconsultation php artisan db:seed --class=RaisonPrescriptionSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=OptionFinancementSeeder
 
-docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=BonPriseEnChargeSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionImagerieSeeder
+
+
+
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_04_03_094503_add_description_to_types_table.php
+
+
+docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder

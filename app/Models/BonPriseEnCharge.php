@@ -35,6 +35,10 @@ class BonPriseEnCharge extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
+    public function type_teleconsultations(){
+        return $this->morphedByMany(Type::class, 'bon_prises_en_chargeable')->latest();
+    }
+
     public function motifs(){
         return $this->morphedByMany(Motif::class, 'bon_prises_en_chargeable')->latest();
     }
@@ -48,11 +52,27 @@ class BonPriseEnCharge extends Model
     }
 
     public function option_financements(){
-        return $this->morphToMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
+        return $this->morphedByMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
     }
 
     public function raison_prescriptions(){
-        return $this->morphToMany(OptionFinancement::class, 'bon_prises_en_chargeable')->latest();
+        return $this->morphedByMany(RaisonPrescription::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function examens_analyses(){
+        return $this->morphedByMany(ExamenAnalyse::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function ordonnances(){
+        return $this->morphedByMany(Ordonnance::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function examens_imageries(){
+        return $this->morphedByMany(PrescriptionImagerie::class, 'bon_prises_en_chargeable')->latest();
+    }
+
+    public function rendezVous(){
+        return $this->morphedByMany(RendezVous::class, 'bon_prises_en_chargeable')->latest();
     }
 
     public function niveau_urgence(){

@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\ExamenAnalyse;
+use App\Models\Ordonnance;
+use App\Models\PrescriptionImagerie;
+use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class ExamenAnalyseController extends Controller
 {
@@ -16,17 +20,49 @@ class ExamenAnalyseController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-        $examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations"])->latest()->paginate($page_size);
+        $search = $request->search;
+        // "etablissements" , "examen_complementaires", "niveau_urgence", "teleconsultations"
+
+        $examen_analyses = ExamenAnalyse::query();
+        if($search != ""){
+            $examen_analyses = $examen_analyses->where('id', 'LIKE', "%$search%");
+        }
+        $examen_analyses = $examen_analyses->where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
+        //$examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
 
     public function show($examen_analyse){
-
-        $examen_analyse = ExamenAnalyse::findOrFail($examen_analyse)->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+        if(Uuid::isValid($examen_analyse)){
+            $examen_analyse = ExamenAnalyse::where('uuid', $examen_analyse)->first();
+        }else{
+            $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
+        }
+        $types = Type::whereHas("examen_complementaires.examen_analyses", function($query) use ($examen_analyse){
+            $query->where('id', $examen_analyse->id);
+        })->get();
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("examen_analyses", function($query) use ($examen_analyse){
+                $query->where('id', $examen_analyse->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
 
         $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
+        $examen_analyse->type_examens = $examen_complementaires;
         return $this->successResponse($examen_analyse);
+    }
 
+    public function getPatientBulletins($patient_id){
+        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
+        $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
+        $ordonnances = Ordonnance::whereHas('teleconsultations', function($query) use ($patient_id){
+            $query->where('patient_id', $patient_id);
+        })->latest()->get();
+
+        return $this->successResponse(['examen_analyses' => $examen_analyses, 'examen_imageries' => $examen_imageries, 'ordonnances' => $ordonnances]);
     }
 
     public function store(Request $request){
@@ -67,7 +103,11 @@ class ExamenAnalyseController extends Controller
     public function update(Request $request, $examen_analyse){
 
         $this->validate($request, $this->validation());
-        $examen_analyse = ExamenAnalyse::findOrFail($examen_analyse);
+        if(Uuid::isValid($examen_analyse)){
+            $examen_analyse = ExamenAnalyse::where('uuid', $examen_analyse)->first();
+        }else{
+            $examen_analyse = ExamenAnalyse::where('id', $examen_analyse)->first();
+        }
         $examen_analyse = $examen_analyse->fill([
             'creator' => $request->creator,
             'medecin_id' => $request->medecin_id,
@@ -100,6 +140,8 @@ class ExamenAnalyseController extends Controller
         }
 
         $examen_analyse->save();
+
+        $examen_analyse = $examen_analyse->load("etablissements", "option_financements", "raison_prescriptions", "examen_complementaires", "niveau_urgence", "teleconsultations");
 
         return $this->successResponse($examen_analyse);
 

@@ -39,7 +39,7 @@ class ExamenAnalyse extends Model
     }
 
     public function raison_prescriptions(){
-        return $this->morphedByMany(OptionFinancement::class, 'examen_analyseable');
+        return $this->morphedByMany(RaisonPrescription::class, 'examen_analyseable');
     }
 
     public function examen_complementaires(){

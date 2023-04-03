@@ -21,4 +21,9 @@ class TypeController extends Controller
         return $this->successResponse($type);
 
     }
+    public function getExamens($type){
+        $examen_complementaires = Type::findOrFail($type)->examen_complementaires;
+        return $this->successResponse($examen_complementaires);
+
+    }
 }
