@@ -58,7 +58,7 @@ class ExamenAnalyseController extends Controller
     public function getPatientBulletins($patient_id){
         $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
         $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
-        $ordonnances = Ordonnance::whereHas('teleconsultations', function($query) use ($patient_id){
+        $ordonnances = Ordonnance::withWhereHas('teleconsultations', function($query) use ($patient_id){
             $query->where('patient_id', $patient_id);
         })->latest()->get();
 

@@ -73,6 +73,41 @@ docker-compose exec teleconsultation php artisan db:seed --class=BonPriseEnCharg
 docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionImagerieSeeder
 
 
+## Mise en production des modules complémentaires à la téléconsultation
+
+php artisan migrate --path=/database/migrations/2023_02_13_135422_bon_prises_en_charges.php
+php artisan migrate --path=/database/migrations/2023_02_13_164724_examen_analyses.php
+php artisan migrate --path=/database/migrations/2023_02_13_164820_raison_financements.php
+php artisan migrate --path=/database/migrations/2023_02_13_164900_option_financements.php
+php artisan migrate --path=/database/migrations/2023_02_21_161511_information_supplementaires.php
+php artisan migrate --path=/database/migrations/2023_02_27_161026_prescription_imageries.php
+php artisan migrate --path=/database/migrations/2023_03_13_093627_examen_pertinants.php
+php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
+php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
+php artisan migrate --path=/database/migrations/2023_04_03_094503_add_description_to_types_table.php
+
+php artisan db:seed --class=OptionFinancementSeeder
+php artisan db:seed --class=RaisonPrescriptionSeeder
+php artisan db:seed --class=ExamenPertinentPrecedentSeeder
+php artisan db:seed --class=InformationSupplementaireSeeder
+php artisan db:seed --class=ExamenComplementaireUpdateSeeder
+
+
+// 2023_02_13_100826_prescriptions.php
+// 2023_02_17_111727_unite_presentation.php
+// 2023_02_17_113318_horaire_de_prises.php
+// 2023_02_22_135305_categorie_medicamenteuses.php
+// 2023_02_22_141645_conditionnements.php
+// 2023_02_22_141746_intervalle_de_prise.php
+// 2023_02_22_141838_relation_alimentaires.php
+// 2023_02_22_141923_forme_medicamenteuses.php
+// 2023_02_22_142438_voie_administrations.php
+// 2023_02_27_111553_medicaments.php
+
+
+
+
+
 
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
