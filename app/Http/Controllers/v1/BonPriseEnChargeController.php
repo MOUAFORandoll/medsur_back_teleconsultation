@@ -55,6 +55,12 @@ class BonPriseEnChargeController extends Controller
 
     }
 
+    public function getBonPrisesEnCharges($patient_id){
+
+        $bon_prise_en_charges = BonPriseEnCharge::where('patient_id', $patient_id)->latest()->get();
+        return $this->successResponse($bon_prise_en_charges);
+    }
+
     public function store(Request $request){
 
         $this->validate($request, $this->validation());

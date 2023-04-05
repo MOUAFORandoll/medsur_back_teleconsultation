@@ -55,6 +55,12 @@ class ExamenAnalyseController extends Controller
         return $this->successResponse($examen_analyse);
     }
 
+    public function getExamenAnalyses($patient_id){
+
+        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
+        return $this->successResponse($examen_analyses);
+    }
+
     public function getPatientBulletins($patient_id){
         $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
         $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
