@@ -84,7 +84,8 @@ php artisan migrate --path=/database/migrations/2023_02_27_161026_prescription_i
 php artisan migrate --path=/database/migrations/2023_03_13_093627_examen_pertinants.php
 php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
 php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
-php artisan migrate --path=/database/migrations/2023_04_03_094503_add_description_to_types_table.php
+
+php artisan migrate --path=/database/migrations/2023_04_05_135525_change_size_data_to_teleconsultationables_table.php
 
 php artisan db:seed --class=OptionFinancementSeeder
 php artisan db:seed --class=RaisonPrescriptionSeeder
@@ -115,3 +116,5 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 
 
 docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder
+
+docker-compose exec teleconsultation php artisan make:migration change_size_data_to_teleconsultationables_table --table=teleconsultationables

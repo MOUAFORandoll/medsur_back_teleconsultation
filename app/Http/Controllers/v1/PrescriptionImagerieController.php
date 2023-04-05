@@ -51,6 +51,12 @@ class PrescriptionImagerieController extends Controller
 
     }
 
+    public function getExamenImageries($patient_id){
+
+        $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
+        return $this->successResponse($examen_imageries);
+    }
+
     public function store(Request $request){
 
         $this->validate($request, $this->validation());

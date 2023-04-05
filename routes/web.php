@@ -195,6 +195,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/', 'ExamenAnalyseController@index');
         $router->post('/', 'ExamenAnalyseController@store');
         $router->get('/{examen_analyse}', 'ExamenAnalyseController@show');
+        $router->get('/patient/{patient_id}', 'ExamenAnalyseController@getExamenAnalyses');
         $router->patch('/{examen_analyse}', 'ExamenAnalyseController@update');
         $router->delete('/{examen_analyse}', 'ExamenAnalyseController@destroy');
         $router->get('patient/{patient_id}/informations', 'ExamenAnalyseController@getPatientBulletins');
@@ -207,6 +208,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/', 'PrescriptionImagerieController@index');
         $router->post('/', 'PrescriptionImagerieController@store');
         $router->get('/{prescription_imagerie}', 'PrescriptionImagerieController@show');
+        $router->get('/patient/{patient_id}', 'PrescriptionImagerieController@getExamenImageries');
         $router->patch('/{prescription_imagerie}', 'PrescriptionImagerieController@update');
         $router->delete('/{prescription_imagerie}', 'PrescriptionImagerieController@destroy');
     });
@@ -219,6 +221,7 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/', 'BonPriseEnChargeController@index');
         $router->post('/', 'BonPriseEnChargeController@store');
         $router->get('/{bon_prise_en_charge}', 'BonPriseEnChargeController@show');
+        $router->get('/patient/{patient_id}', 'BonPriseEnChargeController@getBonPrisesEnCharges');
         $router->patch('/{bon_prise_en_charge}', 'BonPriseEnChargeController@update');
         $router->delete('/{bon_prise_en_charge}', 'BonPriseEnChargeController@destroy');
     });

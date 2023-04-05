@@ -38,6 +38,14 @@ class OrdonnanceController extends Controller
 
     }
 
+    public function getOrdonnances($patient_id){
+
+        $ordonnances = Ordonnance::withWhereHas('teleconsultations', function($query) use ($patient_id){
+            $query->where('patient_id', $patient_id);
+        })->latest()->get();
+        return $this->successResponse($ordonnances);
+    }
+
     public function fetchPatientOrdonannce($patient_id){
         $ordonnances = Ordonnance::whereHas('teleconsultations', function ($query) use ($patient_id) {
             $query->where('patient_id', $patient_id);
