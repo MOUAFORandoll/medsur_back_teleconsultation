@@ -55,9 +55,12 @@ class BonPriseEnChargeController extends Controller
 
     }
 
-    public function getBonPrisesEnCharges($patient_id){
+    public function getBonPrisesEnCharges(Request $request, $patient_id){
 
-        $bon_prise_en_charges = BonPriseEnCharge::where('patient_id', $patient_id)->latest()->get();
+        $page_size = $request->page_size ?? 10;
+        $search = $request->search;
+
+        $bon_prise_en_charges = BonPriseEnCharge::where('patient_id', $patient_id)->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
 

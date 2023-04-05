@@ -55,9 +55,11 @@ class ExamenAnalyseController extends Controller
         return $this->successResponse($examen_analyse);
     }
 
-    public function getExamenAnalyses($patient_id){
+    public function getExamenAnalyses(Request $request, $patient_id){
 
-        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
+        $page_size = $request->page_size ?? 10;
+        $search = $request->search;
+        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
 
