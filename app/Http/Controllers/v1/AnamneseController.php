@@ -37,7 +37,7 @@ class AnamneseController extends Controller
         $this->validate($request, $this->validation());
         /* $anamnese = Anamnese::create([
             'fr_description' => $request->fr_description,
-            'en_description' => $request->fr_description,
+            'type_id' => $request->fr_description,
             'slug' => Str::slug($request->fr_description, '-').'-'.time()
         ]); */
         //$anamnese->types()->sync($request->type_id);
@@ -66,15 +66,18 @@ class AnamneseController extends Controller
         $anamnese = Anamnese::findOrFail($anamnese);
         $anamnese = $anamnese->fill([
             'fr_description' => $request->fr_description,
-            'en_description' => $request->fr_description
+            'type_id' => $request->type_id
         ]);
-
-        if ($anamnese->isClean()) {
-            return $this->errorResponse("aucune valeur n'a été mise à jour", Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
 
         $anamnese->save();
         $anamnese->types()->sync($request->type_id);
+
+
+       /*  if ($anamnese->isClean()) {
+            return $this->errorResponse("aucune valeur n'a été mise à jour", Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        */
 
         return $this->successResponse($anamnese);
 

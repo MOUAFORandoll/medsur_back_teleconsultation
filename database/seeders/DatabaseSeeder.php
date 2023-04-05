@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Antecedent;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -34,7 +33,8 @@ class DatabaseSeeder extends Seeder
             BonPriseEnChargeSeeder::class,
             ExamenPertinentPrecedentSeeder::class,
             InformationSupplementaireSeeder::class,
-            PrescriptionImagerieSeeder::class
+            PrescriptionImagerieSeeder::class,
+            ExamenComplementaireUpdateSeeder::class
         ]);
     }
 }

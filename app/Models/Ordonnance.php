@@ -37,4 +37,8 @@ class Ordonnance extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
+    public function bon_prises_en_charges(){
+        return $this->morphToMany(BonPriseEnCharge::class, 'bon_prises_en_chargeable');
+    }
+
 }

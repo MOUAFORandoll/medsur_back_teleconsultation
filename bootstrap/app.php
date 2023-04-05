@@ -23,6 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+$app->register(Irazasyed\Larasupport\Providers\ArtisanServiceProvider::class);
+$app->register(OwenIt\Auditing\AuditingServiceProvider::class);
+
 $app->withFacades();
 
 $app->withEloquent();

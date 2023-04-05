@@ -56,7 +56,7 @@ class Type extends Model
      * @var string[]
      */
     protected $fillable = [
-        'uuid', 'libelle'
+        'uuid', 'libelle', 'description'
     ];
 
     public function teleconsultations(){

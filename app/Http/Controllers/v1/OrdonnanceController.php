@@ -8,6 +8,7 @@ use App\Models\Teleconsultation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class OrdonnanceController extends Controller
 {
@@ -27,8 +28,13 @@ class OrdonnanceController extends Controller
 
     public function show($ordonnance){
 
-        $ordonnance = Ordonnance::findOrFail($ordonnance);
-        return $this->successResponse($ordonnance);
+        if(Uuid::isValid($ordonnance)){
+            $ordonnance = Ordonnance::where('uuid', $ordonnance)->first();
+        }else{
+            $ordonnance = Ordonnance::where('id', $ordonnance)->first();
+        }
+
+        return $this->successResponse($ordonnance->load('teleconsultations:id,uuid,patient_id,creator'));
 
     }
 
@@ -42,6 +48,7 @@ class OrdonnanceController extends Controller
 
     public function store(Request $request){
         $ordonannce = Ordonnance::create([
+            'uuid' => Str::uuid()->toString(),
             'description' => $request->description,
             'date' => $request->date
         ]);

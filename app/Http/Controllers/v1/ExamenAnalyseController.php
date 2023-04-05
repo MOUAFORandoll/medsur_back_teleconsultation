@@ -20,8 +20,15 @@ class ExamenAnalyseController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
+        $search = $request->search;
         // "etablissements" , "examen_complementaires", "niveau_urgence", "teleconsultations"
-        $examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
+
+        $examen_analyses = ExamenAnalyse::query();
+        if($search != ""){
+            $examen_analyses = $examen_analyses->where('id', 'LIKE', "%$search%");
+        }
+        $examen_analyses = $examen_analyses->where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
+        //$examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
 
@@ -51,7 +58,7 @@ class ExamenAnalyseController extends Controller
     public function getPatientBulletins($patient_id){
         $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
         $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
-        $ordonnances = Ordonnance::whereHas('teleconsultations', function($query) use ($patient_id){
+        $ordonnances = Ordonnance::withWhereHas('teleconsultations', function($query) use ($patient_id){
             $query->where('patient_id', $patient_id);
         })->latest()->get();
 

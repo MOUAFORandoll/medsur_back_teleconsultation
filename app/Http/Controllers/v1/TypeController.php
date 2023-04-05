@@ -10,9 +10,9 @@ class TypeController extends Controller
 
     public function index(Request $request){
         if($request->type != ""){
-            return $types = Type::has($request->type)->orderBy('libelle', 'asc')->get(['id', 'libelle']);
+            return $types = Type::has($request->type)->orderBy('libelle', 'asc')->get(['id', 'libelle', 'description']);
         }
-        $types = Type::orderBy('libelle', 'asc')->get(['id', 'libelle']);
+        $types = Type::orderBy('libelle', 'asc')->get(['id', 'libelle', 'description']);
         return $this->successResponse($types);
     }
 
