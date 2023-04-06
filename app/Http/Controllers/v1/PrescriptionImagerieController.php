@@ -17,8 +17,12 @@ class PrescriptionImagerieController extends Controller
         $page_size = $request->page_size ?? 10;
 
         $search = $request->search;
+        $patients = json_decode($request->patients);
         $prescription_imageries = PrescriptionImagerie::query();
-        if($search != ""){
+        if(count($patients) > 0){
+            $prescription_imageries = $prescription_imageries->whereIn('patient_id', $patients);
+        }
+        elseif($search != ""){
             $prescription_imageries = $prescription_imageries->where('id', 'LIKE', "%$search%");
         }
 
