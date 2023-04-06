@@ -21,13 +21,17 @@ class ExamenAnalyseController extends Controller
 
         $page_size = $request->page_size ?? 10;
         $search = $request->search;
+        $patients = json_decode($request->patients);
         // "etablissements" , "examen_complementaires", "niveau_urgence", "teleconsultations"
 
         $examen_analyses = ExamenAnalyse::query();
-        if($search != ""){
+        if(count($patients) > 0){
+            $examen_analyses = $examen_analyses->whereIn('patient_id', $patients);
+        }
+        elseif($search != ""){
             $examen_analyses = $examen_analyses->where('id', 'LIKE', "%$search%");
         }
-        $examen_analyses = $examen_analyses->where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
+        $examen_analyses = $examen_analyses->with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         //$examen_analyses = ExamenAnalyse::/* where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> */with(["option_financements", "raison_prescriptions"])->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
@@ -55,9 +59,11 @@ class ExamenAnalyseController extends Controller
         return $this->successResponse($examen_analyse);
     }
 
-    public function getExamenAnalyses($patient_id){
+    public function getExamenAnalyses(Request $request, $patient_id){
 
-        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->get();
+        $page_size = $request->page_size ?? 10;
+        $search = $request->search;
+        $examen_analyses = ExamenAnalyse::where('patient_id', $patient_id)->latest()->paginate($page_size);
         return $this->successResponse($examen_analyses);
     }
 

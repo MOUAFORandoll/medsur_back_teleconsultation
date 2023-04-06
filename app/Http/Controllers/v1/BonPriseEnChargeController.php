@@ -16,10 +16,14 @@ class BonPriseEnChargeController extends Controller
     public function index(Request $request){
 
         $page_size = $request->page_size ?? 10;
-
         $search = $request->search;
+        $patients = json_decode($request->patients);
+
         $bon_prise_en_charges = BonPriseEnCharge::query();
-        if($search != ""){
+        if(count($patients) > 0){
+            $bon_prise_en_charges = $bon_prise_en_charges->whereIn('patient_id', $patients);
+        }
+        elseif($search != ""){
             $bon_prise_en_charges = $bon_prise_en_charges->where('id', 'LIKE', "%$search%");
         }
 
@@ -55,9 +59,12 @@ class BonPriseEnChargeController extends Controller
 
     }
 
-    public function getBonPrisesEnCharges($patient_id){
+    public function getBonPrisesEnCharges(Request $request, $patient_id){
 
-        $bon_prise_en_charges = BonPriseEnCharge::where('patient_id', $patient_id)->latest()->get();
+        $page_size = $request->page_size ?? 10;
+        $search = $request->search;
+
+        $bon_prise_en_charges = BonPriseEnCharge::where('patient_id', $patient_id)->latest()->paginate($page_size);
         return $this->successResponse($bon_prise_en_charges);
     }
 

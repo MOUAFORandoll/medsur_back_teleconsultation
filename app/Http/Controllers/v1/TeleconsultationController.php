@@ -26,8 +26,16 @@ class TeleconsultationController extends Controller
          */
 
         $page_size = $request->page_size ?? 10;
-        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->
-        $teleconsultations = Teleconsultation::with(['types:id,libelle', 'motifs'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+        $patients = json_decode($request->patients);
+
+        $teleconsultations = Teleconsultation::query();
+        if(count($patients) > 0){
+            $teleconsultations = $teleconsultations->whereIn('patient_id', $patients);
+        }
+
+        // where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)-> , "niveau_urgence",  "etablissements", "motifs", "teleconsultations", "rendezVous"
+        $teleconsultations = $teleconsultations->with(['types:id,libelle', 'motifs'])/* ->select('id', 'uuid', 'patient_id', 'creator', 'date_heure', 'cat') */->latest()->paginate($page_size);
+
         return $this->successResponse($teleconsultations);
 
     }

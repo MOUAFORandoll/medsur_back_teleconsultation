@@ -17,8 +17,12 @@ class PrescriptionImagerieController extends Controller
         $page_size = $request->page_size ?? 10;
 
         $search = $request->search;
+        $patients = json_decode($request->patients);
         $prescription_imageries = PrescriptionImagerie::query();
-        if($search != ""){
+        if(count($patients) > 0){
+            $prescription_imageries = $prescription_imageries->whereIn('patient_id', $patients);
+        }
+        elseif($search != ""){
             $prescription_imageries = $prescription_imageries->where('id', 'LIKE', "%$search%");
         }
 
@@ -51,9 +55,12 @@ class PrescriptionImagerieController extends Controller
 
     }
 
-    public function getExamenImageries($patient_id){
+    public function getExamenImageries(Request $request, $patient_id){
 
-        $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->get();
+        $page_size = $request->page_size ?? 10;
+        $search = $request->search;
+
+        $examen_imageries = PrescriptionImagerie::where('patient_id', $patient_id)->latest()->paginate($page_size);
         return $this->successResponse($examen_imageries);
     }
 
