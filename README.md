@@ -60,17 +60,18 @@ php artisan ide-helper:models
 
 ## seeder modules complémentaires
 
-docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=FormeMedicamenteuseSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
-
-docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=RaisonPrescriptionSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=OptionFinancementSeeder
 
 docker-compose exec teleconsultation php artisan db:seed --class=BonPriseEnChargeSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionImagerieSeeder
+
+## e-prescriptions
+docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=FormeMedicamenteuseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
 
 
 ## Mise en production des modules complémentaires à la téléconsultation

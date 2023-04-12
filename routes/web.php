@@ -178,17 +178,6 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
     });
 
     /**
-     * CRUD Prescription
-     */
-    $router->group(['prefix' => 'prescriptions'], function () use ($router) {
-        $router->get('/', 'PrescriptionController@index');
-        $router->post('/', 'PrescriptionController@store');
-        $router->get('/{prescription}', 'PrescriptionController@show');
-        $router->patch('/{prescription}', 'PrescriptionController@update');
-        $router->delete('/{prescription}', 'PrescriptionController@destroy');
-    });
-
-    /**
      * CRUD Examen Analyse
      */
     $router->group(['prefix' => 'examen_analyses'], function () use ($router) {
@@ -268,5 +257,71 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/{examen_pertinent}', 'InformationSupplementaireController@show');
         $router->patch('/{examen_pertinent}', 'InformationSupplementaireController@update');
         $router->delete('/{examen_pertinent}', 'InformationSupplementaireController@destroy');
+    });
+
+    /**
+     * CRUD Prescription
+     */
+    $router->group(['prefix' => 'prescriptions'], function () use ($router) {
+        $router->get('/', 'PrescriptionController@index');
+        $router->post('/', 'PrescriptionController@store');
+        $router->get('/{prescription}', 'PrescriptionController@show');
+        $router->patch('/{prescription}', 'PrescriptionController@update');
+        $router->delete('/{prescription}', 'PrescriptionController@destroy');
+    });
+
+    /**
+     * CRUD Categorie Medicamenteuse
+     */
+    $router->group(['prefix' => 'categorie_medicamenteuses'], function () use ($router) {
+        $router->get('/', 'CategorieMedicamenteuseController@index');
+        $router->post('/', 'CategorieMedicamenteuseController@store');
+        $router->get('/{categorie_medicamenteuse}', 'CategorieMedicamenteuseController@show');
+        $router->patch('/{categorie_medicamenteuse}', 'CategorieMedicamenteuseController@update');
+        $router->delete('/{categorie_medicamenteuse}', 'CategorieMedicamenteuseController@destroy');
+    });
+
+    /**
+     * CRUD Conditionnement
+     */
+    $router->group(['prefix' => 'conditionnements'], function () use ($router) {
+        $router->get('/', 'ConditionnementController@index');
+        $router->post('/', 'ConditionnementController@store');
+        $router->get('/{conditionnement}', 'ConditionnementController@show');
+        $router->patch('/{conditionnement}', 'ConditionnementController@update');
+        $router->delete('/{conditionnement}', 'ConditionnementController@destroy');
+    });
+
+    /**
+     * CRUD Forme Medicamenteuse
+     */
+    $router->group(['prefix' => 'forme_medicamenteuses'], function () use ($router) {
+        $router->get('/', 'FormeMedicamenteuseController@index');
+        $router->post('/', 'FormeMedicamenteuseController@store');
+        $router->get('/{forme_medicamenteuse}', 'FormeMedicamenteuseController@show');
+        $router->patch('/{forme_medicamenteuse}', 'FormeMedicamenteuseController@update');
+        $router->delete('/{forme_medicamenteuse}', 'FormeMedicamenteuseController@destroy');
+    });
+
+    /**
+     * CRUD Forme Medicamenteuse
+     */
+    $router->group(['prefix' => 'relation_alimentaires'], function () use ($router) {
+        $router->get('/', 'RelationAlimentationController@index');
+        $router->post('/', 'RelationAlimentationController@store');
+        $router->get('/{relation_alimentaire}', 'RelationAlimentationController@show');
+        $router->patch('/{relation_alimentaire}', 'RelationAlimentationController@update');
+        $router->delete('/{relation_alimentaire}', 'RelationAlimentationController@destroy');
+    });
+
+    /**
+     * CRUD Voie Administration
+     */
+    $router->group(['prefix' => 'voie_administrations'], function () use ($router) {
+        $router->get('/', 'VoieAdministrationController@index');
+        $router->post('/', 'VoieAdministrationController@store');
+        $router->get('/{voie_administration}', 'VoieAdministrationController@show');
+        $router->patch('/{voie_administration}', 'VoieAdministrationController@update');
+        $router->delete('/{voie_administration}', 'VoieAdministrationController@destroy');
     });
 });
