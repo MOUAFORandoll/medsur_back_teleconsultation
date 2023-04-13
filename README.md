@@ -74,6 +74,9 @@ docker-compose exec teleconsultation php artisan db:seed --class=RelationAliment
 docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=UnitePresentationSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=HoraireDePriseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionSeeder
+
+
 
 ## Mise en production des modules complémentaires à la téléconsultation
 

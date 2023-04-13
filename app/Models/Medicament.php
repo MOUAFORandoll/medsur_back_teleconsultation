@@ -45,6 +45,10 @@ class Medicament extends Model
         return $this->belongsTo(Conditionnement::class);
     }
 
+    public function conditionnements(){
+        return $this->morphedByMany(Conditionnement::class, 'medicamentable')->latest();
+    }
+
     public function intervalle_de_prises(){
         return $this->morphedByMany(IntervalleDePrise::class, 'medicamentable')->latest();
     }
@@ -57,13 +61,14 @@ class Medicament extends Model
         return $this->morphedByMany(FormeMedicamenteuse::class, 'medicamentable')->latest();
     }
 
-    public function voie_administration(){
+    public function voie_administrations(){
         return $this->morphedByMany(VoieAdministration::class, 'medicamentable')->latest();
     }
 
     public function prescriptions(){
         return $this->belongsToMany(Prescription::class, 'prescription_medicament');
     }
+
 
 
 

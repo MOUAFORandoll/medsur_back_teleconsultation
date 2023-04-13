@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('voie_administration_id');
             $table->bigInteger('conditionnement_id')->nullable();
             $table->string('nom_commerciale');
-            $table->string('code');
+            $table->string('code')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

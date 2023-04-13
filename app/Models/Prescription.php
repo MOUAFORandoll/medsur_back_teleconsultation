@@ -37,17 +37,21 @@ class Prescription extends Model
         return $this->morphToMany(Teleconsultation::class, 'teleconsultationable');
     }
 
+    public function etablissements(){
+        return $this->morphedByMany(Etablissement::class, 'prescriptionable')->latest();
+    }
+
     public function option_financements(){
-        return $this->morphToMany(OptionFinancement::class, 'prescriptionable');
+        return $this->morphedByMany(OptionFinancement::class, 'prescriptionable');
     }
 
     public function raison_prescriptions(){
-        return $this->morphToMany(OptionFinancement::class, 'prescriptionable');
+        return $this->morphedByMany(RaisonPrescription::class, 'prescriptionable');
     }
 
-    public function examen_complementaires(){
-        return $this->morphToMany(ExamenComplementaire::class, 'prescriptionable');
-    }
+ /*    public function examen_complementaires(){
+        return $this->morphedByMany(ExamenComplementaire::class, 'prescriptionable');
+    } */
 
     public function niveau_urgence(){
         return $this->belongsTo(NiveauUrgence::class);
