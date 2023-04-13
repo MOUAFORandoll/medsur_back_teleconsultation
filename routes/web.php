@@ -336,4 +336,16 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->delete('/{unite_presentation}', 'UnitePresentationController@destroy');
     });
 
+    /**
+     * CRUD Horaire De Prise
+     */
+    $router->group(['prefix' => 'horaire_de_prises'], function () use ($router) {
+        $router->get('/', 'HoraireDePriseController@index');
+        $router->post('/', 'HoraireDePriseController@store');
+        $router->get('/{horaire_de_prise}', 'HoraireDePriseController@show');
+        $router->patch('/{horaire_de_prise}', 'HoraireDePriseController@update');
+        $router->delete('/{horaire_de_prise}', 'HoraireDePriseController@destroy');
+    });
+
+
 });

@@ -30,6 +30,12 @@ return new class extends Migration
         Schema::create('prescriptionables', function (Blueprint $table) {
             $table->bigInteger('prescription_id');
             $table->morphs('prescriptionable');
+            $table->string("quantite_lors_une_prise")->nullable();
+            $table->string("duree_traitement")->nullable();
+            $table->string("nombre_prise")->nullable();
+            $table->string("nombre_renouvelement")->nullable();
+            $table->string("nombre_de_fois")->nullable();
+            $table->string("intervalle_entre_deux_prises")->nullable();
         });
     }
 
