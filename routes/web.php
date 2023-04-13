@@ -324,4 +324,16 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->patch('/{voie_administration}', 'VoieAdministrationController@update');
         $router->delete('/{voie_administration}', 'VoieAdministrationController@destroy');
     });
+
+    /**
+     * CRUD Unite Presentation
+     */
+    $router->group(['prefix' => 'unite_presentations'], function () use ($router) {
+        $router->get('/', 'UnitePresentationController@index');
+        $router->post('/', 'UnitePresentationController@store');
+        $router->get('/{unite_presentation}', 'UnitePresentationController@show');
+        $router->patch('/{unite_presentation}', 'UnitePresentationController@update');
+        $router->delete('/{unite_presentation}', 'UnitePresentationController@destroy');
+    });
+
 });
