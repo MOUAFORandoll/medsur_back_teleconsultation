@@ -82,8 +82,8 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
      */
     $router->group(['prefix' => 'etablissements'], function () use ($router) {
         $router->get('/', ['uses' => 'EtablissementController@index']);
-        $router->post('/', ['uses' => 'EtablissementController@store']);
         $router->get('/{etablissement}', ['uses' => 'EtablissementController@show']);
+        $router->post('/', ['uses' => 'EtablissementController@store']);
         $router->patch('/{etablissement}', ['uses' => 'EtablissementController@update']);
         $router->delete('/{etablissement}', ['uses' => 'EtablissementController@destroy']);
     });

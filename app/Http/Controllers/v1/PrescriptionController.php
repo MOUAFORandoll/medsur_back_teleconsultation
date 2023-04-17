@@ -7,6 +7,7 @@ use App\Models\Prescription;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
 class PrescriptionController extends Controller
 {
@@ -15,16 +16,21 @@ class PrescriptionController extends Controller
 
         $page_size = $request->page_size ?? 10;
         //$prescriptions = Prescription::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->latest()->paginate($page_size);
-        $prescriptions = Prescription::with('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'niveau_urgence:id,description', 'medicaments.unite_presentation'
-        , 'medicaments.horaire_de_prises', 'medicaments.conditionnement', 'medicaments.intervalle_de_prises', 'medicaments.relation_alimentaires', 'medicaments.forme_medicamenteuses', 'medicaments.voie_administrations'
-        )->latest()->paginate($page_size);
+        $prescriptions = Prescription::with('option_financements:id,libelle', 'raison_prescriptions:id,libelle', 'niveau_urgence:id,description')->latest()->paginate($page_size);
         return $this->successResponse($prescriptions);
 
     }
 
     public function show($prescription){
 
-        $prescription = Prescription::findOrFail($prescription)->makeHidden(['created_at', 'updated_at', 'deleted_at']);
+        if(Uuid::isValid($prescription)){
+            $prescription = Prescription::where('uuid', $prescription)->first();
+        }else{
+            $prescription = Prescription::where('id', $prescription)->first();
+        }
+
+        $prescription->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'niveau_urgence:id,description', 'medicaments.unite_presentation'
+        , 'medicaments.horaire_de_prises', 'medicaments.conditionnement', 'medicaments.intervalle_de_prises', 'medicaments.relation_alimentaires', 'medicaments.forme_medicamenteuses', 'medicaments.voie_administrations');
         return $this->successResponse($prescription);
 
     }

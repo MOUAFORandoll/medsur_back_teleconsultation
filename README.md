@@ -69,6 +69,7 @@ docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionIma
 ## e-prescriptions
 docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=IntervalleDePriseSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=FormeMedicamenteuseSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
@@ -91,6 +92,8 @@ php artisan migrate --path=/database/migrations/2023_03_28_154713_update_descrip
 php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
 
 php artisan migrate --path=/database/migrations/2023_04_05_135525_change_size_data_to_teleconsultationables_table.php
+
+## 
 
 php artisan db:seed --class=OptionFinancementSeeder
 php artisan db:seed --class=RaisonPrescriptionSeeder
