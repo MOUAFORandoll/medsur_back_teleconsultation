@@ -44,7 +44,7 @@ class PrescriptionSeeder extends Seeder
             $prescription->etablissements()->sync(Etablissement::inRandomOrder()->limit(1)->get());
             $prescription->option_financements()->sync(OptionFinancement::inRandomOrder()->limit(3)->get());
             $prescription->raison_prescriptions()->sync(RaisonPrescription::inRandomOrder()->limit(3)->get());
-            $prescription->examen_complementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(10)->get());
+            //$prescription->examen_complementaires()->sync(ExamenComplementaire::inRandomOrder()->limit(10)->get());
             $prescription->teleconsultations()->sync(Teleconsultation::inRandomOrder()->limit(1)->get());
         }
     }
