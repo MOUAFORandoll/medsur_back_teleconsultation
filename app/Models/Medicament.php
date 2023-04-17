@@ -66,10 +66,6 @@ class Medicament extends Model
     }
 
     public function prescriptions(){
-        return $this->belongsToMany(Prescription::class, 'prescription_medicament');
+        return $this->belongsToMany(Prescription::class, 'prescription_medicament')->withPivot('quantite_lors_une_prise', 'duree_traitement', 'nombre_de_prise', 'nombre_renouvelement', 'nombre_de_fois', 'intervalle_entre_deux_prises')->latest();
     }
-
-
-
-
 }

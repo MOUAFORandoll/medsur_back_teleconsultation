@@ -29,7 +29,19 @@ class PrescriptionSeeder extends Seeder
     {
         foreach(Prescription::factory()->count(30)->create() as $prescription){
 
-            $prescription->medicaments()->sync(Medicament::factory()->count(3)->create());
+            $medicaments = Medicament::factory()->count(3)->create();
+            foreach($medicaments as $medicament){
+                \Log::alert($medicament);
+                $medicament->prescriptions()->attach($prescription, [
+                    'quantite_lors_une_prise' => rand(1, 7),
+                    'duree_traitement' => rand(1, 7),
+                    'nombre_de_prise' => rand(1, 7),
+                    'nombre_renouvelement' => rand(1, 7),
+                    'nombre_de_fois' => rand(1, 7),
+                    'intervalle_entre_deux_prises' => rand(1, 7)
+                ]);
+            }
+
 
             foreach($prescription->medicaments as $medicament){
                 $medicament->horaire_de_prises()->sync(HoraireDePrise::inRandomOrder()->limit(3)->get());

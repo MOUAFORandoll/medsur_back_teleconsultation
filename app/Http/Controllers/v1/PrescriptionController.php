@@ -107,7 +107,12 @@ class PrescriptionController extends Controller
             'raison_prescription_id' => 'required',
             'etablissement_id' => 'required',
             //'option_financement_id' => 'required',
-
+            'quantite_lors_une_prise' => 'array|required',
+            'duree_traitement' => 'array|required',
+            'nombre_de_prise' => 'array|required',
+            'nombre_renouvelement' => 'array|required',
+            'nombre_de_fois' => 'array|required',
+            'intervalle_entre_deux_prises' => 'array|required'
         ];
         return $rules;
     }
@@ -132,8 +137,9 @@ class PrescriptionController extends Controller
             $medicament->conditionnements()->sync($request->conditionnement_id[$key]);
             $medicament->voie_administrations()->sync($request->voie_administration_id[$key]);
 
-            $medicaments[] = $medicament->id;
+            //$medicaments[] = $medicament->id;
 
+            $prescription->medicaments()->attach($medicament->id, ['quantite_lors_une_prise' => $request->quantite_lors_une_prise[$key], 'duree_traitement' => $request->duree_traitement[$key], 'nombre_de_prise' => $request->nombre_de_prise[$key], 'nombre_renouvelement' => $request->nombre_renouvelement[$key], 'nombre_de_fois' => $request->nombre_de_fois[$key], 'intervalle_entre_deux_prises' => $request->intervalle_entre_deux_prises[$key]]);
         }
 
         if(!is_null($request->option_financement_id)){
@@ -147,9 +153,9 @@ class PrescriptionController extends Controller
         if(!is_null($request->etablissement_id)){
             $prescription->etablissements()->sync($request->etablissement_id);
         }
-        $prescription->medicaments()->sync($medicaments);
         return $prescription;
     }
+
 
 
 }
