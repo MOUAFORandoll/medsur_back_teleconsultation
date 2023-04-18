@@ -10,6 +10,7 @@ use App\Models\Motif;
 use App\Models\Ordonnance;
 use App\Models\RendezVous;
 use App\Models\Teleconsultation;
+use App\Models\Type;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -68,6 +69,22 @@ class TeleconsultationController extends Controller
         }else{
             $teleconsultation = Teleconsultation::where('id', $teleconsultation)->first();
         }
+
+        $types = Type::whereHas("examen_complementaires.teleconsultations", function($query) use ($teleconsultation){
+            $query->where('id', $teleconsultation->id);
+        })->get();
+
+        $examen_complementaires = collect();
+        foreach($types as $type){
+            $item = $type;
+            $item->examen_complementaires = $type->examen_complementaires()->whereHas("teleconsultations", function($query) use ($teleconsultation){
+                $query->where('id', $teleconsultation->id);
+            })->get(['id', "fr_description", "prix"]);
+            $examen_complementaires->push($item);
+        }
+
+        $teleconsultation->type_examens = $examen_complementaires;
+
         $teleconsultation = $teleconsultation->load('types:id,libelle', 'motifs', 'etablissements', 'examenComplementaires', 'examenCliniques', 'rendezVous', 'antededents', 'anamneses', 'allergies', 'diagnostics', 'ordonnances');
         return $this->successResponse($teleconsultation);
     }

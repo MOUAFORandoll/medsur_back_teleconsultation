@@ -31,14 +31,14 @@ class PrescriptionSeeder extends Seeder
 
             $medicaments = Medicament::factory()->count(3)->create();
             foreach($medicaments as $medicament){
-                \Log::alert($medicament);
                 $medicament->prescriptions()->attach($prescription, [
                     'quantite_lors_une_prise' => rand(1, 7),
                     'duree_traitement' => rand(1, 7),
                     'nombre_de_prise' => rand(1, 7),
                     'nombre_renouvelement' => rand(1, 7),
                     'nombre_de_fois' => rand(1, 7),
-                    'intervalle_entre_deux_prises' => rand(1, 7)
+                    'intervalle_entre_deux_prises' => rand(1, 7),
+                    'nombre_unite_achat' => rand(1, 3)
                 ]);
             }
 

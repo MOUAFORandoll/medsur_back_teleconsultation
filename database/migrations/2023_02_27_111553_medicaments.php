@@ -36,6 +36,7 @@ return new class extends Migration
             $table->integer('nombre_renouvelement')->nullable();
             $table->integer('nombre_de_fois')->nullable();
             $table->integer('intervalle_entre_deux_prises')->nullable();
+            $table->integer('nombre_unite_achat')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

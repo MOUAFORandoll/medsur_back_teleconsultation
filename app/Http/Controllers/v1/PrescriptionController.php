@@ -112,13 +112,14 @@ class PrescriptionController extends Controller
             'nombre_de_prise' => 'array|required',
             'nombre_renouvelement' => 'array|required',
             'nombre_de_fois' => 'array|required',
+            'nombre_unite_achat' => 'array|required',
             'intervalle_entre_deux_prises' => 'array|required'
         ];
         return $rules;
     }
 
     public function assignMedicaments(Request $request, $prescription){
-        $medicaments = [];
+        //$medicaments = [];
         foreach($request->nom_commerciale as $key => $allergie_item){
 
             $medicament = Medicament::create([
@@ -139,7 +140,7 @@ class PrescriptionController extends Controller
 
             //$medicaments[] = $medicament->id;
 
-            $prescription->medicaments()->attach($medicament->id, ['quantite_lors_une_prise' => $request->quantite_lors_une_prise[$key], 'duree_traitement' => $request->duree_traitement[$key], 'nombre_de_prise' => $request->nombre_de_prise[$key], 'nombre_renouvelement' => $request->nombre_renouvelement[$key], 'nombre_de_fois' => $request->nombre_de_fois[$key], 'intervalle_entre_deux_prises' => $request->intervalle_entre_deux_prises[$key]]);
+            $prescription->medicaments()->attach($medicament->id, ['quantite_lors_une_prise' => $request->quantite_lors_une_prise[$key], 'duree_traitement' => $request->duree_traitement[$key], 'nombre_de_prise' => $request->nombre_de_prise[$key], 'nombre_renouvelement' => $request->nombre_renouvelement[$key], 'nombre_de_fois' => $request->nombre_de_fois[$key], 'intervalle_entre_deux_prises' => $request->intervalle_entre_deux_prises[$key], 'nombre_unite_achat' => $request->nombre_unite_achat[$key]]);
         }
 
         if(!is_null($request->option_financement_id)){
