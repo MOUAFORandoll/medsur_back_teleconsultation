@@ -4,40 +4,59 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Medicament;
 use App\Models\Prescription;
+use App\Models\RelationAlimentation;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
+use Log;
 
 class PrescriptionController extends Controller
 {
 
-    public function index(Request $request){
+    public function index(Request $request)
+    {
 
         $page_size = $request->page_size ?? 10;
         //$prescriptions = Prescription::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->latest()->paginate($page_size);
         $prescriptions = Prescription::with('option_financements:id,libelle', 'raison_prescriptions:id,libelle', 'niveau_urgence:id,description')->latest()->paginate($page_size);
         return $this->successResponse($prescriptions);
-
     }
 
-    public function show($prescription){
+    public function show($prescription)
+    {
 
-        if(Uuid::isValid($prescription)){
+        if (Uuid::isValid($prescription)) {
             $prescription = Prescription::where('uuid', $prescription)->first();
-        }else{
+        } else {
             $prescription = Prescription::where('id', $prescription)->first();
         }
 
-        $prescription->load('teleconsultations', 'etablissements', 'option_financements', 'raison_prescriptions', 'niveau_urgence:id,description', 'medicaments.unite_presentation'
-        , 'medicaments.horaire_de_prises', 'medicaments.conditionnement', 'medicaments.intervalle_de_prises', 'medicaments.relation_alimentaires', 'medicaments.forme_medicamenteuses', 'medicaments.voie_administrations');
-        return $this->successResponse($prescription);
 
+
+        $prescription->load(
+            'teleconsultations',
+            'etablissements',
+            'option_financements',
+            'raison_prescriptions',
+            'niveau_urgence:id,description',
+            'medicaments.unite_presentation',
+            'medicaments.categorie_medicamenteuse',
+            'medicaments.horaire_de_prises',
+            'medicaments.conditionnement',
+            'medicaments.intervalle_de_prises',
+            'medicaments.relation_alimentaires',
+            'medicaments.forme_medicamenteuses',
+            'medicaments.voie_administrations'
+        );
+        Log::alert($prescription);
+        return $this->successResponse($prescription);
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
-        $this->validate($request, $this->validation());
+        // $this->validate($request, $this->validation());
         $prescription = Prescription::create([
             'uuid' => Str::uuid()->toString(),
             'ligne_temps_id' => $request->ligne_temps_id,
@@ -52,10 +71,10 @@ class PrescriptionController extends Controller
         $prescription = $this->assignMedicaments($request, $prescription);
 
         return $this->successResponse($prescription);
-
     }
 
-    public function update(Request $request, $prescription){
+    public function update(Request $request, $prescription)
+    {
 
         $this->validate($request, $this->validation());
         $prescription = Prescription::findOrFail($prescription);
@@ -76,11 +95,11 @@ class PrescriptionController extends Controller
 
         $prescription->save();
 
-        return $this->successResponse($prescription);
-
+        // return $this->successResponse($prescription);
     }
 
-    public function destroy($prescription){
+    public function destroy($prescription)
+    {
 
         $prescription = Prescription::findOrFail($prescription);
         $prescription->delete();
@@ -90,19 +109,20 @@ class PrescriptionController extends Controller
     /**
      * fonction de validation des formulaires
      */
-    public function validation($is_update = null){
+    public function validation($is_update = null)
+    {
         $rules = [
             'date_heure' => 'required',
             'motif' => 'required',
             'unite_presentation_id' => 'array|required',
-            'voie_administration_id' => 'array|required',
+            'voie_administration_id' => 'array',
             'conditionnement_id' => 'array|required',
             'nom_commerciale' => 'array|required',
             'code' => 'array|required',
             'intervalle_de_prises' => 'array|required',
             'relation_alimentaires' => 'array|required',
             'forme_medicamenteuses' => 'array|required',
-            'horaire_de_prises' => 'array|required',
+            'horaire_de_prises' => 'required',
             'option_financement_id' => 'required',
             'raison_prescription_id' => 'required',
             'etablissement_id' => 'required',
@@ -113,52 +133,62 @@ class PrescriptionController extends Controller
             'nombre_renouvelement' => 'array|required',
             'nombre_de_fois' => 'array|required',
             'nombre_unite_achat' => 'array|required',
-            'intervalle_entre_deux_prises' => 'array|required'
+            'intervalle_entre_deux_prises' => 'array|required',
+            'categorie_medicamenteuse_id' => 'array|required'
         ];
         return $rules;
     }
 
-    public function assignMedicaments(Request $request, $prescription){
-        //$medicaments = [];
-        foreach($request->nom_commerciale as $key => $allergie_item){
-
-            $medicament = Medicament::create([
+    public function assignMedicaments(Request $request, $prescription)
+    {
+        $medi = [];
+        $medicaments = $request->get('nom_commerciale');
+        foreach ($medicaments as  $medicament) {
+            $med = Medicament::create([
                 'uuid' => Str::uuid(),
-                'unite_presentation_id' => $request->unite_presentation_id[$key],
-                'voie_administration_id' => $request->voie_administration_id[$key],
-                'conditionnement_id' => $request->conditionnement_id[$key],
-                'nom_commerciale' => $request->nom_commerciale[$key],
-                'code' => $request->code[$key]
+                'prescription_id' => $prescription->id,
+                'unite_presentation_id' => $medicament['presentation']['id'],
+                'voie_administration_id' => $medicament['medicament']['voies_administration'],
+                'conditionnement_id' => $medicament['condition']['id'],
+                'nom_commerciale' => $medicament['medicament']['denomination'],
+                'code' => $medicament['medicament']['CIS'],
+                'categorie_medicamenteuse_id' => $medicament['categorie']['id'],
+
+                // 'horaire_de_prises_id' => $medicament['horaire'],
+                // 'relation_alimentaires_id' => $medicament['alimentaire'][0],
+
+                'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prises'],
+                'forme_pharmaceutique' => $medicament['medicament']['forme_pharmaceutique'],
+
             ]);
+            $med->horaire_de_prises()->sync($medicament['horaire']);
+            foreach ($medicament['alimentaire'] as $alimentaireId) {
+                $med->relation_alimentaires()->sync($alimentaireId['id']);
+            }
 
-            $medicament->horaire_de_prises()->sync($request->horaire_de_prises[$key]);
-            $medicament->intervalle_de_prises()->sync($request->intervalle_de_prises[$key]);
-            $medicament->relation_alimentaires()->sync($request->relation_alimentaires[$key]);
-            $medicament->forme_medicamenteuses()->sync($request->forme_medicamenteuses[$key]);
-            $medicament->conditionnements()->sync($request->conditionnement_id[$key]);
-            $medicament->voie_administrations()->sync($request->voie_administration_id[$key]);
-
-            //$medicaments[] = $medicament->id;
-
-            $prescription->medicaments()->attach($medicament->id, ['quantite_lors_une_prise' => $request->quantite_lors_une_prise[$key], 'duree_traitement' => $request->duree_traitement[$key], 'nombre_de_prise' => $request->nombre_de_prise[$key], 'nombre_renouvelement' => $request->nombre_renouvelement[$key], 'nombre_de_fois' => $request->nombre_de_fois[$key], 'intervalle_entre_deux_prises' => $request->intervalle_entre_deux_prises[$key], 'nombre_unite_achat' => $request->nombre_unite_achat[$key]]);
+            $prescription->medicaments()->attach($med->id, [
+                'quantite_lors_une_prise' => $medicament['quantite_lors_une_prise'],
+                'duree_traitement' => $medicament['duree_traitemt']['name'],
+                'nombre_de_prise' => $medicament['nombre_prise'],
+                'nombre_renouvelement' => $medicament['nombre_renouvelement'],
+                'nombre_de_fois' => $medicament['nombre_de_fois'],
+                'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prises'],
+                'nombre_unite_achat' => $medicament['nombre_unite_achat'],
+            ]);
         }
 
-        if(!is_null($request->option_financement_id)){
+        if (!is_null($request->option_financement_id)) {
             $prescription->option_financements()->sync($request->option_financement_id);
         }
 
-        if(!is_null($request->raison_prescription_id)){
+        if (!is_null($request->raison_prescription_id)) {
             $prescription->raison_prescriptions()->sync($request->raison_prescription_id);
         }
 
-        if(!is_null($request->etablissement_id)){
+        if (!is_null($request->etablissement_id)) {
             $prescription->etablissements()->sync($request->etablissement_id);
         }
+        // return response()->json(["prescription" => $prescription, ]);
         return $prescription;
     }
-
-
-
 }
-
-

@@ -31,7 +31,7 @@ class CategorieMedicamenteuse extends Model
      */
     protected $fillable = ['uuid', 'libelle'];
 
-    public function forme_medicamenteuses(){
-        return $this->hasMany(FormeMedicamenteuse::class);
-    }
+    // public function forme_medicamenteuses(){
+    //     return $this->hasMany(FormeMedicamenteuse::class);
+    // }
 }

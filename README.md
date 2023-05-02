@@ -111,7 +111,7 @@ php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 // 2023_02_22_141838_relation_alimentaires.php
 // 2023_02_22_141923_forme_medicamenteuses.php
 // 2023_02_22_142438_voie_administrations.php
-// 2023_02_27_111553_medicaments.php
+// docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
 
 
 
@@ -126,3 +126,12 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 
 docker-compose exec teleconsultation php artisan make:migration change_size_data_to_teleconsultationables_table --table=teleconsultationables
+
+
+## très important
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_080541_add_fields_to_medicaments_table.php
+
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_115041_add_others_fields_to_medicaments_table.php
+
+## facultatif
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_130841_add_supplementary_fields_to_medicaments_table.php
