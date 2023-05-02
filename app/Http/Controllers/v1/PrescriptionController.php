@@ -129,7 +129,7 @@ class PrescriptionController extends Controller
             //'option_financement_id' => 'required',
             'quantite_lors_une_prise' => 'array|required',
             'duree_traitement' => 'array|required',
-            'nombre_de_prise' => 'array|required',
+            'nombre_de_prise' => 'required',
             'nombre_renouvelement' => 'array|required',
             'nombre_de_fois' => 'array|required',
             'nombre_unite_achat' => 'array|required',
@@ -142,7 +142,7 @@ class PrescriptionController extends Controller
     public function assignMedicaments(Request $request, $prescription)
     {
         $medi = [];
-        $medicaments = $request->get('nom_commerciale');
+        $medicaments = $request->get('medicaments');
         foreach ($medicaments as  $medicament) {
             $med = Medicament::create([
                 'uuid' => Str::uuid(),
@@ -153,13 +153,8 @@ class PrescriptionController extends Controller
                 'nom_commerciale' => $medicament['medicament']['denomination'],
                 'code' => $medicament['medicament']['CIS'],
                 'categorie_medicamenteuse_id' => $medicament['categorie']['id'],
-
-                // 'horaire_de_prises_id' => $medicament['horaire'],
-                // 'relation_alimentaires_id' => $medicament['alimentaire'][0],
-
-                'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prises'],
+                'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prise_concat'],
                 'forme_pharmaceutique' => $medicament['medicament']['forme_pharmaceutique'],
-
             ]);
             $med->horaire_de_prises()->sync($medicament['horaire']);
             foreach ($medicament['alimentaire'] as $alimentaireId) {
@@ -169,7 +164,7 @@ class PrescriptionController extends Controller
             $prescription->medicaments()->attach($med->id, [
                 'quantite_lors_une_prise' => $medicament['quantite_lors_une_prise'],
                 'duree_traitement' => $medicament['duree_traitemt']['name'],
-                'nombre_de_prise' => $medicament['nombre_prise'],
+                'nombre_de_prise' => $medicament['nombre_prises'],
                 'nombre_renouvelement' => $medicament['nombre_renouvelement'],
                 'nombre_de_fois' => $medicament['nombre_de_fois'],
                 'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prises'],
