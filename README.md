@@ -137,3 +137,5 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_130841_add_supplementary_fields_to_medicaments_table.php
 
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_04_28_094633_rollback.php
+
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_141256_add_nombre_unite_achat_to_prescription_medicament_table.php
