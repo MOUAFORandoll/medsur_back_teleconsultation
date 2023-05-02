@@ -32,7 +32,7 @@ return new class extends Migration
             $table->bigInteger('prescription_id');
             $table->integer('quantite_lors_une_prise')->nullable();
             $table->string('duree_traitement')->nullable();
-            $table->integer('nombre_de_prise')->nullable();
+            $table->string('nombre_de_prise')->nullable();
             $table->integer('nombre_renouvelement')->nullable();
             $table->integer('nombre_de_fois')->nullable();
             $table->integer('intervalle_entre_deux_prises')->nullable();

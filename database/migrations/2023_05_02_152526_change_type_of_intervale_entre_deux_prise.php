@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('medicaments', function (Blueprint $table) {
-            $table->string('intervalle_entre_deux_prises')->nullable();
-            $table->string('nombre_de_prise')->nullable();
+        Schema::table('prescription_medicament', function (Blueprint $table) {
+            $table->string('intervalle_entre_deux_prises')->nullable()->change();
+            $table->string('nombre_de_prise')->nullable()->change();
         });
     }
 
@@ -26,9 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('medicaments', function (Blueprint $table) {
-            $table->string('intervalle_entre_deux_prises')->change();
-            $table->string('nombre_de_prise')->change();
+        Schema::table('prescription_medicament', function (Blueprint $table) {
+            $table->string('intervalle_entre_deux_prises')->nullable()->change();
+            $table->string('nombre_de_prise')->nullable()->change();
         });
     }
 };

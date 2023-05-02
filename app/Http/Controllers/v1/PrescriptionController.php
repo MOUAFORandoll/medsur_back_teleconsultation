@@ -133,7 +133,7 @@ class PrescriptionController extends Controller
             'nombre_renouvelement' => 'array|required',
             'nombre_de_fois' => 'array|required',
             'nombre_unite_achat' => 'array|required',
-            'intervalle_entre_deux_prises' => 'array|required',
+            'intervalle_entre_deux_prises' => 'required',
             'categorie_medicamenteuse_id' => 'array|required'
         ];
         return $rules;
@@ -160,14 +160,14 @@ class PrescriptionController extends Controller
             foreach ($medicament['alimentaire'] as $alimentaireId) {
                 $med->relation_alimentaires()->sync($alimentaireId['id']);
             }
-
+            Log::alert($medicament['nombre_prises']);
             $prescription->medicaments()->attach($med->id, [
                 'quantite_lors_une_prise' => $medicament['quantite_lors_une_prise'],
                 'duree_traitement' => $medicament['duree_traitemt']['name'],
                 'nombre_de_prise' => $medicament['nombre_prises'],
                 'nombre_renouvelement' => $medicament['nombre_renouvelement'],
                 'nombre_de_fois' => $medicament['nombre_de_fois'],
-                'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prises'],
+                'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prise_concat'],
                 'nombre_unite_achat' => $medicament['nombre_unite_achat'],
             ]);
         }
