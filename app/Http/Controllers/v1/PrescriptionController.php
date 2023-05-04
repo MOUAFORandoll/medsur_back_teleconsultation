@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
+use Illuminate\Support\Facades\DB;
 use Log;
 
 class PrescriptionController extends Controller
@@ -57,6 +58,7 @@ class PrescriptionController extends Controller
     {
 
         // $this->validate($request, $this->validation());
+        // Log::alert($request->creator);
         $prescription = Prescription::create([
             'uuid' => Str::uuid()->toString(),
             'ligne_temps_id' => $request->ligne_temps_id,
@@ -75,9 +77,10 @@ class PrescriptionController extends Controller
 
     public function update(Request $request, $prescription)
     {
-
+        // Log::alert($request->creator);
         // $this->validate($request, $this->validation());
-        $prescription = Prescription::findOrFail($prescription);
+        $id = DB::table('prescriptions')->where('uuid', $prescription)->value('id');
+        $prescription = Prescription::findOrFail($id);
         $prescription = $prescription->fill([
             'ligne_temps_id' => $request->ligne_temps_id,
             'niveau_urgence_id' => $request->niveau_urgence_id,
@@ -160,7 +163,7 @@ class PrescriptionController extends Controller
             foreach ($medicament['alimentaire'] as $alimentaireId) {
                 $med->relation_alimentaires()->sync($alimentaireId['id']);
             }
-            Log::alert($medicament['nombre_prises']);
+
             $prescription->medicaments()->attach($med->id, [
                 'quantite_lors_une_prise' => $medicament['quantite_lors_une_prise'],
                 'duree_traitement' => $medicament['duree_traitement'],
