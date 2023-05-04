@@ -76,7 +76,7 @@ class PrescriptionController extends Controller
     public function update(Request $request, $prescription)
     {
 
-        $this->validate($request, $this->validation());
+        // $this->validate($request, $this->validation());
         $prescription = Prescription::findOrFail($prescription);
         $prescription = $prescription->fill([
             'ligne_temps_id' => $request->ligne_temps_id,
@@ -95,7 +95,7 @@ class PrescriptionController extends Controller
 
         $prescription->save();
 
-        // return $this->successResponse($prescription);
+        return $this->successResponse($prescription);
     }
 
     public function destroy($prescription)
