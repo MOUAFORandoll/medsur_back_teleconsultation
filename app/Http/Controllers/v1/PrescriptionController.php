@@ -91,6 +91,27 @@ class PrescriptionController extends Controller
             'motif' => $request->motif
         ]);
 
+        // Suppression de tous les médicaments associés à la Prescription
+        $medicaments = $prescription->medicaments;
+        foreach ($medicaments as $medicament) {
+            $prescription->medicaments()->detach($medicament->id);
+        }
+
+        // Ajout des nouveaux médicaments
+        $this->assignMedicaments($request, $prescription);
+
+        if (!is_null($request->option_financement_id)) {
+            $prescription->option_financements()->sync($request->option_financement_id);
+        }
+
+        if (!is_null($request->raison_prescription_id)) {
+            $prescription->raison_prescriptions()->sync($request->raison_prescription_id);
+        }
+
+        if (!is_null($request->etablissement_id)) {
+            $prescription->etablissements()->sync($request->etablissement_id);
+        }
+
 
         if ($prescription->isClean()) {
             return $this->errorResponse("aucune valeur n'a été mise à jour", Response::HTTP_UNPROCESSABLE_ENTITY);
