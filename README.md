@@ -141,4 +141,18 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_141256_add_nombre_unite_achat_to_prescription_medicament_table.php
 
 
+## important
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_152526_change_type_of_intervale_entre_deux_prise.php
+
+
+## ordre d'execution
+
+## 1
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_120433_rollback_again.
+
+## 2
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105208_modify_medicaments_table.php
+
+## 3
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105731_rename_column_in_medicaments_table.php
+
