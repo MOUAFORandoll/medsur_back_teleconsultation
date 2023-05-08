@@ -146,6 +146,7 @@ class PrescriptionController extends Controller
     {
         $medi = [];
         $medicaments = $request->get('medicaments');
+
         foreach ($medicaments as  $medicament) {
             $med = Medicament::create([
                 'uuid' => Str::uuid(),
@@ -159,6 +160,7 @@ class PrescriptionController extends Controller
                 'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prise_concat'],
                 'forme_pharmaceutique' => $medicament['medicament']['forme_pharmaceutique'],
             ]);
+            // Log::alert($medicament['medicament']);
             $med->horaire_de_prises()->sync($medicament['horaire']);
             foreach ($medicament['alimentaire'] as $alimentaireId) {
                 $med->relation_alimentaires()->sync($alimentaireId['id']);
