@@ -120,7 +120,7 @@ class PrescriptionController extends Controller
             'unite_presentation_id' => 'array|required',
             'voie_administration_id' => 'array',
             'conditionnement_id' => 'array|required',
-            'medicament' => 'required',
+            'denomination' => 'array|required',
             'code' => 'array|required',
             'intervalle_de_prises' => 'array|required',
             'relation_alimentaires' => 'array|required',
@@ -146,7 +146,6 @@ class PrescriptionController extends Controller
     {
         $medi = [];
         $medicaments = $request->get('medicaments');
-
         foreach ($medicaments as  $medicament) {
             $med = Medicament::create([
                 'uuid' => Str::uuid(),
@@ -154,13 +153,12 @@ class PrescriptionController extends Controller
                 'unite_presentation_id' => $medicament['presentation']['id'],
                 'voie_administration_id' => $medicament['medicament']['voies_administration'],
                 'conditionnement_id' => $medicament['condition']['id'],
-                'medicament' => json_encode($medicament['medicament']),
+                'denomination' => $medicament['medicament']['denomination'],
                 'code' => $medicament['medicament']['CIS'],
                 'categorie_medicamenteuse_id' => $medicament['categorie']['id'],
                 'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prise_concat'],
                 'forme_pharmaceutique' => $medicament['medicament']['forme_pharmaceutique'],
             ]);
-            // Log::alert($medicament['medicament']);
             $med->horaire_de_prises()->sync($medicament['horaire']);
             foreach ($medicament['alimentaire'] as $alimentaireId) {
                 $med->relation_alimentaires()->sync($alimentaireId['id']);

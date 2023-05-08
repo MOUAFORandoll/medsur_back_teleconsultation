@@ -30,7 +30,7 @@ class Medicament extends Model
      * @var string[]
      */
     protected $fillable = [
-        'uuid', 'prescription_id', 'unite_presentation_id', 'voie_administration_id', 'conditionnement_id', 'medicament', 'code', 'forme_pharmaceutique', 'categorie_medicamenteuse_id',
+        'uuid', 'prescription_id', 'unite_presentation_id', 'voie_administration_id', 'conditionnement_id', 'denomination', 'code', 'forme_pharmaceutique', 'categorie_medicamenteuse_id',
     ];
 
     public function unite_presentation()

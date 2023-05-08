@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('medicaments', function (Blueprint $table) {
-            DB::statement('ALTER TABLE medicaments ALTER COLUMN nom_commerciale TYPE json USING nom_commerciale::json');
+            $table->renameColumn('medicament', 'denomination');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('medicaments', function (Blueprint $table) {
-            DB::statement('ALTER TABLE medicaments ALTER COLUMN nom_commerciale TYPE string USING nom_commerciale::string');
+            $table->renameColumn('denomination', 'medicament');
         });
     }
 };
