@@ -156,3 +156,5 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 ## 3
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_150731_rename_column_in_medicaments_table.php
 
+## 4
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105631_rename_column_in_medicaments_again_table.php
