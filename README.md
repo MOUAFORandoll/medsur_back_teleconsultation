@@ -114,10 +114,6 @@ php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 // docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
 
 
-
-
-
-
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_04_03_094503_add_description_to_types_table.php
@@ -126,28 +122,3 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 
 docker-compose exec teleconsultation php artisan make:migration change_size_data_to_teleconsultationables_table --table=teleconsultationables
-
-
-## très important
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_080541_add_fields_to_medicaments_table.php
-
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_115041_add_others_fields_to_medicaments_table.php
-
-
-
-
-## important
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_130841_add_supplementary_fields_to_medicaments_table.php
-
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_02_152526_change_type_of_intervale_entre_deux_prise.php
-
-
-## ordre d'execution
-
-## 1
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105633_rollback_again.php
-
-## 2
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105731_rename_column_in_medicaments_table.php
-## 2
-docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105831_rename_column_in_medicaments_again_table.php

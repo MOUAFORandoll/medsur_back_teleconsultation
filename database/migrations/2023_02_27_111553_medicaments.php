@@ -16,10 +16,18 @@ return new class extends Migration
         Schema::create('medicaments', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->nullable();
+
+            $table->text('forme_pharmaceutique')->nullable();
+            $table->text('voie_administration_id')->nullable();
+            $table->bigInteger('categorie_medicamenteuse_id')->nullable();
+
+            $table->bigInteger('horaire_de_prises_id')->nullable();
+            //$table->bigInteger('relation_alimentaires_id')->nullable();
+
             $table->bigInteger('unite_presentation_id');
-            $table->bigInteger('voie_administration_id');
+            $table->bigInteger('prescription_id')->nullable();
             $table->bigInteger('conditionnement_id')->nullable();
-            $table->string('nom_commerciale');
+            $table->string('denomination');
             $table->string('code')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -35,8 +43,9 @@ return new class extends Migration
             $table->string('nombre_de_prise')->nullable();
             $table->integer('nombre_renouvelement')->nullable();
             $table->integer('nombre_de_fois')->nullable();
-            $table->integer('intervalle_entre_deux_prises')->nullable();
+            $table->string('intervalle_entre_deux_prises')->nullable();
             $table->integer('nombre_unite_achat')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -44,6 +53,7 @@ return new class extends Migration
         Schema::create('medicamentables', function (Blueprint $table) {
             $table->bigInteger('medicament_id');
             $table->morphs('medicamentable');
+            $table->timestamps();
         });
     }
 

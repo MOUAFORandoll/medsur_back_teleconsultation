@@ -31,7 +31,7 @@ class MedicamentFactory extends Factory
             'unite_presentation_id' => UnitePresentation::inRandomOrder()->limit(1)->first()->id,
             'voie_administration_id' => VoieAdministration::inRandomOrder()->limit(1)->first()->id,
             'conditionnement_id'  => Conditionnement::inRandomOrder()->limit(1)->first()->id,
-            'nom_commerciale' => $this->faker->text,
+            'denomination' => $this->faker->text,
             'code' => $this->faker->text
         ];
     }
