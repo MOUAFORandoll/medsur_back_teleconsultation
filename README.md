@@ -151,4 +151,6 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105633_rollback_again.php
 
 ## 2
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105731_rename_column_in_medicaments_table.php
+## 2
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_05_08_105831_rename_column_in_medicaments_again_table.php
