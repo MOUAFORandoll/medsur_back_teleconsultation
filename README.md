@@ -102,15 +102,15 @@ php artisan db:seed --class=InformationSupplementaireSeeder
 php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 
 
-// 2023_02_13_100826_prescriptions.php
-// 2023_02_17_111727_unite_presentation.php
-// 2023_02_17_113318_horaire_de_prises.php
-// 2023_02_22_135305_categorie_medicamenteuses.php
-// 2023_02_22_141645_conditionnements.php
-// 2023_02_22_141746_intervalle_de_prise.php
-// 2023_02_22_141838_relation_alimentaires.php
-// 2023_02_22_141923_forme_medicamenteuses.php
-// 2023_02_22_142438_voie_administrations.php
+// php artisan migrate --path=/database/migrations/2023_02_13_100826_prescriptions.php
+// php artisan migrate --path=/database/migrations/2023_02_17_111727_unite_presentation.php
+// php artisan migrate --path=/database/migrations/2023_02_17_113318_horaire_de_prises.php
+// php artisan migrate --path=/database/migrations/2023_02_22_135305_categorie_medicamenteuses.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141645_conditionnements.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141746_intervalle_de_prise.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141838_relation_alimentaires.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141923_forme_medicamenteuses.php
+// php artisan migrate --path=/database/migrations/2023_02_22_142438_voie_administrations.php
 // docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
 
 
