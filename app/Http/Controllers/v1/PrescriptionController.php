@@ -158,7 +158,7 @@ class PrescriptionController extends Controller
             'nombre_de_fois' => 'array|required',
             'nombre_unite_achat' => 'array|required',
             'intervalle_entre_deux_prises' => 'required',
-            'categorie_medicamenteuse_id' => 'array|required'
+            // 'categorie_medicamenteuse_id' => 'array|required'
         ];
         return $rules;
     }
@@ -176,7 +176,7 @@ class PrescriptionController extends Controller
                 'conditionnement_id' => $medicament['condition']['id'],
                 'denomination' => $medicament['medicament']['denomination'],
                 'code' => $medicament['medicament']['CIS'],
-                'categorie_medicamenteuse_id' => $medicament['categorie']['id'],
+                // 'categorie_medicamenteuse_id' => $medicament['categorie']['id'],
                 'intervalle_entre_deux_prises' => $medicament['intervalle_entre_deux_prise_concat'],
                 'forme_pharmaceutique' => $medicament['medicament']['forme_pharmaceutique'],
             ]);
