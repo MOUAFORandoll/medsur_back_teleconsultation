@@ -57,7 +57,7 @@ class PrescriptionController extends Controller
     public function store(Request $request)
     {
 
-        // $this->validate($request, $this->validation());
+        $this->validate($request, $this->validation());
         // Log::alert($request->creator);
         $prescription = Prescription::create([
             'uuid' => Str::uuid()->toString(),
@@ -78,7 +78,7 @@ class PrescriptionController extends Controller
     public function update(Request $request, $prescription)
     {
         // Log::alert($request->creator);
-        // $this->validate($request, $this->validation());
+        $this->validate($request, $this->validation());
         $id = DB::table('prescriptions')->where('uuid', $prescription)->value('id');
         $prescription = Prescription::findOrFail($id);
         $prescription = $prescription->fill([
@@ -138,34 +138,16 @@ class PrescriptionController extends Controller
         $rules = [
             'date_heure' => 'required',
             'motif' => 'required',
-            'unite_presentation_id' => 'array|required',
-            'voie_administration_id' => 'array',
-            'conditionnement_id' => 'array|required',
-            'denomination' => 'array|required',
-            'code' => 'array|required',
-            'intervalle_de_prises' => 'array|required',
-            'relation_alimentaires' => 'array|required',
-            'forme_medicamenteuses' => 'array|required',
-            'horaire_de_prises' => 'required',
             'option_financement_id' => 'required',
             'raison_prescription_id' => 'required',
             'etablissement_id' => 'required',
-            //'option_financement_id' => 'required',
-            'quantite_lors_une_prise' => 'array|required',
-            'duree_traitement' => 'array|required',
-            'nombre_de_prise' => 'required',
-            'nombre_renouvelement' => 'array|required',
-            'nombre_de_fois' => 'array|required',
-            'nombre_unite_achat' => 'array|required',
-            'intervalle_entre_deux_prises' => 'required',
-            // 'categorie_medicamenteuse_id' => 'array|required'
+            'medicaments' => 'array|required'
         ];
         return $rules;
     }
 
     public function assignMedicaments(Request $request, $prescription)
     {
-        $medi = [];
         $medicaments = $request->get('medicaments');
         foreach ($medicaments as  $medicament) {
             $med = Medicament::create([
@@ -181,8 +163,9 @@ class PrescriptionController extends Controller
                 'forme_pharmaceutique' => $medicament['medicament']['forme_pharmaceutique'],
             ]);
             $med->horaire_de_prises()->sync($medicament['horaire']);
+
             foreach ($medicament['alimentaire'] as $alimentaireId) {
-                $med->relation_alimentaires()->sync($alimentaireId['id']);
+                $med->relation_alimentaires()->attach($alimentaireId['id']);
             }
 
             $prescription->medicaments()->attach($med->id, [
