@@ -91,13 +91,16 @@ class PrescriptionController extends Controller
             'motif' => $request->motif
         ]);
 
-        // Suppression de tous les médicaments associés à la Prescription
-        $medicaments = $prescription->medicaments;
+        // Ajout des nouveaux médicaments
+
+        $medicaments = $prescription->medicamentsUpdate ?? [];
+        if((count($medicaments) > 0)){
+            $prescription->medicaments()->detach();
+        }
         foreach ($medicaments as $medicament) {
-            $prescription->medicaments()->detach($medicament->id);
+            $prescription->medicaments()->attach($medicament->id);
         }
 
-        // Ajout des nouveaux médicaments
         $this->assignMedicaments($request, $prescription);
 
         if (!is_null($request->option_financement_id)) {
@@ -138,6 +141,11 @@ class PrescriptionController extends Controller
         $rules = [
             'date_heure' => 'required',
             'motif' => 'required',
+            'medecin_id' => 'required',
+            'patient_id' => 'required',
+            'creator' => 'required',
+            'ligne_temps_id' => 'required',
+            'niveau_urgence_id' => 'required',
             'option_financement_id' => 'required',
             'raison_prescription_id' => 'required',
             'etablissement_id' => 'required',
