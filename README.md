@@ -122,3 +122,6 @@ docker-compose exec teleconsultation php artisan migrate --path=/database/migrat
 docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 
 docker-compose exec teleconsultation php artisan make:migration change_size_data_to_teleconsultationables_table --table=teleconsultationables
+
+
+
