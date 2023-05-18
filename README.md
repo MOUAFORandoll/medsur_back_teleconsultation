@@ -111,7 +111,7 @@ php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 // php artisan migrate --path=/database/migrations/2023_02_22_141838_relation_alimentaires.php
 // php artisan migrate --path=/database/migrations/2023_02_22_141923_forme_medicamenteuses.php
 // php artisan migrate --path=/database/migrations/2023_02_22_142438_voie_administrations.php
-// docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
+// php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
 
 
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
