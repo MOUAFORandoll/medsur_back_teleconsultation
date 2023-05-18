@@ -20,7 +20,18 @@ class PrescriptionController extends Controller
 
         $page_size = $request->page_size ?? 10;
         //$prescriptions = Prescription::where("creator", $request->user_id)->orwhere('patient_id', $request->user_id)->latest()->paginate($page_size);
-        $prescriptions = Prescription::with('option_financements:id,libelle', 'raison_prescriptions:id,libelle', 'niveau_urgence:id,description')->latest()->paginate($page_size);
+
+        $search = $request->search;
+        $patients = json_decode($request->patients);
+        $prescriptions = Prescription::query();
+        if(count($patients) > 0){
+            $prescriptions = $prescriptions->whereIn('patient_id', $patients);
+        }
+        elseif($search != ""){
+            $prescriptions = $prescriptions->where('id', 'LIKE', "%$search%");
+        }
+
+        $prescriptions = $prescriptions->with('option_financements:id,libelle', 'raison_prescriptions:id,libelle', 'niveau_urgence:id,description')->latest()->paginate($page_size);
         return $this->successResponse($prescriptions);
     }
 
