@@ -60,17 +60,23 @@ php artisan ide-helper:models
 
 ## seeder modules complémentaires
 
-docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=FormeMedicamenteuseSeeder
-docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
-
-docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=RaisonPrescriptionSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=OptionFinancementSeeder
 
 docker-compose exec teleconsultation php artisan db:seed --class=BonPriseEnChargeSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionImagerieSeeder
+
+## e-prescriptions
+docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=IntervalleDePriseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=FormeMedicamenteuseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=RelationAlimentaireSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrationSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=UnitePresentationSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=HoraireDePriseSeeder
+docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionSeeder
+
 
 
 ## Mise en production des modules complémentaires à la téléconsultation
@@ -87,6 +93,8 @@ php artisan migrate --path=/database/migrations/2023_03_28_154805_update_descrip
 
 php artisan migrate --path=/database/migrations/2023_04_05_135525_change_size_data_to_teleconsultationables_table.php
 
+## 
+
 php artisan db:seed --class=OptionFinancementSeeder
 php artisan db:seed --class=RaisonPrescriptionSeeder
 php artisan db:seed --class=ExamenPertinentPrecedentSeeder
@@ -94,20 +102,16 @@ php artisan db:seed --class=InformationSupplementaireSeeder
 php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 
 
-// 2023_02_13_100826_prescriptions.php
-// 2023_02_17_111727_unite_presentation.php
-// 2023_02_17_113318_horaire_de_prises.php
-// 2023_02_22_135305_categorie_medicamenteuses.php
-// 2023_02_22_141645_conditionnements.php
-// 2023_02_22_141746_intervalle_de_prise.php
-// 2023_02_22_141838_relation_alimentaires.php
-// 2023_02_22_141923_forme_medicamenteuses.php
-// 2023_02_22_142438_voie_administrations.php
-// 2023_02_27_111553_medicaments.php
-
-
-
-
+// php artisan migrate --path=/database/migrations/2023_02_13_100826_prescriptions.php
+// php artisan migrate --path=/database/migrations/2023_02_17_111727_unite_presentation.php
+// php artisan migrate --path=/database/migrations/2023_02_17_113318_horaire_de_prises.php
+// php artisan migrate --path=/database/migrations/2023_02_22_135305_categorie_medicamenteuses.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141645_conditionnements.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141746_intervalle_de_prise.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141838_relation_alimentaires.php
+// php artisan migrate --path=/database/migrations/2023_02_22_141923_forme_medicamenteuses.php
+// php artisan migrate --path=/database/migrations/2023_02_22_142438_voie_administrations.php
+// php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
 
 
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
