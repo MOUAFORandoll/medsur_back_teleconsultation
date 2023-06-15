@@ -138,6 +138,8 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
      */
     $router->group(['prefix' => 'rendez_vous'], function () use ($router) {
         $router->get('/', ['uses' => 'RendezVousController@index']);
+        $router->get('/jours/demain', ['uses' => 'RendezVousController@demain']);
+
         $router->post('/', ['uses' => 'RendezVousController@store']);
         $router->get('/{rendez_vous}', ['uses' => 'RendezVousController@show']);
         $router->patch('/{rendez_vous}', ['uses' => 'RendezVousController@update']);
