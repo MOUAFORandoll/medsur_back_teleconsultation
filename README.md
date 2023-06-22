@@ -24,11 +24,15 @@ If you discover a security vulnerability within Lumen, please send an e-mail to 
 The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## run lumen microservice of teleconsultation
+
 `docker-compose up --remove-orphans`
+
 ## create the migration
+
 php artisan make:migration dossier_allergie --create=dossier_allergie
 
 ## add attribute to table
+
 php artisan make:migration types --create=types
 php artisan make:migration motifs --create=motifs
 php artisan make:migration anamneses --create=anamneses
@@ -46,16 +50,18 @@ php artisan make:migration prescriptions --create=prescriptions
 php artisan make:migration medicaments --create=medicaments
 php artisan make:migration examen_pertinants --create=examen_pertinants
 
+##
 
-## 
 php artisan ide-helper:models
 
 ## open projects (run the following command)
+
 `docker-compose exec teleconsultation composer install`
 `docker-compose exec teleconsultation php artisan migrate:fresh --seed`
 `http://localhost:8002/`
 
 ## access on postgresql
+
 `docker-compose exec postgresql psql -U postgres`
 
 ## seeder modules complémentaires
@@ -67,6 +73,7 @@ docker-compose exec teleconsultation php artisan db:seed --class=BonPriseEnCharg
 docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionImagerieSeeder
 
 ## e-prescriptions
+
 docker-compose exec teleconsultation php artisan db:seed --class=CategorieMedicamenteuseSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=ConditionnementSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=IntervalleDePriseSeeder
@@ -76,8 +83,6 @@ docker-compose exec teleconsultation php artisan db:seed --class=VoieAdministrat
 docker-compose exec teleconsultation php artisan db:seed --class=UnitePresentationSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=HoraireDePriseSeeder
 docker-compose exec teleconsultation php artisan db:seed --class=PrescriptionSeeder
-
-
 
 ## Mise en production des modules complémentaires à la téléconsultation
 
@@ -93,14 +98,13 @@ php artisan migrate --path=/database/migrations/2023_03_28_154805_update_descrip
 
 php artisan migrate --path=/database/migrations/2023_04_05_135525_change_size_data_to_teleconsultationables_table.php
 
-## 
+##
 
 php artisan db:seed --class=OptionFinancementSeeder
 php artisan db:seed --class=RaisonPrescriptionSeeder
 php artisan db:seed --class=ExamenPertinentPrecedentSeeder
 php artisan db:seed --class=InformationSupplementaireSeeder
 php artisan db:seed --class=ExamenComplementaireUpdateSeeder
-
 
 // php artisan migrate --path=/database/migrations/2023_02_13_100826_prescriptions.php
 // php artisan migrate --path=/database/migrations/2023_02_17_111727_unite_presentation.php
@@ -113,12 +117,13 @@ php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 // php artisan migrate --path=/database/migrations/2023_02_22_142438_voie_administrations.php
 // php artisan migrate --path=/database/migrations/2023_02_27_111553_medicaments.php
 
-
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154713_update_description_to_antecedents_table.php
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_03_28_154805_update_description_to_anamneses_table.php
 docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_04_03_094503_add_description_to_types_table.php
 
-
 docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplementaireUpdateSeeder
 
 docker-compose exec teleconsultation php artisan make:migration change_size_data_to_teleconsultationables_table --table=teleconsultationables
+
+php artisan migrate --path=/database/migrations/2023_06_22_090421_update_niveau_urgence_table.php
+php artisan db:seed --class=NiveauUrgenceUpdateSeeder

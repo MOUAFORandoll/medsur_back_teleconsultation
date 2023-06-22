@@ -15,9 +15,9 @@ class NiveauUrgenceController extends Controller
         /* if($request->search != ""){
             $niveau_urgencess = NiveauUrgence::like('valeur', $request->search)->get(['id', 'valeur', 'description']);
         }else{
-           
+
         } */
-        $niveau_urgencess = NiveauUrgence::orderBy('valeur', 'asc')->get(['id', 'valeur', 'description']);
+        $niveau_urgencess = NiveauUrgence::orderBy('valeur', 'asc')->get(['id','valeur','description', 'description_en']);
 
         return $this->successResponse($niveau_urgencess);
 
@@ -29,13 +29,14 @@ class NiveauUrgenceController extends Controller
         return $this->successResponse($niveau_urgence);
 
     }
-
+    
     public function store(Request $request){
 
         $this->validate($request, $this->validation());
         $niveau_urgences = NiveauUrgence::create([
             'valeur' => $request->valeur,
             'description' => $request->description,
+            'description_en' => $request->description_en,
             'slug' => Str::slug($request->description, '-').'-'.time()
         ]);
 
@@ -44,12 +45,13 @@ class NiveauUrgenceController extends Controller
     }
 
     public function update(Request $request, $niveau_urgences){
-        
+
         $this->validate($request, $this->validation());
         $niveau_urgences = NiveauUrgence::findOrFail($niveau_urgences);
         $niveau_urgences = $niveau_urgences->fill([
             'valeur' => $request->valeur,
             'description' => $request->description,
+            'description_en' => $request->description_en,
         ]);
 
         if ($niveau_urgences->isClean()) {
@@ -57,13 +59,13 @@ class NiveauUrgenceController extends Controller
         }
 
         $niveau_urgences->save();
-        
+
         return $this->successResponse($niveau_urgences);
 
     }
 
     public function destroy($niveau_urgences){
-        
+
         $niveau_urgences = NiveauUrgence::findOrFail($niveau_urgences);
         $niveau_urgences->delete();
         return $this->successResponse($niveau_urgences);

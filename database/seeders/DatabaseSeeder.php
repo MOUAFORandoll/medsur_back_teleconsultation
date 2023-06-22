@@ -34,7 +34,9 @@ class DatabaseSeeder extends Seeder
             ExamenPertinentPrecedentSeeder::class,
             InformationSupplementaireSeeder::class,
             PrescriptionImagerieSeeder::class,
-            ExamenComplementaireUpdateSeeder::class
+            ExamenComplementaireUpdateSeeder::class,
+            NiveauUrgenceUpdateSeeder::class
         ]);
     }
+
 }
