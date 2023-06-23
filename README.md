@@ -127,5 +127,9 @@ docker-compose exec teleconsultation php artisan db:seed --class=ExamenComplemen
 
 docker-compose exec teleconsultation php artisan make:migration change_size_data_to_teleconsultationables_table --table=teleconsultationables
 
-php artisan migrate --path=/database/migrations/2023_06_22_090421_update_niveau_urgence_table.php
-php artisan db:seed --class=NiveauUrgenceUpdateSeeder
+
+## Mise à jour de la version anglaise des niveaux d'urgences
+docker-compose exec teleconsultation php artisan migrate --path=/database/migrations/2023_06_22_090421_update_niveau_urgence_table.php
+docker-compose exec teleconsultation php artisan db:seed --class=NiveauUrgenceUpdateSeeder
+
+

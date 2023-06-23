@@ -23,12 +23,9 @@ class NiveauUrgenceUpdateSeeder extends Seeder
             "Vital emergency, medical care is immediate"
         ];
         $niveauxU = NiveauUrgence::get();
-        for ($i = 0; $i < count($niveauxU); $i++) {
-            $niveau
-                =  $niveauxU[$i];
-            $niveau->description_en
-                =
-                $niveaux[$i];
+        foreach($niveauxU as $i => $niveau){
+            $niveau =  $niveauxU[$i];
+            $niveau->description_en = $niveaux[$i];
             $niveau->save();
         }
     }
