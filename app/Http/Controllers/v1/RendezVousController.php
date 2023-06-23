@@ -19,9 +19,7 @@ class RendezVousController extends Controller
         }else{
             $rendez_vous = RendezVous::orderBy('date', 'desc')->paginate($page_size);
         }
-       
         return $this->successResponse($rendez_vous);
-    
     }
 
     public function show($rendez_vous){
