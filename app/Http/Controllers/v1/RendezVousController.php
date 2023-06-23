@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Models\RendezVous;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
@@ -18,16 +19,18 @@ class RendezVousController extends Controller
         }else{
             $rendez_vous = RendezVous::orderBy('date', 'desc')->paginate($page_size);
         }
-       
         return $this->successResponse($rendez_vous);
-    
     }
 
     public function show($rendez_vous){
 
         $rendez_vous = RendezVous::findOrFail($rendez_vous);
         return $this->successResponse($rendez_vous);
+    }
 
+    public function demain(Request $request){
+        $rendez_vous = RendezVous::whereDate('date', Carbon::tomorrow()->format('Y-m-d'))->get();
+        return $this->successResponse($rendez_vous);
     }
 
     public function store(Request $request){

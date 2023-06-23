@@ -54,6 +54,8 @@ php artisan make:migration examen_pertinants --create=examen_pertinants
 
 php artisan ide-helper:models
 
+## run lumen microservice of teleconsultation
+`docker-compose up --remove-orphans`
 ## open projects (run the following command)
 
 `docker-compose exec teleconsultation composer install`
