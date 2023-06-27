@@ -268,8 +268,11 @@ $router->group(['prefix' => 'api/v1', 'namespace' => 'v1'], function () use ($ro
         $router->get('/', 'PrescriptionController@index');
         $router->post('/', 'PrescriptionController@store');
         $router->get('/{prescription}', 'PrescriptionController@show');
+        $router->get('/patient/{patient_id}', ['uses' => 'PrescriptionController@getEprescriptions']);
         $router->patch('/{prescription}', 'PrescriptionController@update');
         $router->delete('/{prescription}', 'PrescriptionController@destroy');
+
+        // 
     });
 
     /**

@@ -35,6 +35,14 @@ class PrescriptionController extends Controller
         return $this->successResponse($prescriptions);
     }
 
+    public function getEprescriptions(Request $request, $patient_id){
+
+        $page_size = $request->page_size ?? 10;
+        $prescriptions = Prescription::where('patient_id', $patient_id)->with('etablissements:id,name')->latest()->paginate($page_size);
+        return $this->successResponse($prescriptions);
+
+    }
+
     public function show($prescription)
     {
 
@@ -43,8 +51,6 @@ class PrescriptionController extends Controller
         } else {
             $prescription = Prescription::where('id', $prescription)->first();
         }
-
-
 
         $prescription->load(
             'teleconsultations',
@@ -61,7 +67,6 @@ class PrescriptionController extends Controller
             'medicaments.forme_medicamenteuses',
             'medicaments.voie_administrations'
         );
-        Log::alert($prescription);
         return $this->successResponse($prescription);
     }
 
@@ -210,6 +215,6 @@ class PrescriptionController extends Controller
             $prescription->etablissements()->sync($request->etablissement_id);
         }
         // return response()->json(["prescription" => $prescription, ]);
-        return $prescription;
+        return $prescription->load('etablissements:id,name');
     }
 }
