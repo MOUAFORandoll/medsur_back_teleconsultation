@@ -144,7 +144,7 @@ class BonPriseEnChargeController extends Controller
         }
 
 
-        return $this->successResponse($bon_prise_en_charge);
+        return $this->successResponse($bon_prise_en_charge->load('rendezVous'));
 
     }
 
