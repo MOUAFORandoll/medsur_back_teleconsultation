@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
+     * 
+     * ddds
      * Run the migrations.
      *
      * @return void
